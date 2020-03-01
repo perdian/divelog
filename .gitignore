@@ -1,0 +1,9 @@
+/.classpath
+/.factorypath
+/.project
+/.settings
+/.springBeans
+/*.log
+/target
+.DS_Store
+.*.html
