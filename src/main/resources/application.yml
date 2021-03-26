@@ -1,0 +1,27 @@
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  servlet:
+    multipart:
+      max-file-size: 5MB
+
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    contextPath: ${DIVELOG_SERVLET_CONTEXT_PATH:/}
+    jsp:
+      init-parameters:
+        development: true
+        trimSpaces: true
+    session:
+      cookie:
+        name: divelog-session
+  tomcat:
+    remoteip:
+      host-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
