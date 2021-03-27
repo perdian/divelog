@@ -1,4 +1,4 @@
-package de.perdian.divelog.web;
+package de.perdian.divelog;
 
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
