@@ -3,6 +3,9 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 import java.time.Duration;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class PadiStatistics implements Serializable {
 
     static final long serialVersionUID = 1L;

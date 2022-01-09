@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class PlaceAndTime implements Serializable {
 
     static final long serialVersionUID = 1L;

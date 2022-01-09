@@ -2,6 +2,9 @@ package de.perdian.divelog.model.components;
 
 import java.io.Serializable;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Buddy implements Serializable {
 
     static final long serialVersionUID = 1L;

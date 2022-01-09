@@ -1,6 +1,13 @@
 package de.perdian.divelog.model.components;
 
-public class Air {
+import java.io.Serializable;
+
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class Air implements Serializable {
+
+    static final long serialVersionUID = 1L;
 
     private AirType type = AirType.REGULAR;
     private Integer pressureStart = null;
