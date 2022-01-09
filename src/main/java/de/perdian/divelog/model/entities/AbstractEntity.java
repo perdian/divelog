@@ -34,8 +34,8 @@ public class AbstractEntity implements Serializable {
     public boolean equals(Object that) {
         if (this == that) {
             return true;
-        } else if (that instanceof AbstractEntity) {
-            return this.getId() != null && this.getId().equals(((AbstractEntity)that).getId());
+        } else if (that instanceof AbstractEntity thatEntity) {
+            return this.getId() != null && this.getId().equals(thatEntity.getId());
         } else {
             return false;
         }

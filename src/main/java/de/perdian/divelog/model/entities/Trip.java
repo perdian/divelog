@@ -13,6 +13,16 @@ public class Trip extends AbstractEntity {
     private PlaceAndTime end = null;
     private String comments = null;
 
+    @Override
+    public boolean equals(Object that) {
+        return (that instanceof Trip) && super.equals(that);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public PlaceAndTime getStart() {
         return this.start;
     }
