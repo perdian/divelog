@@ -7,7 +7,8 @@ import javax.persistence.ManyToOne;
 
 import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Equipment;
-import de.perdian.divelog.model.components.PlaceAndTime;;
+import de.perdian.divelog.model.components.PlaceAndTime;
+import de.perdian.divelog.model.components.Spot;;
 
 @Entity
 public class Dive extends AbstractEntity {
@@ -17,6 +18,7 @@ public class Dive extends AbstractEntity {
     private Trip trip = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
+    private Spot spot = null;
     private Air air = null;
     private Equipment equipment = null;
     private Double maxDepth = null;
@@ -53,6 +55,13 @@ public class Dive extends AbstractEntity {
     }
     public void setEnd(PlaceAndTime end) {
         this.end = end;
+    }
+
+    public Spot getSpot() {
+        return this.spot;
+    }
+    public void setSpot(Spot spot) {
+        this.spot = spot;
     }
 
     public Air getAir() {
