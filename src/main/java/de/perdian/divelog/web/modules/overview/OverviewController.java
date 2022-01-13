@@ -1,4 +1,4 @@
-package de.perdian.divelog.web.modules.dashboard;
+package de.perdian.divelog.web.modules.overview;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import de.perdian.divelog.model.repositories.DiveRepository;
 
 @Controller
-public class DashboardController {
+public class OverviewController {
 
     private DiveRepository diveRepository = null;
 
-    @GetMapping(path = { "/", "/dashboard" })
-    public String doDashboard() {
-        return "/dashboard";
+    @GetMapping(path = { "/", "/overview" })
+    public String doOverview() {
+        return "/overview";
     }
 
     DiveRepository getDiveRepository() {

@@ -1,19 +1,55 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="html(title, head, content)">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>DiveLog[[ ${#strings.length(title) > 1 ? (' // ' + title) : ''} ]]</title>
 
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <link rel="stylesheet" th:href="@{/assets/fomanticui/2.8.8/semantic.css}" />
     <script th:src="@{/assets/fomanticui/2.8.8/semantic.min.js}"></script>
 
+    <link rel="stylesheet" th:href="@{/assets/divelog/divelog.css}" />
+    <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
+    <link rel="shortcut icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
+
     <div th:if="${#strings.length(head) > 1}" th:replace="${head}">Additional header content</div>
   </head>
-  <body>
-    <div>TEMPLATE HEADER</div>
-    <div th:replace="${content}">
-      Template content
+  <body class="default">
+
+    <header class="ui inverted menu">
+      <div class="active item">
+        <i class="book icon"></i> &nbsp; <strong>DiveLog</strong>
+      </div>
+      <a class="mobile hidden item" th:href="@{/overview}">Overview</a>
+      <a class="mobile hidden item" th:href="@{/dives}">List dives</a>
+      <a class="mobile hidden item" th:href="@{/dives/add}">Add dive</a>
+      <div class="right menu">
+        <div class="ui dropdown mobile only item">
+          Navigation
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" th:href="@{/overview}">Overview</a>
+            <a class="item" th:href="@{/dives}">List dives</a>
+            <a class="item" th:href="@{/dives/add}">Add dive</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="main">
+      <div th:replace="${content}">Template content</div>
+      <footer class="ui inverted mobile hidden menu">
+        <div class="active item">
+          <i class="book icon"></i> &nbsp; <strong>DiveLog</strong>
+        </div>
+        <a class="right aligned item" th:href="@{https://github.com/perdian/divelog}" target="_blank">https://github.com/perdian/divelog</a>
+      </footer>
     </div>
-    <div>TEMPLATE FOOTER</div>
+
+    <script type="text/javascript">
+      $('.ui.dropdown').dropdown();
+    </script>
+
   </body>
 </html>
