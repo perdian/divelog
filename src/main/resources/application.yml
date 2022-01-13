@@ -1,4 +1,25 @@
 spring:
+  datasource:
+    url: ${DIVELOG_DB_URL:jdbc:h2:/var/divelog/database/divelog}
+    driver-class-name: ${DIVELOG_DB_DRIVER_CLASS_NAME:org.h2.Driver}
+    username: ${DIVELOG_DB_USERNAME:sa}
+    password: ${DIVELOG_DB_PASSWORD:}
+  flyway:
+    encoding: UTF-8
+    locations:
+      - "classpath:db/migration/"
+    validate-on-migrate: false
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: ${DIVELOG_DB_HIBERNATE_DIALECT:org.hibernate.dialect.H2Dialect}
+        hbm2ddl:
+          auto: update
+        jdbc:
+          time_zone: "UTC"
+        show_sql: true
+        implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
   mvc:
     view:
       prefix: /WEB-INF/jsp/
@@ -7,17 +28,15 @@ spring:
     multipart:
       max-file-size: 5MB
 
+
+
 server:
   servlet:
     encoding:
       charset: UTF-8
       enabled: true
       force: true
-    contextPath: ${DIVELOG_SERVLET_CONTEXT_PATH:/}
-    jsp:
-      init-parameters:
-        development: true
-        trimSpaces: true
+    contextPath: ${DIVELOG_SERVLET_CONTEXT_PATH:/divelog}
     session:
       cookie:
         name: divelog-session

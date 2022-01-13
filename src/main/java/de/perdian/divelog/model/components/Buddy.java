@@ -3,6 +3,8 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Buddy implements Serializable {
@@ -19,6 +21,7 @@ public class Buddy implements Serializable {
         this.name = name;
     }
 
+    @Enumerated(EnumType.STRING)
     public BuddyType getType() {
         return this.type;
     }

@@ -3,6 +3,8 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Environment implements Serializable {
@@ -38,6 +40,7 @@ public class Environment implements Serializable {
         this.temperatureGround = temperatureGround;
     }
 
+    @Enumerated(EnumType.STRING)
     public WaterType getWaterType() {
         return this.waterType;
     }

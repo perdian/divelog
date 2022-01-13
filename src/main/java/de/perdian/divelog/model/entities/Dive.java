@@ -3,6 +3,7 @@ package de.perdian.divelog.model.entities;
 import java.time.Duration;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Equipment;
@@ -32,6 +33,7 @@ public class Dive extends AbstractEntity {
         return super.hashCode();
     }
 
+    @ManyToOne
     public Trip getTrip() {
         return this.trip;
     }

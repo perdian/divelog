@@ -3,6 +3,8 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Air implements Serializable {
@@ -13,6 +15,7 @@ public class Air implements Serializable {
     private Integer pressureStart = null;
     private Integer pressureEnd = null;
 
+    @Enumerated(EnumType.STRING)
     public AirType getType() {
         return this.type;
     }

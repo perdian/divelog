@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class PlaceAndTime implements Serializable {
@@ -16,6 +18,7 @@ public class PlaceAndTime implements Serializable {
     private LocalDate date = null;
     private LocalTime time = null;
 
+    @Enumerated(EnumType.STRING)
     public PlaceType getType() {
         return this.type;
     }

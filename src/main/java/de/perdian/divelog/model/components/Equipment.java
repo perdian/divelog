@@ -3,6 +3,8 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 public class Equipment implements Serializable {
@@ -23,6 +25,7 @@ public class Equipment implements Serializable {
         this.weight = weight;
     }
 
+    @Enumerated(EnumType.STRING)
     public SuitType getSuitType() {
         return this.suitType;
     }
