@@ -2,6 +2,7 @@ package de.perdian.divelog.model.components;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -28,6 +29,7 @@ public class Spot implements Serializable {
         this.website = website;
     }
 
+    @Column(length = 2000)
     public String getComments() {
         return this.comments;
     }

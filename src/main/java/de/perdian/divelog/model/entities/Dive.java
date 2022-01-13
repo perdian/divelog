@@ -1,16 +1,19 @@
 package de.perdian.divelog.model.entities;
 
-import java.time.Duration;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import de.perdian.divelog.model.components.Air;
+import de.perdian.divelog.model.components.Buddy;
 import de.perdian.divelog.model.components.Equipment;
+import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.components.Spot;;
 
 @Entity
+@Table(name = "dives")
 public class Dive extends AbstractEntity {
 
     static final long serialVersionUID = 1L;
@@ -22,7 +25,9 @@ public class Dive extends AbstractEntity {
     private Air air = null;
     private Equipment equipment = null;
     private Double maxDepth = null;
-    private Duration bottomTime = null;
+    private Integer bottomTimeMinutes = null;
+    private Buddy buddy = null;
+    private PadiStatistics padiStatistics = null;
     private String comments = null;
 
     @Override
@@ -85,13 +90,28 @@ public class Dive extends AbstractEntity {
         this.maxDepth = maxDepth;
     }
 
-    public Duration getBottomTime() {
-        return this.bottomTime;
+    public Integer getBottomTimeMinutes() {
+        return this.bottomTimeMinutes;
     }
-    public void setBottomTime(Duration bottomTime) {
-        this.bottomTime = bottomTime;
+    public void setBottomTimeMinutes(Integer bottomTimeMinutes) {
+        this.bottomTimeMinutes = bottomTimeMinutes;
     }
 
+    public Buddy getBuddy() {
+        return this.buddy;
+    }
+    public void setBuddy(Buddy buddy) {
+        this.buddy = buddy;
+    }
+
+    public PadiStatistics getPadiStatistics() {
+        return this.padiStatistics;
+    }
+    public void setPadiStatistics(PadiStatistics padiStatistics) {
+        this.padiStatistics = padiStatistics;
+    }
+
+    @Column(length = 2000)
     public String getComments() {
         return this.comments;
     }

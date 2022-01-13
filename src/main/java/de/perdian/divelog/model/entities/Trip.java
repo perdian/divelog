@@ -1,14 +1,18 @@
 package de.perdian.divelog.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import de.perdian.divelog.model.components.PlaceAndTime;
 
 @Entity
+@Table(name = "trips")
 public class Trip extends AbstractEntity {
 
     static final long serialVersionUID = 1L;
 
+    private String title = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
     private String comments = null;
@@ -21,6 +25,13 @@ public class Trip extends AbstractEntity {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public PlaceAndTime getStart() {
@@ -37,6 +48,7 @@ public class Trip extends AbstractEntity {
         this.end = end;
     }
 
+    @Column(length = 2000)
     public String getComments() {
         return this.comments;
     }
