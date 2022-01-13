@@ -20,10 +20,6 @@ spring:
           time_zone: "UTC"
         show_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
   servlet:
     multipart:
       max-file-size: 5MB

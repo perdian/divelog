@@ -41,10 +41,10 @@
         <arcjs.version>0.1.1</arcjs.version>
         <fomanticui.version>2.8.8</fomanticui.version>
         <java.version>17</java.version>
-        <jquery.version>3.5.1</jquery.version>
+        <jquery.version>3.6.0</jquery.version>
         <momentjs.version>2.29.1</momentjs.version>
         <openlayers.version>6.6.1</openlayers.version>
-        <webjars-locator.version>0.42</webjars-locator.version>
+        <webjars-locator-core.version>0.48</webjars-locator-core.version>
     </properties>
 
     <dependencies>
@@ -87,33 +87,28 @@
 
         <dependency>
             <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator</artifactId>
-            <version>${webjars-locator.version}</version>
+            <artifactId>webjars-locator-core</artifactId>
+            <version>${webjars-locator-core.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>${jquery.version}</version>
+            <version>${jquery.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>openlayers</artifactId>
-            <version>${openlayers.version}</version>
+            <version>${openlayers.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>momentjs</artifactId>
-            <version>${momentjs.version}</version>
+            <version>${momentjs.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <dependency>
             <groupId>org.webjars.bowergithub.springmeyer</groupId>
             <artifactId>arc.js</artifactId>
-            <version>${arcjs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bowergithub.fomantic</groupId>
-            <artifactId>fomantic-ui</artifactId>
-            <version>${fomanticui.version}</version>
+            <version>${arcjs.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
 
         <dependency>

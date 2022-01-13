@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(head, content)">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(title, head, content)">
   <head>
-    <title>
-      ORIGINAL TITLE
-    </title>
+    <title>DiveLog[[ ${#strings.length(title) > 1 ? (' // ' + title) : ''} ]]</title>
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/assets/fomanticui/2.8.8/semantic.css}" />
+    <script th:src="@{/assets/fomanticui/2.8.8/semantic.min.js}"></script>
+
+    <div th:if="${#strings.length(head) > 1}" th:replace="${head}">Additional header content</div>
   </head>
   <body>
     <div>TEMPLATE HEADER</div>
-    <div th:replace="${content}">TEMPLATE CONTENT</div>
+    <div th:replace="${content}">
+      Template content
+    </div>
     <div>TEMPLATE FOOTER</div>
   </body>
 </html>
