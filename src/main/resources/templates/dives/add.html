@@ -33,20 +33,37 @@
 
         <div class="fields">
           <div class="six wide field">
-              <label>Location</label>
-              <input th:field="*{start.location.name}" />
+            <label>Location</label>
+            <div class="ui action input">
+            <input th:field="*{start.location.name}" />
+              <button type="button" id="startLocationSearch" class="ui button">Search</button>
+            </div>
           </div>
+          <script type="text/javascript">
+              $("#startLocationSearch").click(function() {
+                  let locationValue = $("input[name='start.location.name']").val().trim();
+                  if (locationValue.length > 0) {
+                    searchLocation(locationValue, {
+                        nameField: $("input[name='start.location.name']"),
+                        latitudeField: $("input[name='start.location.latitude']"),
+                        longitudeField: $("input[name='start.location.longitude']"),
+                        timezoneIdField: $("input[name='start.location.timezoneId']"),
+                    })
+                  }
+              });
+          </script>
+
           <div class="four wide field">
-              <label>Timezone</label>
-              <input th:field="*{start.location.timezoneId}" />
+            <label>Timezone</label>
+            <input th:field="*{start.location.timezoneId}" />
           </div>
           <div class="three wide field">
-              <label>Latitude</label>
-              <input th:field="*{start.location.latitude}" />
+            <label>Latitude</label>
+            <input th:field="*{start.location.latitude}" />
           </div>
           <div class="three wide field">
-              <label>Longitude</label>
-              <input th:field="*{start.location.longitude}" />
+            <label>Longitude</label>
+            <input th:field="*{start.location.longitude}" />
           </div>
         </div>
 
@@ -60,6 +77,60 @@
         </button>
 
       </form>
+
+      <div id="searchLocationForm" class="ui modal">
+      </div>
+
+
+      <script type="text/javascript">
+        function searchLocation(locationValue, targetFields) {
+            searchLocationPrepare(locationValue);
+            $("#searchLocationForm").modal("show");
+            searchLocationExecute(locationValue, targetFields);
+        }
+
+        function searchLocationPrepare(locationValue) {
+            $("#searchLocationForm").empty();
+            $("#searchLocationForm").append(
+                $("<i class='close icon'></i>"),
+                $("<div class='ui icon header'></div>").append(
+                  $("<i class='compass icon'></i>"),
+                  $("<span id='searchLocationTitle'>Searching for location '" + locationValue + "'</span>")
+                ),
+                $("<div id='searchLocationBody' class='ui segment'></div>").append(
+                  $("<div class='ui active inverted dimmer'></div>").append(
+                    $("<div class='ui text loader'>Loading</div>")
+                  ),
+                  $("<p>&nbsp;</p>"),
+                  $("<p>&nbsp;</p>"),
+                  $("<p>&nbsp;</p>")
+                )
+            );
+        }
+
+        function searchLocationExecute(locationValue, targetFields) {
+            // TODO: Implement AJAX request here!
+            window.setTimeout(function() {
+                searchLocationShowError("ERROR", locationValue);
+            }, 1000);
+        }
+
+        function searchLocationShowResults(result, locationValue, targetFields) {
+            $("#searchLocationTitle").text("Search results for location: '" + locationValue + "'");
+            $("#searchLocationBody").empty();
+        }
+
+        function searchLocationShowError(error, locationValue) {
+            $("#searchLocationTitle").text("Search failed for location: '" + locationValue + "'");
+            $("#searchLocationBody").empty();
+            $("#searchLocationBody").append(
+              $("<div class='ui negative message'></div>").append(
+                $("<div class='header'></div>").text("Search failed"),
+                $("<p></p>").text(error)
+              )
+            );
+        }
+      </script>
 
     </main>
   </body>
