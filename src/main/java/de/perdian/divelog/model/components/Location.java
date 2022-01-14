@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 @Embeddable
 public class Location implements Serializable {
 
@@ -13,6 +16,11 @@ public class Location implements Serializable {
     private Double latitude = null;
     private Double longitude = null;
     private String timezoneId = null;
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
+    }
 
     public String getName() {
         return this.name;

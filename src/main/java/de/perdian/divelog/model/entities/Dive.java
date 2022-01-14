@@ -18,6 +18,7 @@ public class Dive extends AbstractEntity {
 
     static final long serialVersionUID = 1L;
 
+    private User user = null;
     private Trip trip = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
@@ -25,6 +26,7 @@ public class Dive extends AbstractEntity {
     private Air air = null;
     private Equipment equipment = null;
     private Double maxDepth = null;
+    private Integer totalTimeMinutes = null;
     private Integer bottomTimeMinutes = null;
     private Buddy buddy = null;
     private PadiStatistics padiStatistics = null;
@@ -38,6 +40,14 @@ public class Dive extends AbstractEntity {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @ManyToOne
+    public User getUser() {
+        return this.user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @ManyToOne
@@ -88,6 +98,13 @@ public class Dive extends AbstractEntity {
     }
     public void setMaxDepth(Double maxDepth) {
         this.maxDepth = maxDepth;
+    }
+
+    public Integer getTotalTimeMinutes() {
+        return this.totalTimeMinutes;
+    }
+    public void setTotalTimeMinutes(Integer totalTimeMinutes) {
+        this.totalTimeMinutes = totalTimeMinutes;
     }
 
     public Integer getBottomTimeMinutes() {

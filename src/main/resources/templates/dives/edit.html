@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="edit icon"></i>
+        <div class="content">
+          Edit dive
+          <div class="sub header">Add information about new dive</div>
+        </div>
+      </h2>
+
+      <pre>[[ ${ T(org.apache.commons.lang3.builder.ToStringBuilder).reflectionToString(dive, T(org.apache.commons.lang3.builder.ToStringStyle).MULTI_LINE_STYLE) } ]]</pre>
+
+
+    </main>
+  </body>
+</html>

@@ -6,6 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 @Embeddable
 public class Air implements Serializable {
 
@@ -14,6 +17,11 @@ public class Air implements Serializable {
     private AirType type = AirType.REGULAR;
     private Integer pressureStart = null;
     private Integer pressureEnd = null;
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
+    }
 
     @Enumerated(EnumType.STRING)
     public AirType getType() {

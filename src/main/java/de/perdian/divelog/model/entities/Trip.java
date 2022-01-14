@@ -2,6 +2,7 @@ package de.perdian.divelog.model.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import de.perdian.divelog.model.components.PlaceAndTime;
@@ -12,6 +13,7 @@ public class Trip extends AbstractEntity {
 
     static final long serialVersionUID = 1L;
 
+    private User user = null;
     private String title = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
@@ -25,6 +27,14 @@ public class Trip extends AbstractEntity {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @ManyToOne
+    public User getUser() {
+        return this.user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {

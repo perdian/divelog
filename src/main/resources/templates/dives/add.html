@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="plus icon"></i>
+        <div class="content">
+          Add dive
+          <div class="sub header">Add information about new dive</div>
+        </div>
+      </h2>
+
+      <form class="ui form" th:action="@{/dives/add}" th:object="${dive}" method="post">
+
+        <div class="ui horizontal divider">General information</div>
+
+        <div class="fields">
+          <div class="one wide field">
+            <label>No</label>
+            <input type="number" th:field="*{number}" readonly />
+          </div>
+          <div class="three wide field">
+            <label>Date</label>
+            <input type="date" th:field="*{start.dateIso}" />
+          </div>
+          <div class="twelve wide field">
+            XX
+          </div>
+        </div>
+
+        <div class="ui horizontal divider">Location</div>
+
+        <div class="fields">
+          <div class="six wide field">
+              <label>Location</label>
+              <input th:field="*{start.location.name}" />
+          </div>
+          <div class="four wide field">
+              <label>Timezone</label>
+              <input th:field="*{start.location.timezoneId}" />
+          </div>
+          <div class="three wide field">
+              <label>Latitude</label>
+              <input th:field="*{start.location.latitude}" />
+          </div>
+          <div class="three wide field">
+              <label>Longitude</label>
+              <input th:field="*{start.location.longitude}" />
+          </div>
+        </div>
+
+        <div class="ui horizontal divider">Spot</div>
+
+        <div class="ui horizontal divider">Actions</div>
+
+        <button type="submit" class="ui primary button">
+          <i class="save icon"></i>
+          Save
+        </button>
+
+      </form>
+
+    </main>
+  </body>
+</html>

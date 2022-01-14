@@ -6,6 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 @Embeddable
 public class Environment implements Serializable {
 
@@ -18,6 +21,11 @@ public class Environment implements Serializable {
     private String visibility = null;
     private Boolean waves = null;
     private Boolean current = null;
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
+    }
 
     public Double getTemperatureAir() {
         return this.temperatureAir;

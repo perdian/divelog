@@ -6,6 +6,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 @Embeddable
 public class Equipment implements Serializable {
 
@@ -17,6 +20,11 @@ public class Equipment implements Serializable {
     private Boolean cap = Boolean.FALSE;
     private Boolean gloves = Boolean.FALSE;
     private String computer = null;
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
+    }
 
     public Double getWeight() {
         return this.weight;
