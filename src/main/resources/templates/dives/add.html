@@ -11,6 +11,40 @@
         </div>
       </h2>
 
+      <script type="text/javascript">
+
+          function renderMap(target, longitude, latitude) {
+
+              let mapLayer = new ol.layer.Tile({
+                  source: new ol.source.OSM()
+              })
+
+              let locationFeature = new ol.Feature({
+                  geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'))
+              });
+              let locationSource = new ol.source.Vector();
+              locationSource.addFeature(locationFeature);
+              let locationLayer = new ol.layer.Vector({ source: locationSource })
+
+              var map = new ol.Map({
+                  target: target,
+                  projection: "EPSG:3857",
+                  layers: [mapLayer, locationLayer],
+                  view: new ol.View({
+                    center: ol.proj.fromLonLat([longitude, latitude]),
+                    zoom: 11
+                  }),
+                  controls: [
+                    new ol.control.Zoom()
+                  ]
+              });
+              map.render();
+
+          }
+
+      </script>
+
+
       <form class="ui form" th:action="@{/dives/add}" th:object="${dive}" method="post">
 
         <div class="ui horizontal divider">General information</div>
@@ -35,7 +69,7 @@
           <div class="six wide field">
             <label>Location</label>
             <div class="ui action input">
-            <input th:field="*{start.location.name}" />
+            <input th:field="*{start.location.name}" th:data-searchEndpoint="@{/api/places/search}" />
               <button type="button" id="startLocationSearch" class="ui button">Search</button>
             </div>
           </div>
@@ -81,7 +115,6 @@
       <div id="searchLocationForm" class="ui modal">
       </div>
 
-
       <script type="text/javascript">
         function searchLocation(locationValue, targetFields) {
             searchLocationPrepare(locationValue);
@@ -94,42 +127,81 @@
             $("#searchLocationForm").append(
                 $("<i class='close icon'></i>"),
                 $("<div class='ui icon header'></div>").append(
-                  $("<i class='compass icon'></i>"),
-                  $("<span id='searchLocationTitle'>Searching for location '" + locationValue + "'</span>")
+                    $("<i class='compass icon'></i>"),
+                    $("<span id='searchLocationTitle'>Searching for location '" + locationValue + "'</span>")
                 ),
                 $("<div id='searchLocationBody' class='ui segment'></div>").append(
-                  $("<div class='ui active inverted dimmer'></div>").append(
-                    $("<div class='ui text loader'>Loading</div>")
-                  ),
-                  $("<p>&nbsp;</p>"),
-                  $("<p>&nbsp;</p>"),
-                  $("<p>&nbsp;</p>")
+                    $("<div class='ui active inverted dimmer'></div>").append(
+                        $("<div class='ui text loader'>Loading</div>")
+                    ),
+                    $("<p>&nbsp;</p>"),
+                    $("<p>&nbsp;</p>"),
+                    $("<p>&nbsp;</p>")
                 )
             );
         }
 
         function searchLocationExecute(locationValue, targetFields) {
-            // TODO: Implement AJAX request here!
-            window.setTimeout(function() {
-                searchLocationShowError("ERROR", locationValue);
-            }, 1000);
+            $.ajax({
+                url: $("input[name='start.location.name']").attr("data-searchEndpoint") + "?q=" + encodeURIComponent(locationValue),
+                success: function(data) { searchLocationShowResults(data, locationValue, targetFields); },
+                error: function(xhr, textStatus, thrownError) { searchLocationShowError(thrownError, locationValue); }
+            });
         }
 
         function searchLocationShowResults(result, locationValue, targetFields) {
             $("#searchLocationTitle").text("Search results for location: '" + locationValue + "'");
             $("#searchLocationBody").empty();
+            if (result.items.length < 1) {
+                $("#searchLocationBody").append(
+                    $("<div class='ui warning message'></div>").append(
+                        $("<div class='header'></div>").text("No results"),
+                        $("<p></p>").text("The search didn't return any results")
+                    )
+                );
+            } else {
+                let mapRenderActions = [];
+                let parentElement = $("<div class='ui divided items'></div>");
+                for (let itemIndex = 0; itemIndex < result.items.length; itemIndex++) {
+                    let item = result.items[itemIndex];
+                    let mapElement = document.createElement("div");
+                    mapRenderActions.push(function() { renderMap(mapElement, item.longitude, item.latitude) })
+                    parentElement.append(
+                        $("<div class='item'></div>").append(
+                            $(mapElement).attr("class", "ui tiny image").attr("style", "width: 200px !important; height: 150px !important; border: 1px solid black;"),
+                            $("<div class='middle aligned content'></div>").append(
+                                $("<a class='header'></a>").text(item.name).click(function() { searchLocationSelect(item, targetFields); }),
+                                $("<div class='meta'></div>").text(item.description),
+                                $("<div class='description'></div>").append(
+                                    $("<button class='ui right primary button'>Select</button>").click(function() { searchLocationSelect(item, targetFields); })
+                                )
+                            )
+                        )
+                    );
+                }
+                $("#searchLocationBody").append(parentElement);
+                mapRenderActions.forEach(action => action());
+            }
         }
 
         function searchLocationShowError(error, locationValue) {
             $("#searchLocationTitle").text("Search failed for location: '" + locationValue + "'");
             $("#searchLocationBody").empty();
             $("#searchLocationBody").append(
-              $("<div class='ui negative message'></div>").append(
-                $("<div class='header'></div>").text("Search failed"),
-                $("<p></p>").text(error)
-              )
+                $("<div class='ui negative message'></div>").append(
+                    $("<div class='header'></div>").text("Search failed"),
+                    $("<p></p>").text(error)
+                )
             );
         }
+
+        function searchLocationSelect(item, targetFields) {
+            targetFields.latitudeField.val(item.latitude);
+            targetFields.longitudeField.val(item.longitude);
+            targetFields.timezoneIdField.val(item.timezoneId);
+            $("#searchLocationForm").modal("hide");
+        }
+
       </script>
 
     </main>

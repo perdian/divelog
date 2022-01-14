@@ -10,6 +10,7 @@ public class PlacesSearchResultItem implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String name = null;
+    private String description = null;
     private Double latitude = null;
     private Double longitude = null;
 
@@ -23,6 +24,13 @@ public class PlacesSearchResultItem implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Double getLatitude() {
