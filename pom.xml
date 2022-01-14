@@ -43,6 +43,7 @@
         <java.version>17</java.version>
         <jquery.version>3.6.0</jquery.version>
         <momentjs.version>2.29.1</momentjs.version>
+        <okhttp.version>4.9.3</okhttp.version>
         <openlayers.version>6.6.1</openlayers.version>
         <webjars-locator-core.version>0.48</webjars-locator-core.version>
     </properties>
@@ -109,6 +110,11 @@
             <groupId>org.webjars.bowergithub.springmeyer</groupId>
             <artifactId>arc.js</artifactId>
             <version>${arcjs.version}</version><!--$NO-MVN-MAN-VER$-->
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
 
         <dependency>

@@ -41,3 +41,10 @@ server:
     remoteip:
       host-header: x-forwarded-for
       protocol-header: x-forwarded-proto
+
+divelog:
+  api:
+    places:
+      providers:
+        google:
+          apiKey: ${GOOGLE_PLACES_API_KEY:}
