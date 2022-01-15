@@ -13,6 +13,9 @@
 
       <pre>[[ ${ T(org.apache.commons.lang3.builder.ToStringBuilder).reflectionToString(dive, T(org.apache.commons.lang3.builder.ToStringStyle).MULTI_LINE_STYLE) } ]]</pre>
 
+      <form class="ui form" th:action="@{/dives/edit}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: segments">
+      </form>
+
 
     </main>
   </body>

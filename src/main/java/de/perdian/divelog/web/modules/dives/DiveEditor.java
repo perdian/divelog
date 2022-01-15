@@ -10,7 +10,7 @@ import de.perdian.divelog.model.components.Spot;
 
 public class DiveEditor {
 
-    private long number = 1;
+    private Long number = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
     private Spot spot = null;
@@ -24,10 +24,10 @@ public class DiveEditor {
     private Equipment equipment = null;
     private Buddy buddy = null;
 
-    public long getNumber() {
+    public Long getNumber() {
         return this.number;
     }
-    public void setNumber(long number) {
+    public void setNumber(Long number) {
         this.number = number;
     }
 

@@ -6,7 +6,7 @@
 
       <div class="ui segment">
         <h4 class="ui header">
-          <span class="right aligned floating ui label">Dive No. <span class="detail" th:text="${dive.number}"></span></span>
+          <span class="right aligned floating ui label" th:if="${dive.number != null}">Dive No. <span class="detail" th:text="${dive.number}"></span></span>
           General information
         </h4>
         <div class="fields">
