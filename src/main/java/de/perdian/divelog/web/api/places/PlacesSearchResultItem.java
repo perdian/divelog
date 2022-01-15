@@ -1,6 +1,7 @@
 package de.perdian.divelog.web.api.places;
 
 import java.io.Serializable;
+import java.time.ZoneId;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,6 +14,7 @@ public class PlacesSearchResultItem implements Serializable {
     private String description = null;
     private Double latitude = null;
     private Double longitude = null;
+    private ZoneId timezoneId = null;
 
     @Override
     public String toString() {
@@ -47,5 +49,11 @@ public class PlacesSearchResultItem implements Serializable {
         this.longitude = longitude;
     }
 
+    public ZoneId getTimezoneId() {
+        return this.timezoneId;
+    }
+    public void setTimezoneId(ZoneId timezoneId) {
+        this.timezoneId = timezoneId;
+    }
 
 }

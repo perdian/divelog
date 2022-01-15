@@ -48,3 +48,6 @@ divelog:
       providers:
         google:
           apiKey: ${GOOGLE_PLACES_API_KEY:}
+      enhancers:
+        geonames:
+          username: ${GEONAMES_USERNAME:}

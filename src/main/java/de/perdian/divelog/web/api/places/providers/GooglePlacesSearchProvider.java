@@ -9,6 +9,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,16 +23,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Component
+@ConditionalOnExpression("'${divelog.api.places.providers.google.apiKey}' != ''")
 class GooglePlacesSearchProvider implements PlacesSearchProvider {
 
     private static final Logger log = LoggerFactory.getLogger(GooglePlacesSearchProvider.class);
 
-    private ObjectMapper objectMapper = null;
     private String apiKey = null;
-
-    GooglePlacesSearchProvider(String apiKey) {
-        this.setApiKey(apiKey);
-    }
+    private ObjectMapper objectMapper = null;
+    private OkHttpClient httpClient = null;
 
     @Override
     public String getName() {
@@ -75,8 +77,7 @@ class GooglePlacesSearchProvider implements PlacesSearchProvider {
         parameters.forEach((key, value) -> httpUrlBuilder.addQueryParameter(key, value));
         httpUrlBuilder.addQueryParameter("key", this.getApiKey());
         Request httpRequest = new Request.Builder().get().url(httpUrlBuilder.build()).build();
-        OkHttpClient httpClient = new OkHttpClient();
-        try (Response httpResponse = httpClient.newCall(httpRequest).execute()) {
+        try (Response httpResponse = this.getHttpClient().newCall(httpRequest).execute()) {
             return this.getObjectMapper().readTree(httpResponse.body().charStream());
         }
     }
@@ -84,6 +85,7 @@ class GooglePlacesSearchProvider implements PlacesSearchProvider {
     private String getApiKey() {
         return this.apiKey;
     }
+    @Value("${divelog.api.places.providers.google.apiKey}")
     private void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
@@ -91,8 +93,17 @@ class GooglePlacesSearchProvider implements PlacesSearchProvider {
     ObjectMapper getObjectMapper() {
         return this.objectMapper;
     }
-    @Autowired void setObjectMapper(ObjectMapper objectMapper) {
+    @Autowired
+    void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+
+    OkHttpClient getHttpClient() {
+        return this.httpClient;
+    }
+    @Autowired
+    void setHttpClient(OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
 }
