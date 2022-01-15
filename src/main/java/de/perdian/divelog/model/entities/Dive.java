@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Buddy;
+import de.perdian.divelog.model.components.Environment;
 import de.perdian.divelog.model.components.Equipment;
 import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
@@ -28,6 +29,7 @@ public class Dive extends AbstractEntity {
     private Double maxDepth = null;
     private Integer totalTimeMinutes = null;
     private Integer bottomTimeMinutes = null;
+    private Environment environment = null;
     private Buddy buddy = null;
     private PadiStatistics padiStatistics = null;
     private String comments = null;
@@ -112,6 +114,13 @@ public class Dive extends AbstractEntity {
     }
     public void setBottomTimeMinutes(Integer bottomTimeMinutes) {
         this.bottomTimeMinutes = bottomTimeMinutes;
+    }
+
+    public Environment getEnvironment() {
+        return this.environment;
+    }
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
     public Buddy getBuddy() {

@@ -1,5 +1,10 @@
 package de.perdian.divelog.web.modules.dives;
 
+import de.perdian.divelog.model.components.Air;
+import de.perdian.divelog.model.components.Buddy;
+import de.perdian.divelog.model.components.Environment;
+import de.perdian.divelog.model.components.Equipment;
+import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.components.Spot;
 
@@ -10,6 +15,14 @@ public class DiveEditor {
     private PlaceAndTime end = null;
     private Spot spot = null;
     private String comments = null;
+    private Integer totalTimeMinutes = null;
+    private Integer groundTimeMinutes = null;
+    private Air air = null;
+    private Integer maxDepth = null;
+    private Environment environment = null;
+    private PadiStatistics padiStatistics = null;
+    private Equipment equipment = null;
+    private Buddy buddy = null;
 
     public long getNumber() {
         return this.number;
@@ -44,6 +57,62 @@ public class DiveEditor {
     }
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Integer getTotalTimeMinutes() {
+        return this.totalTimeMinutes;
+    }
+    public void setTotalTimeMinutes(Integer totalTimeMinutes) {
+        this.totalTimeMinutes = totalTimeMinutes;
+    }
+
+    public Integer getGroundTimeMinutes() {
+        return this.groundTimeMinutes;
+    }
+    public void setGroundTimeMinutes(Integer groundTimeMinutes) {
+        this.groundTimeMinutes = groundTimeMinutes;
+    }
+
+    public Air getAir() {
+        return this.air;
+    }
+    public void setAir(Air air) {
+        this.air = air;
+    }
+
+    public Integer getMaxDepth() {
+        return this.maxDepth;
+    }
+    public void setMaxDepth(Integer maxDepth) {
+        this.maxDepth = maxDepth;
+    }
+
+    public Environment getEnvironment() {
+        return this.environment;
+    }
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    public PadiStatistics getPadiStatistics() {
+        return this.padiStatistics;
+    }
+    public void setPadiStatistics(PadiStatistics padiStatistics) {
+        this.padiStatistics = padiStatistics;
+    }
+
+    public Equipment getEquipment() {
+        return this.equipment;
+    }
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
+    public Buddy getBuddy() {
+        return this.buddy;
+    }
+    public void setBuddy(Buddy buddy) {
+        this.buddy = buddy;
     }
 
 }
