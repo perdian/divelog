@@ -37,6 +37,27 @@
             </div>
           </div>
         </div>
+        <script type="text/javascript">
+            function recomputeDiveTime() {
+                let startTimeValue = $("input[name='start.time']").val().trim();
+                let endTimeValue = $("input[name='end.time']").val().trim();
+                if (startTimeValue.length > 0 && endTimeValue.length > 0) {
+                    let startMoment = moment(startTimeValue, "HH:mm");
+                    let endMoment = moment(endTimeValue, "HH:mm");
+                    if (endMoment.isBefore(startMoment)) {
+                        let durationUntilEndOfDay = moment.duration(moment('00:00:00', 'HH:mm:ss').add(1, "days").diff(startMoment));
+                        let durationFromStartOfDay = moment.duration(endMoment.diff(moment('00:00:00', 'HH:mm:ss')));
+                        $("input[name='totalTimeMinutes']").val(durationUntilEndOfDay.asMinutes() + durationFromStartOfDay.asMinutes());
+                    } else {
+                        let duration = moment.duration(endMoment.diff(startMoment));
+                        $("input[name='totalTimeMinutes']").val(duration.asMinutes());
+                    }
+                }
+            }
+            $("input[name='start.time']").on("change", recomputeDiveTime);
+            $("input[name='end.time']").on("change", recomputeDiveTime);
+        </script>
+
         <div class="fields">
           <div class="four wide field">
             <label>Max depth</label>
@@ -75,7 +96,10 @@
         <div class="fields">
           <div class="four wide field">
             <label>Water</label>
-            <input th:field="*{environment.waterType}" />
+            <select class="ui search dropdown" th:field="*{environment.waterType}">
+              <option value=""></option>
+              <option th:each="waterType : ${T(de.perdian.divelog.model.components.WaterType).values()}" th:value="${waterType}" th:text="${#messages.msg('enum.WaterType.' + waterType)}"></option>
+            </select>
           </div>
           <div class="three wide field">
             <label>Water surface temp</label>
@@ -112,7 +136,10 @@
         <div class="fields">
           <div class="four wide field">
             <label>Air type</label>
-            <input th:field="*{air.type}" />
+            <select class="ui search dropdown" th:field="*{air.type}">
+              <option value=""></option>
+              <option th:each="airType : ${T(de.perdian.divelog.model.components.AirType).values()}" th:value="${airType}" th:text="${#messages.msg('enum.AirType.' + airType)}"></option>
+            </select>
           </div>
           <div class="three wide field">
             <label>Start air pressure</label>
@@ -136,7 +163,10 @@
         <div class="fields">
           <div class="four wide field">
             <label>Suit type</label>
-            <input th:field="*{equipment.suitType}" />
+            <select class="ui search dropdown" th:field="*{equipment.suitType}">
+              <option value=""></option>
+              <option th:each="suitType : ${T(de.perdian.divelog.model.components.SuitType).values()}" th:value="${suitType}" th:text="${#messages.msg('enum.SuitType.' + suitType)}"></option>
+            </select>
           </div>
           <div class="three wide field">
             <label>Suit thickness</label>
@@ -179,7 +209,10 @@
             <div class="fields">
               <div class="four wide field">
                 <label>Type</label>
-                <input th:field="*{start.type}" />
+                <select class="ui search dropdown" th:field="*{start.type}">
+                  <option value=""></option>
+                  <option th:each="placeType : ${T(de.perdian.divelog.model.components.PlaceType).values()}" th:value="${placeType}" th:text="${#messages.msg('enum.PlaceType.' + placeType)}"></option>
+                </select>
               </div>
               <div class="twelve wide field">
                 <label>Name</label>
@@ -223,7 +256,6 @@
               </div>
               <div class="field">
                 <label>Country code</label>
-
                 <div class="ui right labeled input">
                   <input th:field="*{start.location.countryCode}" />
                   <div class="ui basic label">
@@ -272,7 +304,10 @@
         <div class="fields">
           <div class="four wide field">
             <label>Type</label>
-            <input th:field="*{buddy.type}" />
+            <select class="ui search dropdown" th:field="*{buddy.type}">
+              <option value=""></option>
+              <option th:each="buddyType : ${T(de.perdian.divelog.model.components.BuddyType).values()}" th:value="${buddyType}" th:text="${#messages.msg('enum.BuddyType.' + buddyType)}"></option>
+            </select>
           </div>
           <div class="twelve wide field">
             <label>Name</label>
@@ -284,7 +319,7 @@
       <div class="ui segment">
         <h4 class="ui header">Comments / Marine life</h4>
         <div class="field">
-          <textarea th:field="*{comments}" rows="6"></textarea>
+          <textarea th:field="*{comments}" rows="10"></textarea>
         </div>
       </div>
 
