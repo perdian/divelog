@@ -1,5 +1,7 @@
 package de.perdian.divelog.web.modules.dives;
 
+import java.util.UUID;
+
 import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Buddy;
 import de.perdian.divelog.model.components.Environment;
@@ -7,9 +9,11 @@ import de.perdian.divelog.model.components.Equipment;
 import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.components.Spot;
+import de.perdian.divelog.model.entities.Dive;
 
 public class DiveEditor {
 
+    private UUID diveEntityId = null;
     private Long number = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
@@ -23,6 +27,21 @@ public class DiveEditor {
     private PadiStatistics padiStatistics = null;
     private Equipment equipment = null;
     private Buddy buddy = null;
+
+    public DiveEditor() {
+        this(null);
+    }
+
+    public DiveEditor(Dive diveEntity) {
+        // TODO: Extract information from entity
+    }
+
+    public UUID getDiveEntityId() {
+        return this.diveEntityId;
+    }
+    public void setDiveEntityId(UUID diveEntityId) {
+        this.diveEntityId = diveEntityId;
+    }
 
     public Long getNumber() {
         return this.number;
