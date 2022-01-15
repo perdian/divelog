@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -37,9 +38,15 @@ class GeonamesSearchResultEnhancer implements PlacesSearchResultEnhancer {
     @Override
     public void enhanceResult(PlacesSearchResult result) {
         for (PlacesSearchResultItem resultItem : result.getItems()) {
-            if (resultItem.getTimezoneId() == null && resultItem.getLongitude() != null && resultItem.getLatitude() != null) {
+            if (resultItem.getLongitude() != null && resultItem.getLatitude() != null && (resultItem.getTimezoneId() == null || StringUtils.isEmpty(resultItem.getCountryCode()))) {
                 try {
-                    resultItem.setTimezoneId(this.computeTimezoneId(resultItem.getLongitude(), resultItem.getLatitude()));
+                    GeonamesCacheEntry cacheEntry = this.resolveCacheEntry(resultItem.getLongitude(), resultItem.getLatitude());
+                    if (resultItem.getTimezoneId() == null) {
+                        resultItem.setTimezoneId(cacheEntry.getTimezoneId());
+                    }
+                    if (StringUtils.isEmpty(resultItem.getCountryCode())) {
+                        resultItem.setCountryCode(cacheEntry.getCountryCode());
+                    }
                 } catch (Exception e) {
                     log.warn("Cannot load timezone information from Geonames for result item: '{}'", resultItem);
                 }
@@ -47,18 +54,17 @@ class GeonamesSearchResultEnhancer implements PlacesSearchResultEnhancer {
         }
     }
 
-    private ZoneId computeTimezoneId(Double longitude, Double latitude) throws Exception {
+    private GeonamesCacheEntry resolveCacheEntry(Double longitude, Double latitude) throws Exception {
         String cacheKey = longitude + "@" + latitude;
         GeonamesCacheEntry cacheEntry = this.getCache().get(cacheKey);
         if (cacheEntry == null || cacheEntry.isExpired()) {
-            ZoneId timezoneId = this.computeTimezoneIdFromGeonames(longitude, latitude);
-            cacheEntry = new GeonamesCacheEntry(timezoneId, Instant.now().plus(1, ChronoUnit.HOURS));
+            cacheEntry = this.computeCacheEntryFromGeonames(longitude, latitude);
             this.getCache().put(cacheKey, cacheEntry);
         }
-        return cacheEntry.getTimezoneId();
+        return cacheEntry;
     }
 
-    private ZoneId computeTimezoneIdFromGeonames(Double longitude, Double latitude) throws Exception {
+    private GeonamesCacheEntry computeCacheEntryFromGeonames(Double longitude, Double latitude) throws Exception {
         StringBuilder geonamesRequestUrl = new StringBuilder();
         geonamesRequestUrl.append("http://api.geonames.org/timezone");
         geonamesRequestUrl.append("?lng=").append(longitude);
@@ -66,12 +72,20 @@ class GeonamesSearchResultEnhancer implements PlacesSearchResultEnhancer {
         geonamesRequestUrl.append("&username=").append(this.getUsername());
         Request geonamesRequest = new Request.Builder().get().url(geonamesRequestUrl.toString()).build();
         try (Response geonamesResponse = this.getHttpClient().newCall(geonamesRequest).execute()) {
+
             SAXReader saxReader = new SAXReader();
             Document geonamesDocument = saxReader.read(geonamesResponse.body().charStream());
             Element timezoneElement = geonamesDocument.getRootElement().element("timezone");
             Element timezoneIdElement = timezoneElement == null ? null : timezoneElement.element("timezoneId");
             String timezoneIdValue = timezoneIdElement == null ? null : timezoneIdElement.getTextTrim();
-            return timezoneIdValue == null ? null : ZoneId.of(timezoneIdValue);
+            Element countryCodeElement = timezoneElement == null ? null : timezoneElement.element("countryCode");
+            String countryCodeValue = countryCodeElement == null ? null : countryCodeElement.getTextTrim();
+
+            GeonamesCacheEntry cacheEntry = new GeonamesCacheEntry(Instant.now().plus(1, ChronoUnit.HOURS));
+            cacheEntry.setTimezoneId(timezoneIdValue == null ? null : ZoneId.of(timezoneIdValue));
+            cacheEntry.setCountryCode(countryCodeValue == null ? null : countryCodeValue.toUpperCase());
+            return cacheEntry;
+
         }
     }
 
@@ -79,16 +93,23 @@ class GeonamesSearchResultEnhancer implements PlacesSearchResultEnhancer {
 
         static final long serialVersionUID = 1L;
 
-        private ZoneId timezoneId = null;
         private Instant expiration = null;
+        private ZoneId timezoneId = null;
+        private String countryCode = null;
 
-        private GeonamesCacheEntry(ZoneId timezoneId, Instant expiration) {
-            this.setTimezoneId(timezoneId);
+        private GeonamesCacheEntry(Instant expiration) {
             this.setExpiration(expiration);
         }
 
         private boolean isExpired() {
             return this.getExpiration().isAfter(Instant.now());
+        }
+
+        private Instant getExpiration() {
+            return this.expiration;
+        }
+        private void setExpiration(Instant expiration) {
+            this.expiration = expiration;
         }
 
         private ZoneId getTimezoneId() {
@@ -98,11 +119,11 @@ class GeonamesSearchResultEnhancer implements PlacesSearchResultEnhancer {
             this.timezoneId = timezoneId;
         }
 
-        private Instant getExpiration() {
-            return this.expiration;
+        private String getCountryCode() {
+            return this.countryCode;
         }
-        private void setExpiration(Instant expiration) {
-            this.expiration = expiration;
+        private void setCountryCode(String countryCode) {
+            this.countryCode = countryCode;
         }
 
     }

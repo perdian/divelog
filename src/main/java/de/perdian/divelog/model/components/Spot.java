@@ -13,7 +13,7 @@ public class Spot implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private String title = null;
+    private String name = null;
     private String website = null;
     private String comments = null;
     private Location location = null;
@@ -23,11 +23,11 @@ public class Spot implements Serializable {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getName() {
+        return this.name;
     }
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getWebsite() {

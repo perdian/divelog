@@ -15,6 +15,7 @@ public class PlacesSearchResultItem implements Serializable {
     private Double latitude = null;
     private Double longitude = null;
     private ZoneId timezoneId = null;
+    private String countryCode = null;
 
     @Override
     public String toString() {
@@ -54,6 +55,13 @@ public class PlacesSearchResultItem implements Serializable {
     }
     public void setTimezoneId(ZoneId timezoneId) {
         this.timezoneId = timezoneId;
+    }
+
+    public String getCountryCode() {
+        return this.countryCode;
+    }
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
 }

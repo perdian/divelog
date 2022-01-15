@@ -16,6 +16,7 @@ public class Location implements Serializable {
     private Double latitude = null;
     private Double longitude = null;
     private String timezoneId = null;
+    private String countryCode = null;
 
     @Override
     public String toString() {
@@ -48,6 +49,13 @@ public class Location implements Serializable {
     }
     public void setTimezoneId(String timezoneId) {
         this.timezoneId = timezoneId;
+    }
+
+    public String getCountryCode() {
+        return this.countryCode;
+    }
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
 }

@@ -79,6 +79,8 @@ function searchPlaceSelect(item, targetFields) {
     targetFields.latitudeField.val(item.latitude);
     targetFields.longitudeField.val(item.longitude);
     targetFields.timezoneIdField.val(item.timezoneId);
+    targetFields.countryCodeField.val(item.countryCode);
+    targetFields.countryFlagField.attr("class", item.countryCode == null ? "" : (item.countryCode.toLowerCase() + " flag"));
     updateMap(targetFields.mapDiv, item.longitude, item.latitude);
     searchPlaceModal().modal("hide");
 }
@@ -135,4 +137,8 @@ function registerMap(target, longitudeField, latitudeField) {
     longitudeField.on("change", changeListener);
     latitudeField.on("change", changeListener);
     $(document).ready(changeListener);
+}
+
+function updateCountryFlag(country, targetElement) {
+  targetElement.attr("class", country.toLowerCase() + " flag");
 }
