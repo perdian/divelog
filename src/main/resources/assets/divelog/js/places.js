@@ -130,6 +130,9 @@ function renderMap(target, longitude, latitude) {
     });
     map.render();
 
+    $(".ol-zoom-in").attr("tabindex", "-1");
+    $(".ol-zoom-out").attr("tabindex", "-1");
+
 }
 
 function registerMap(target, longitudeField, latitudeField) {
