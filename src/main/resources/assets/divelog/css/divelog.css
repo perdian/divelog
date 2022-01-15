@@ -2,17 +2,18 @@ body.default { display: flex; flex-direction: column; height: 100%; padding: 0.5
 body.default div.main { height: 100%; flex-grow: 1; display: flex; flex-direction: column; overflow: auto; }
 body.default div.main > main { padding: 0.5rem 1rem 0.5rem 1rem; flex-grow: 1; }
 
-#searchLocationForm { padding: 1rem; }
-
 /* MOBILE */
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 723px) {
   .mobile.hidden {
     display: none !important;
+  }
+  .nopaddinghorizontal {
+    padding-left: 0 !important; padding-right: 0 !important;
   }
 }
 
 /* DESKTOP */
-@media only screen and (min-width: 701px) {
+@media only screen and (min-width: 724px) {
   .mobile.only {
     display: none !important;
   }

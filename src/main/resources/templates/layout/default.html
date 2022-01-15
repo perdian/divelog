@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" th:fragment="html(title, head, content)">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
     <title>DiveLog[[ ${#strings.length(title) > 1 ? (' // ' + title) : ''} ]]</title>
+
+    <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
+    <link rel="shortcut icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
 
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <link rel="stylesheet" th:href="@{/assets/fomanticui/2.8.8/semantic.css}" />
@@ -13,9 +16,10 @@
     <script th:src="@{/webjars/arc.js/arc.js}"></script>
     <link rel="stylesheet" th:href="@{/webjars/openlayers/ol.js}" />
 
-    <link rel="stylesheet" th:href="@{/assets/divelog/divelog.css}" />
-    <link rel="icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
-    <link rel="shortcut icon" th:href="@{/assets/favicon.ico}" type="image/x-icon" />
+    <link rel="stylesheet" th:href="@{/assets/divelog/css/divelog.css}" />
+    <script th:src="@{/assets/divelog/js/places.js}"></script>
+
+    <meta name="endpointPlacesSearch" th:content="@{/api/places/search}" />
 
     <div th:if="${#strings.length(head) > 1}" th:replace="${head}">Additional header content</div>
   </head>
