@@ -38,7 +38,6 @@
     </developers>
 
     <properties>
-        <arcjs.version>0.1.1</arcjs.version>
         <dom4j.version>2.1.3</dom4j.version>
         <fomanticui.version>2.8.8</fomanticui.version>
         <java.version>17</java.version>
@@ -110,11 +109,6 @@
             <groupId>org.webjars</groupId>
             <artifactId>momentjs</artifactId>
             <version>${momentjs.version}</version><!--$NO-MVN-MAN-VER$-->
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.bowergithub.springmeyer</groupId>
-            <artifactId>arc.js</artifactId>
-            <version>${arcjs.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
 
         <dependency>
