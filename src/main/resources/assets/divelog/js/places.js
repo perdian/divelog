@@ -77,9 +77,13 @@ function searchPlaceShowError(error, locationValue) {
 
 function searchPlaceSelect(item, targetFields) {
     targetFields.latitudeField.val(localeNumberFormat(item.latitude));
+    targetFields.latitudeField.closest(".field").removeClass("error");
     targetFields.longitudeField.val(localeNumberFormat(item.longitude));
+    targetFields.longitudeField.closest(".field").removeClass("error");
     targetFields.timezoneIdField.val(item.timezoneId);
+    targetFields.timezoneIdField.closest(".field").removeClass("error");
     targetFields.countryCodeField.val(item.countryCode);
+    targetFields.countryCodeField.closest(".field").removeClass("error");
     targetFields.countryFlagField.attr("class", item.countryCode == null ? "" : (item.countryCode.toLowerCase() + " flag"));
     updateMap(targetFields.mapDiv, item.longitude, item.latitude);
     searchPlaceModal().modal("hide");
