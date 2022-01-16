@@ -2,44 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <body>
 
-    <div th:fragment="semantic_input(fieldName,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}">Title</label>
+    <div th:fragment="semantic_input(fieldName)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" th:step="${step}" />
     </div>
 
-    <div th:fragment="semantic_input_right_labeled(fieldName,fieldLabel,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}">Title</label>
+    <div th:fragment="semantic_input_right_labeled(fieldName,fieldLabel)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       <div class="ui right labeled input">
         <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" th:step="${step}" />
         <div class="ui basic label" th:text="${fieldLabel}">Label</div>
       </div>
     </div>
 
-    <div th:fragment="semantic_input_right_labeled_custom(fieldName,fieldLabel,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}">Title</label>
+    <div th:fragment="semantic_input_right_labeled_custom(fieldName,fieldLabel)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       <div class="ui right labeled input">
         <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" />
         <div class="ui basic label" th:insert="${fieldLabel}">Label</div>
       </div>
     </div>
 
-    <div th:fragment="semantic_input_action(fieldName,title,action)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}">Title</label>
+    <div th:fragment="semantic_input_action(fieldName,action)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       <div class="ui action input">
         <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" />
         <div th:replace="${action}">Action</div>
       </div>
     </div>
 
-    <div th:fragment="semantic_checkbox(fieldName,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+    <div th:fragment="semantic_checkbox(fieldName)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
       <div class="ui checkbox">
         <input type="checkbox" th:field="*{__${fieldName}__}">
-        <label th:text="${title}">Title</label>
+        <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       </div>
     </div>
 
-    <div th:fragment="semantic_select_enum(fieldName,title,enumClass)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}">Title</label>
+    <div th:fragment="semantic_select_enum(fieldName,enumClass)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
       <select class="ui search dropdown" th:field="*{__${fieldName}__}">
         <option value=""></option>
         <option th:each="enumValue : ${T(__${enumClass}__).values()}" th:value="${enumValue}" th:text="${#messages.msg('enum.' + T(__${enumClass}__).simpleName + '.' + enumValue)}"></option>
@@ -47,8 +47,8 @@
     </div>
 
     <div th:fragment="semantic_textarea(fieldName)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
-      <label th:text="${title}" th:if="${!#strings.isEmpty(title)}">Title</label>
-      <textarea th:field="*{comments}" th:rows="${rows}"></textarea>
+      <label th:if="${title == true}" th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
+      <textarea th:field="*{__${fieldName}__}" th:rows="${rows}"></textarea>
     </div>
 
   </body>

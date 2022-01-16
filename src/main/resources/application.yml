@@ -44,6 +44,7 @@ server:
 
 divelog:
   locale: ${DIVELOG_LOCALE:de_DE}
+  language: ${DIVELOG_LANGUAGE:en}
   api:
     places:
       providers:

@@ -1,3 +1,5 @@
+// TODO: Localize the dynamically generated elements of the search form
+
 function searchPlace(locationValue, targetFields) {
     searchPlacePrepare(locationValue);
     searchPlaceModal().modal("show");

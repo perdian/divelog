@@ -10,8 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import de.perdian.divelog.support.converters.NumberToStringConverter;
 import de.perdian.divelog.support.converters.StringToNumberConverter;
@@ -19,8 +21,8 @@ import de.perdian.divelog.support.converters.StringToNumberConverter;
 @Configuration
 class WebConfigurationn implements WebMvcConfigurer {
 
-    @Value("${divelog.locale}")
     private Locale locale = Locale.GERMANY;
+    private Locale language = Locale.ENGLISH;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -43,11 +45,25 @@ class WebConfigurationn implements WebMvcConfigurer {
         return messageSource;
     }
 
-    public Locale getLocale() {
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new FixedLocaleResolver(this.getLanguage());
+    }
+
+    Locale getLocale() {
         return this.locale;
     }
-    public void setLocale(Locale locale) {
+    @Value("${divelog.locale}")
+    void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    Locale getLanguage() {
+        return this.language;
+    }
+    @Value("${divelog.language}")
+    void setLanguage(Locale language) {
+        this.language = language;
     }
 
 }

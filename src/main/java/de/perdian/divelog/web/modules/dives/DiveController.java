@@ -32,7 +32,11 @@ public class DiveController {
     @PostMapping(path = "/add")
     public String doAddPost(@Valid @ModelAttribute("dive") DiveEditor diveEditor, BindingResult bindingResult) {
         diveEditor.setDiveEntityId(UUID.randomUUID()); // TODO: REMOVE ME!
-        return "/dives/edit";
+        if (bindingResult.hasErrors()) {
+            return "/dives/add";
+        } else {
+            return "/dives/edit";
+        }
     }
 
     @GetMapping(path = "/edit/{id}")

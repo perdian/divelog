@@ -14,21 +14,21 @@ public class Spot implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private String name = null;
+    private Location location = null;
     private String website = null;
     private String comments = null;
-    private Location location = null;
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
     }
 
-    public String getName() {
-        return this.name;
+    @Valid
+    public Location getLocation() {
+        return this.location;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public String getWebsite() {
@@ -44,14 +44,6 @@ public class Spot implements Serializable {
     }
     public void setComments(String comments) {
         this.comments = comments;
-    }
-
-    @Valid
-    public Location getLocation() {
-        return this.location;
-    }
-    public void setLocation(Location location) {
-        this.location = location;
     }
 
 }

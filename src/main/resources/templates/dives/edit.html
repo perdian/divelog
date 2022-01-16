@@ -6,12 +6,12 @@
       <h2 class="ui header">
         <i class="edit icon"></i>
         <div class="content">
-          Edit dive
-          <div class="sub header">Edit dive information</div>
+          <span th:text="#{edit_dive}">Edit dive</span>
+          <div class="sub header" th:text="#{edit_dive_description}">Edit dive information</div>
         </div>
       </h2>
 
-      <form class="ui form" th:action="@{'/dives/edit/' + ${dive.diveEntityId}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: segments">
+      <form class="ui form" th:action="@{'/dives/edit/' + ${dive.diveEntityId}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_edit_dive')})">
       </form>
 
 

@@ -31,17 +31,17 @@
       <div class="active item">
         <i class="book icon"></i> &nbsp; <strong>DiveLog</strong>
       </div>
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/overview}">Overview</a>
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives}">List dives</a>
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/add}">Add dive</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives}" th:text="#{list_dives}">List dives</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
       <div class="right menu">
         <div class="ui dropdown mobile only item">
           Navigation
           <i class="dropdown icon"></i>
           <div class="menu">
-            <a tabindex="-1" class="item" th:href="@{/overview}">Overview</a>
-            <a tabindex="-1" class="item" th:href="@{/dives}">List dives</a>
-            <a tabindex="-1" class="item" th:href="@{/dives/add}">Add dive</a>
+            <a tabindex="-1" class="item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
+            <a tabindex="-1" class="item" th:href="@{/dives}" th:text="#{list_dives}">List dives</a>
+            <a tabindex="-1" class="item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
           </div>
         </div>
       </div>
