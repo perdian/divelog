@@ -2,6 +2,10 @@ package de.perdian.divelog.web.modules.dives;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Buddy;
 import de.perdian.divelog.model.components.Environment;
@@ -22,7 +26,7 @@ public class DiveEditor {
     private Integer totalTimeMinutes = null;
     private Integer groundTimeMinutes = null;
     private Air air = null;
-    private Integer maxDepth = null;
+    private Double maxDepth = null;
     private Environment environment = null;
     private PadiStatistics padiStatistics = null;
     private Equipment equipment = null;
@@ -33,6 +37,7 @@ public class DiveEditor {
     }
 
     public DiveEditor(Dive diveEntity) {
+        this.setDiveEntityId(diveEntity == null ? null : diveEntity.getId());
         // TODO: Extract information from entity
     }
 
@@ -50,6 +55,7 @@ public class DiveEditor {
         this.number = number;
     }
 
+    @Valid
     public PlaceAndTime getStart() {
         return this.start;
     }
@@ -64,6 +70,7 @@ public class DiveEditor {
         this.end = end;
     }
 
+    @Valid
     public Spot getSpot() {
         return this.spot;
     }
@@ -78,6 +85,7 @@ public class DiveEditor {
         this.comments = comments;
     }
 
+    @NotNull @Positive
     public Integer getTotalTimeMinutes() {
         return this.totalTimeMinutes;
     }
@@ -85,6 +93,7 @@ public class DiveEditor {
         this.totalTimeMinutes = totalTimeMinutes;
     }
 
+    @Positive
     public Integer getGroundTimeMinutes() {
         return this.groundTimeMinutes;
     }
@@ -92,6 +101,7 @@ public class DiveEditor {
         this.groundTimeMinutes = groundTimeMinutes;
     }
 
+    @Valid
     public Air getAir() {
         return this.air;
     }
@@ -99,13 +109,15 @@ public class DiveEditor {
         this.air = air;
     }
 
-    public Integer getMaxDepth() {
+    @Positive
+    public Double getMaxDepth() {
         return this.maxDepth;
     }
-    public void setMaxDepth(Integer maxDepth) {
+    public void setMaxDepth(Double maxDepth) {
         this.maxDepth = maxDepth;
     }
 
+    @Valid
     public Environment getEnvironment() {
         return this.environment;
     }
@@ -120,6 +132,7 @@ public class DiveEditor {
         this.padiStatistics = padiStatistics;
     }
 
+    @Valid
     public Equipment getEquipment() {
         return this.equipment;
     }

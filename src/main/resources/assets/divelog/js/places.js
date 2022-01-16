@@ -76,8 +76,8 @@ function searchPlaceShowError(error, locationValue) {
 }
 
 function searchPlaceSelect(item, targetFields) {
-    targetFields.latitudeField.val(item.latitude);
-    targetFields.longitudeField.val(item.longitude);
+    targetFields.latitudeField.val(localeNumberFormat(item.latitude));
+    targetFields.longitudeField.val(localeNumberFormat(item.longitude));
     targetFields.timezoneIdField.val(item.timezoneId);
     targetFields.countryCodeField.val(item.countryCode);
     targetFields.countryFlagField.attr("class", item.countryCode == null ? "" : (item.countryCode.toLowerCase() + " flag"));
@@ -92,6 +92,12 @@ function searchPlaceModal() {
         $("body").append(searchPlaceModalElement);
     }
     return searchPlaceModalElement;
+}
+
+function updateMapFromStrings(target, longitudeValue, latitudeValue) {
+    if (longitudeValue.length > 0 && latitudeValue.length > 0) {
+        updateMap(target, localeNumberParse(longitudeValue), localeNumberParse(latitudeValue));
+    }
 }
 
 function updateMap(target, longitude, latitude) {
@@ -136,7 +142,7 @@ function renderMap(target, longitude, latitude) {
 }
 
 function registerMap(target, longitudeField, latitudeField) {
-    changeListener = () => updateMap(target, longitudeField.val().trim(), latitudeField.val().trim());
+    changeListener = () => updateMapFromStrings(target, longitudeField.val().trim(), latitudeField.val().trim());
     longitudeField.on("change", changeListener);
     latitudeField.on("change", changeListener);
     $(document).ready(changeListener);

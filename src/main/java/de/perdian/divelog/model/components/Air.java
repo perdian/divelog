@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -23,6 +25,7 @@ public class Air implements Serializable {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
     }
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     public AirType getType() {
         return this.type;
@@ -31,6 +34,7 @@ public class Air implements Serializable {
         this.type = type;
     }
 
+    @Positive
     public Integer getPressureStart() {
         return this.pressureStart;
     }
@@ -38,6 +42,7 @@ public class Air implements Serializable {
         this.pressureStart = pressureStart;
     }
 
+    @Positive
     public Integer getPressureEnd() {
         return this.pressureEnd;
     }

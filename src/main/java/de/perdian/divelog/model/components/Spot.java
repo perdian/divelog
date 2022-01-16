@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -45,6 +46,7 @@ public class Spot implements Serializable {
         this.comments = comments;
     }
 
+    @Valid
     public Location getLocation() {
         return this.location;
     }

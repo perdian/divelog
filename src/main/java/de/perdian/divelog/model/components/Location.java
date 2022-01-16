@@ -3,9 +3,12 @@ package de.perdian.divelog.model.components;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
 
 @Embeddable
 public class Location implements Serializable {
@@ -30,6 +33,8 @@ public class Location implements Serializable {
         this.name = name;
     }
 
+    @DecimalMin("-90")
+    @DecimalMax("90")
     public Double getLatitude() {
         return this.latitude;
     }
@@ -37,6 +42,8 @@ public class Location implements Serializable {
         this.latitude = latitude;
     }
 
+    @DecimalMin("-180")
+    @DecimalMax("180")
     public Double getLongitude() {
         return this.longitude;
     }
@@ -51,6 +58,7 @@ public class Location implements Serializable {
         this.timezoneId = timezoneId;
     }
 
+    @Length(max = 2)
     public String getCountryCode() {
         return this.countryCode;
     }

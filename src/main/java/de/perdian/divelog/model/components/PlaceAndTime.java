@@ -8,6 +8,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -44,6 +46,7 @@ public class PlaceAndTime implements Serializable {
         this.type = type;
     }
 
+    @Valid
     public Location getLocation() {
         return this.location;
     }
@@ -51,6 +54,7 @@ public class PlaceAndTime implements Serializable {
         this.location = location;
     }
 
+    @NotEmpty
     @Transient
     public String getDateIso() {
         return this.getDate() == null ? null : this.getDate().toString();

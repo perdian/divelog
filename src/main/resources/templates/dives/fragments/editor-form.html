@@ -10,32 +10,11 @@
           General information
         </h4>
         <div class="fields">
-          <div class="four wide field">
-            <label>Date</label>
-            <input type="date" th:field="*{start.dateIso}" />
-          </div>
-          <div class="three wide field">
-            <label>Dive start time</label>
-            <input type="time" th:field="*{start.time}" />
-          </div>
-          <div class="three wide field">
-            <label>Dive end time</label>
-            <input type="time" th:field="*{end.time}" />
-          </div>
-          <div class="three wide field">
-            <label>Dive time</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{totalTimeMinutes}" />
-              <div class="ui basic label">min</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Ground time</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{groundTimeMinutes}" />
-              <div class="ui basic label">min</div>
-            </div>
-          </div>
+          <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='start.dateIso', title='Date', type='date')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='start.time', title='Dive start time', type='time')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='end.time', title='Dive end time', type='time')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='totalTimeMinutes', fieldLabel='min', title='Dive time', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='groundTimeMinutes', fieldLabel='min', title='Ground time', type='number')"></div>
         </div>
         <script type="text/javascript">
             function recomputeDiveTime() {
@@ -52,6 +31,7 @@
                         let duration = moment.duration(endMoment.diff(startMoment));
                         $("input[name='totalTimeMinutes']").val(duration.asMinutes());
                     }
+                    $("input[name='totalTimeMinutes']").closest(".field").removeClass("error");
                 }
             }
             $("input[name='start.time']").on("change", recomputeDiveTime);
@@ -59,73 +39,23 @@
         </script>
 
         <div class="fields">
-          <div class="four wide field">
-            <label>Max depth</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{maxDepth}" />
-              <div class="ui basic label">m</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Pressure group before</label>
-            <input th:field="*{padiStatistics.pressureGroupBefore}" />
-          </div>
-          <div class="three wide field">
-            <label>Pressure group after</label>
-            <input th:field="*{padiStatistics.pressureGroupAfter}" />
-          </div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='four wide field', fieldName='maxDepth', fieldLabel='m', title='Max depth')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupBefore', title='Pressure group before')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupAfter', title='Pressure group after')"></div>
           <div class="three wide field">
             <label>&nbsp;</label>
             <div class="inline fields">
-              <div class="field">
-                <div class="ui checkbox">
-                  <input type="checkbox" th:field="*{environment.waves}">
-                  <label>Waves</label>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui checkbox">
-                  <input type="checkbox" th:field="*{environment.current}">
-                  <label>Current</label>
-                </div>
-              </div>
+              <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.waves', title='Waves')"></div>
+              <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.current', title='Current')"></div>
             </div>
           </div>
-
         </div>
         <div class="fields">
-          <div class="four wide field">
-            <label>Water</label>
-            <select class="ui search dropdown" th:field="*{environment.waterType}">
-              <option value=""></option>
-              <option th:each="waterType : ${T(de.perdian.divelog.model.components.WaterType).values()}" th:value="${waterType}" th:text="${#messages.msg('enum.WaterType.' + waterType)}"></option>
-            </select>
-          </div>
-          <div class="three wide field">
-            <label>Water surface temp</label>
-            <div class="ui right labeled input">
-              <input th:field="*{environment.temperatureSurface}" />
-              <div class="ui basic label">°C</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Water ground temp</label>
-            <div class="ui right labeled input">
-              <input th:field="*{environment.temperatureGround}" />
-              <div class="ui basic label">°C</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Visibility</label>
-            <input th:field="*{environment.visibility}" />
-          </div>
-          <div class="three wide field">
-            <label>Air temp</label>
-            <div class="ui right labeled input">
-              <input th:field="*{environment.temperatureAir}" />
-              <div class="ui basic label">°C</div>
-            </div>
-          </div>
+          <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.components.WaterType', title='Water')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel='°C', title='Water surface temp', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel='°C', title='Water ground temp', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', title='Visibility')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel='°C', title='Air temp', type='number')"></div>
         </div>
       </div>
 
@@ -134,69 +64,20 @@
           Equipment
         </h4>
         <div class="fields">
-          <div class="four wide field">
-            <label>Air type</label>
-            <select class="ui search dropdown" th:field="*{air.type}">
-              <option value=""></option>
-              <option th:each="airType : ${T(de.perdian.divelog.model.components.AirType).values()}" th:value="${airType}" th:text="${#messages.msg('enum.AirType.' + airType)}"></option>
-            </select>
-          </div>
-          <div class="three wide field">
-            <label>Start air pressure</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{air.pressureStart}" />
-              <div class="ui basic label">bar</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>End air pressure</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{air.pressureEnd}" />
-              <div class="ui basic label">bar</div>
-            </div>
-          </div>
-          <div class="six wide field">
-            <label>Computer</label>
-            <input th:field="*{equipment.computer}" />
-          </div>
+          <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='air.type', enumClass='de.perdian.divelog.model.components.AirType', title='Air type')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureStart', fieldLabel='bar', title='Start air pressure', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureEnd', fieldLabel='bar', title='End air pressure', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input(class='six wide field', fieldName='equipment.computer', title='Computer')"></div>
         </div>
         <div class="fields">
-          <div class="four wide field">
-            <label>Suit type</label>
-            <select class="ui search dropdown" th:field="*{equipment.suitType}">
-              <option value=""></option>
-              <option th:each="suitType : ${T(de.perdian.divelog.model.components.SuitType).values()}" th:value="${suitType}" th:text="${#messages.msg('enum.SuitType.' + suitType)}"></option>
-            </select>
-          </div>
-          <div class="three wide field">
-            <label>Suit thickness</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{equipment.suitThickness}" />
-              <div class="ui basic label">mm</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Weight</label>
-            <div class="ui right labeled input">
-              <input type="number" th:field="*{equipment.weight}" />
-              <div class="ui basic label">kg</div>
-            </div>
-          </div>
+          <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='equipment.suitType', enumClass='de.perdian.divelog.model.components.SuitType', title='Suit type')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel='mm', title='Suit thickness', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.weight', fieldLabel='kg', title='Weight')"></div>
           <div class="three wide field">
             <label>&nbsp;</label>
             <div class="inline fields">
-              <div class="field">
-                <div class="ui checkbox">
-                  <input type="checkbox" th:field="*{equipment.cap}">
-                  <label>Cap</label>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui checkbox">
-                  <input type="checkbox" th:field="*{equipment.gloves}">
-                  <label>Gloves</label>
-                </div>
-              </div>
+              <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='equipment.cap', title='Cap')"></div>
+              <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='equipment.gloves', title='Gloves')"></div>
             </div>
           </div>
         </div>
@@ -207,22 +88,12 @@
         <div class="ui stackable grid">
           <div class="eleven wide column nopaddinghorizontal">
             <div class="fields">
-              <div class="four wide field">
-                <label>Type</label>
-                <select class="ui search dropdown" th:field="*{start.type}">
-                  <option value=""></option>
-                  <option th:each="placeType : ${T(de.perdian.divelog.model.components.PlaceType).values()}" th:value="${placeType}" th:text="${#messages.msg('enum.PlaceType.' + placeType)}"></option>
-                </select>
-              </div>
-              <div class="twelve wide field">
-                <label>Name</label>
-                <div class="ui action input">
-                  <input th:field="*{start.location.name}" />
-                  <button type="button" id="startLocationSearch" class="ui button">
-                    <i class="search icon"></i>
-                    Search
-                  </button>
-                </div>
+              <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='start.type', enumClass='de.perdian.divelog.model.components.PlaceType', title='Type')"></div>
+              <div th:replace="components/fields :: semantic_input_action(class='twelve wide field', fieldName='start.location.name', title='Name', action=~{::button#startLocationSearch})">
+                <button type="button" id="startLocationSearch" class="ui button">
+                  <i class="search icon"></i>
+                  Search
+                </button>
               </div>
             </div>
             <script type="text/javascript">
@@ -235,38 +106,22 @@
                           longitudeField: $("input[name='start.location.longitude']"),
                           timezoneIdField: $("input[name='start.location.timezoneId']"),
                           countryCodeField: $("input[name='start.location.countryCode']"),
-                          countryFlagField: $("i[id='start.location.countryFlag']"),
+                          countryFlagField: $("i#startLocationCountryFlag"),
                           mapDiv: $("#startLocationMap")
                       })
                     }
                 });
             </script>
             <div class="three wide fields">
-              <div class="field">
-                <label>Longitude</label>
-                <input th:field="*{start.location.longitude}" />
+              <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.longitude', title='Longitude')"></div>
+              <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.latitude', title='Latitude')"></div>
+              <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.timezoneId', title='Timezone')"></div>
+              <div th:replace="components/fields :: semantic_input_right_labeled_custom(class='field', fieldName='start.location.countryCode', fieldLabel=~{::i#startLocationCountryFlag}, title='Country Code')">
+                <i id="startLocationCountryFlag" th:class="${#strings.toLowerCase(dive.start.location.countryCode) + ' flag'}"></i>
               </div>
-              <div class="field">
-                <label>Latitude</label>
-                <input th:field="*{start.location.latitude}" />
-              </div>
-              <div class="field">
-                <label>Timezone</label>
-                <input th:field="*{start.location.timezoneId}" />
-              </div>
-              <div class="field">
-                <label>Country code</label>
-                <div class="ui right labeled input">
-                  <input th:field="*{start.location.countryCode}" />
-                  <div class="ui basic label">
-                    <i id="start.location.countryFlag" th:class="${#strings.toLowerCase(dive.start.location.countryCode) + ' flag'}"></i>
-                  </div>
-                </div>
-                <script type="text/javascript">
-                  $("input[name='start.location.countryCode']").on("change input", () => updateCountryFlag($("input[name='start.location.countryCode']").val(), $("i[id='start.location.countryFlag']")));
-                </script>
-
-              </div>
+              <script type="text/javascript">
+                $("input[name='start.location.countryCode']").on("change input", () => updateCountryFlag($("input[name='start.location.countryCode']").val(), $("i#startLocationCountryFlag")));
+              </script>
             </div>
           </div>
           <div class="five wide column nopaddinghorizontal">
@@ -282,18 +137,9 @@
       <div class="ui segment">
         <h4 class="ui header">Spot</h4>
         <div class="fields">
-          <div class="ten wide field">
-            <label>Name</label>
-            <input th:field="*{spot.name}" />
-          </div>
-          <div class="three wide field">
-            <label>Longitude</label>
-            <input th:field="*{spot.location.longitude}" />
-          </div>
-          <div class="three wide field">
-            <label>Latitude</label>
-            <input th:field="*{spot.location.latitude}" />
-          </div>
+          <div th:replace="components/fields :: semantic_input(class='ten wide field', fieldName='spot.name', title='Name')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='spot.location.longitude', title='Longitude')"></div>
+          <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='spot.location.latitude', title='Latitude')"></div>
         </div>
       </div>
 
@@ -302,25 +148,14 @@
           Buddy
         </h4>
         <div class="fields">
-          <div class="four wide field">
-            <label>Type</label>
-            <select class="ui search dropdown" th:field="*{buddy.type}">
-              <option value=""></option>
-              <option th:each="buddyType : ${T(de.perdian.divelog.model.components.BuddyType).values()}" th:value="${buddyType}" th:text="${#messages.msg('enum.BuddyType.' + buddyType)}"></option>
-            </select>
-          </div>
-          <div class="twelve wide field">
-            <label>Name</label>
-            <input th:field="*{buddy.name}" />
-          </div>
+          <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='buddy.type', enumClass='de.perdian.divelog.model.components.BuddyType', title='Type')"></div>
+          <div th:replace="components/fields :: semantic_input(class='twelve wide field', fieldName='buddy.name', title='Name')"></div>
         </div>
       </div>
 
       <div class="ui segment">
         <h4 class="ui header">Comments / Marine life</h4>
-        <div class="field">
-          <textarea th:field="*{comments}" rows="10"></textarea>
-        </div>
+        <div th:replace="components/fields :: semantic_textarea(class='field', fieldName='comments')"></div>
       </div>
 
       <div class="ui segment printerhidden">

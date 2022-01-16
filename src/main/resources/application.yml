@@ -43,6 +43,7 @@ server:
       protocol-header: x-forwarded-proto
 
 divelog:
+  locale: ${DIVELOG_LOCALE:de_DE}
   api:
     places:
       providers:

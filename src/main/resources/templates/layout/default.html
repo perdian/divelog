@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(title, head, content)">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="html(title, head, content)" th:lang="${@environment.getProperty('divelog.locale').replace('_', '-') }">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
@@ -19,6 +19,7 @@
     <script th:src="@{/webjars/momentjs/moment.js}"></script>
 
     <link rel="stylesheet" th:href="@{/assets/divelog/css/divelog.css}" />
+    <script th:src="@{/assets/divelog/js/i18n.js}"></script>
     <script th:src="@{/assets/divelog/js/places.js}"></script>
 
     <meta name="endpointPlacesSearch" th:content="@{/api/places/search}" />
