@@ -17,8 +17,8 @@
             <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='start.dateIso', localizationPrefix='dive', type='date')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='start.time', localizationPrefix='dive', type='time')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='end.time', localizationPrefix='dive', type='time')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='totalTimeMinutes', fieldLabel='min', localizationPrefix='dive', type='number')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='groundTimeMinutes', fieldLabel='min', localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='totalTimeMinutes', fieldLabel=${#messages.msg('unit.min')}, localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='groundTimeMinutes', fieldLabel=${#messages.msg('unit.min')}, localizationPrefix='dive', type='number')"></div>
           </div>
           <script type="text/javascript">
               function recomputeDiveTime() {
@@ -43,7 +43,7 @@
           </script>
 
           <div class="fields">
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='four wide field', fieldName='maxDepth', localizationPrefix='dive', fieldLabel='m')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='four wide field', fieldName='maxDepth', localizationPrefix='dive', fieldLabel=${#messages.msg('unit.m')})"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupBefore', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupAfter', localizationPrefix='dive')"></div>
             <div class="three wide field">
@@ -56,10 +56,10 @@
           </div>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.components.WaterType', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel='°C', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel='°C', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel='°C', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
           </div>
         </div>
 
@@ -67,14 +67,14 @@
           <h4 class="ui header" th:text="#{equipment}">Equipment</h4>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='air.type', enumClass='de.perdian.divelog.model.components.AirType', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureStart', fieldLabel='bar', localizationPrefix='dive', type='number')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureEnd', fieldLabel='bar', localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureStart', fieldLabel=${#messages.msg('unit.bar')}, localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureEnd', fieldLabel=${#messages.msg('unit.bar')}, localizationPrefix='dive', type='number')"></div>
             <div th:replace="components/fields :: semantic_input(class='six wide field', fieldName='equipment.computer', localizationPrefix='dive')"></div>
           </div>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='equipment.suitType', enumClass='de.perdian.divelog.model.components.SuitType', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel='mm', localizationPrefix='dive', type='number')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.weight', fieldLabel='kg', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel=${#messages.msg('unit.mm')}, localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.weight', fieldLabel=${#messages.msg('unit.kg')}, localizationPrefix='dive')"></div>
             <div class="three wide field">
               <label>&nbsp;</label>
               <div class="inline fields">
@@ -94,7 +94,7 @@
                 <div th:replace="components/fields :: semantic_input_action(class='twelve wide field', fieldName='start.location.name', localizationPrefix='dive', action=~{::button#startLocationSearch})">
                   <button type="button" id="startLocationSearch" class="ui button">
                     <i class="search icon"></i>
-                    <span th:text="search">Search</span>
+                    <span th:text="#{search}">Search</span>
                   </button>
                 </div>
               </div>
