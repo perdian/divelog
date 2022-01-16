@@ -4,13 +4,13 @@
 
     <div th:fragment="semantic_input(fieldName,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
       <label th:text="${title}">Title</label>
-      <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" />
+      <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" th:step="${step}" />
     </div>
 
     <div th:fragment="semantic_input_right_labeled(fieldName,fieldLabel,title)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
       <label th:text="${title}">Title</label>
       <div class="ui right labeled input">
-        <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" />
+        <input th:type="${#strings.isEmpty(type) ? 'text' : type}" th:field="*{__${fieldName}__}" th:step="${step}" />
         <div class="ui basic label" th:text="${fieldLabel}">Label</div>
       </div>
     </div>

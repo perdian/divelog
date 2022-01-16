@@ -52,10 +52,10 @@
         </div>
         <div class="fields">
           <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.components.WaterType', title='Water')"></div>
-          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel='°C', title='Water surface temp', type='number')"></div>
-          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel='°C', title='Water ground temp', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel='°C', title='Water surface temp')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel='°C', title='Water ground temp')"></div>
           <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', title='Visibility')"></div>
-          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel='°C', title='Air temp', type='number')"></div>
+          <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel='°C', title='Air temp')"></div>
         </div>
       </div>
 
