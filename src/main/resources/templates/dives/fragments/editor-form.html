@@ -66,7 +66,7 @@
           </div>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='equipment.suitType', enumClass='de.perdian.divelog.model.components.SuitType', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel=${#messages.msg('unit.mm')}, localizationPrefix='dive', type='number')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel=${#messages.msg('unit.mm')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.weight', fieldLabel=${#messages.msg('unit.kg')}, localizationPrefix='dive')"></div>
             <div class="three wide field">
               <label>&nbsp;</label>
