@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <form class="ui form" th:action="@{'/dives/edit/' + ${diveEntity.id}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_edit_dive')})">
+      <form class="ui form" th:action="@{'/dives/edit/' + ${diveEntity.id}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_save_dive')})">
       </form>
 
     </main>
