@@ -1,7 +1,5 @@
 package de.perdian.divelog.web.modules.dives;
 
-import java.util.UUID;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -17,8 +15,6 @@ import de.perdian.divelog.model.entities.Dive;
 
 public class DiveEditor {
 
-    private UUID diveEntityId = null;
-    private Long number = null;
     private PlaceAndTime start = null;
     private PlaceAndTime end = null;
     private Spot spot = null;
@@ -32,27 +28,32 @@ public class DiveEditor {
     private Equipment equipment = null;
     private Buddy buddy = null;
 
-    public DiveEditor() {
-        this(null);
+    public void applyTo(Dive dive) {
+        dive.setAir(this.getAir());
+        dive.setBuddy(this.getBuddy());
+        dive.setComments(this.getComments());
+        dive.setEnd(this.getEnd());
+        dive.setEnvironment(this.getEnvironment());
+        dive.setEquipment(this.getEquipment());
+        dive.setMaxDepth(this.getMaxDepth());
+        dive.setPadiStatistics(this.getPadiStatistics());
+        dive.setSpot(this.getSpot());
+        dive.setStart(this.getStart());
+        dive.setTotalTimeMinutes(this.getTotalTimeMinutes());
     }
 
-    public DiveEditor(Dive diveEntity) {
-        this.setDiveEntityId(diveEntity == null ? null : diveEntity.getId());
-        // TODO: Extract information from entity
-    }
-
-    public UUID getDiveEntityId() {
-        return this.diveEntityId;
-    }
-    public void setDiveEntityId(UUID diveEntityId) {
-        this.diveEntityId = diveEntityId;
-    }
-
-    public Long getNumber() {
-        return this.number;
-    }
-    public void setNumber(Long number) {
-        this.number = number;
+    public void applyFrom(Dive dive) {
+        this.setAir(dive.getAir());
+        this.setBuddy(dive.getBuddy());
+        this.setComments(dive.getComments());
+        this.setEnd(dive.getEnd());
+        this.setEnvironment(dive.getEnvironment());
+        this.setEquipment(dive.getEquipment());
+        this.setMaxDepth(dive.getMaxDepth());
+        this.setPadiStatistics(dive.getPadiStatistics());
+        this.setSpot(dive.getSpot());
+        this.setStart(dive.getStart());
+        this.setTotalTimeMinutes(dive.getTotalTimeMinutes());
     }
 
     @Valid

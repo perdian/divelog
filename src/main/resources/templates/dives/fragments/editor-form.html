@@ -10,7 +10,7 @@
 
         <div class="ui segment">
           <h4 class="ui header">
-            <span class="right aligned floating ui label" th:if="${dive.number != null}"><span th:text="#{diveNo}">Dive No.</span>  <span class="detail" th:text="${dive.number}"></span></span>
+            <span class="right aligned floating ui label" th:if="${diveEntity == null && nextDiveNumber != null}"><span th:text="#{diveNo}">Dive No.</span>  <span class="detail" th:text="${nextDiveNumber}"></span></span>
             <span th:text="#{general_information}">General information</span>
           </h4>
           <div class="fields">
@@ -163,8 +163,8 @@
         </div>
 
         <div class="ui segment printerhidden">
-          <span class="mobile hidden">
-            <span class="bottom right aligned floating ui label"><span th:text="#{diveNo}">Dive No.</span> <span class="detail" th:text="${dive.number}"></span></span>
+          <span class="mobile hidden" th:if="${diveEntity == null && nextDiveNumber != null}">
+            <span class="bottom right aligned floating ui label"><span th:text="#{diveNo}">Dive No.</span> <span class="detail" th:text="${nextDiveNumber}"></span></span>
           </span>
           <button type="submit" class="ui primary button">
             <i class="save icon"></i>

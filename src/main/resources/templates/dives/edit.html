@@ -11,9 +11,15 @@
         </div>
       </h2>
 
-      <form class="ui form" th:action="@{'/dives/edit/' + ${dive.diveEntityId}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_edit_dive')})">
-      </form>
+      <div class="ui positive icon message" th:if="${savedDive}">
+        <i class="check icon"></i>
+        <div class="content">
+          <div class="header" th:text="#{dive_has_been_saved}">Dive has been saved</div>
+        </div>
+      </div>
 
+      <form class="ui form" th:action="@{'/dives/edit/' + ${diveEntity.id}}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_edit_dive')})">
+      </form>
 
     </main>
   </body>

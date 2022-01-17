@@ -3,15 +3,18 @@
   <body>
 
     <div th:fragment="all_errors" th:if="${#fields.hasErrors}">
-      <div class="ui negative message">
-        <div class="header" th:text="${#strings.isEmpty(title) ? #messages.msg('error') : title}">Error</div>
-        <ul class="list">
-          <li th:each="error : ${#fields.globalErrors}" th:text="${error}">Error message</li>
-          <li th:each="error : ${#fields.detailedErrors}" th:if="${!error.global}">
-            <span th:if="${!error.global}" th:text="#{${#strings.concat('field.', #strings.isEmpty(object) ? '' : (object + '.'), error.fieldName)}}" /></span>
-            <span th:text="${error.message}"></span>
-          </li>
-        </ul>
+      <div class="ui negative icon message">
+        <i class="exclamation icon"></i>
+        <div class="content">
+          <div class="header" th:text="${#strings.isEmpty(title) ? #messages.msg('error') : title}">Error</div>
+          <ul class="list">
+            <li th:each="error : ${#fields.globalErrors}" th:text="${error}">Error message</li>
+            <li th:each="error : ${#fields.detailedErrors}" th:if="${!error.global}">
+              <span th:if="${!error.global}" th:text="#{${#strings.concat('field.', #strings.isEmpty(object) ? '' : (object + '.'), error.fieldName)}}" /></span>
+              <span th:text="${error.message}"></span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 

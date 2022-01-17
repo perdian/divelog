@@ -2,6 +2,7 @@ package de.perdian.divelog.web;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalTime;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +16,9 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
+import de.perdian.divelog.support.converters.LocalTimeToStringConverter;
 import de.perdian.divelog.support.converters.NumberToStringConverter;
+import de.perdian.divelog.support.converters.StringToLocalDateTimeConverter;
 import de.perdian.divelog.support.converters.StringToNumberConverter;
 
 @Configuration
@@ -32,7 +35,9 @@ class WebConfigurationn implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(String.class, Double.class, new StringToNumberConverter<>(Double.class, new DecimalFormat("0.######", new DecimalFormatSymbols(this.getLocale()))));
+        registry.addConverter(String.class, LocalTime.class, new StringToLocalDateTimeConverter());
         registry.addConverter(Double.class, String.class, new NumberToStringConverter(new DecimalFormat("0.######", new DecimalFormatSymbols(this.getLocale()))));
+        registry.addConverter(LocalTime.class, String.class, new LocalTimeToStringConverter());
         WebMvcConfigurer.super.addFormatters(registry);
     }
 
