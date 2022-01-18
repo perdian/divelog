@@ -25,7 +25,7 @@ import de.perdian.divelog.model.repositories.DiveRepository;
 
 @Controller
 @RequestMapping("/dives")
-public class DiveController {
+public class DiveEditorController {
 
     private User currentUser = null;
     private DiveRepository diveRepository = null;
