@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+
+    <script th:fragment="selection-javascript" type="text/javascript">
+
+        $(".diveSelectionMenu a").each(function() {
+            $(this).on("click", function() {
+                $("#diveSelectionAction").val($(this).attr("data-diveSelectionAction"));
+                $("#diveSelectionForm").submit();
+            })
+        });
+
+        let diveSelectionChanged = function() {
+            checkedSelections = []
+            allSelections = $(".diveSelection");
+            allSelections.each(function() {
+                if ($(this).prop("checked")) {
+                    checkedSelections.push($(this));
+                }
+            });
+            $("#diveSelectionAll").prop("checked", allSelections.length == checkedSelections.length);
+            $(".diveSelectionMenu .item").each(function() {
+                if (checkedSelections.length < 1) {
+                    $(this).addClass("disabled");
+                } else {
+                    $(this).removeClass("disabled");
+                }
+            })
+        }
+
+        $("input#diveSelectionAll").on("change", function() {
+            if ($(this).prop("checked")) {
+                $(".diveSelection").each(function() { $(this).prop("checked", true); });
+            } else {
+                $(".diveSelection").each(function() { $(this).prop("checked", false); });
+            }
+            diveSelectionChanged();
+        });
+
+        $(".diveSelection").on("change", diveSelectionChanged);
+
+    </script>
+
+    <div th:fragment="selection-menu" class="diveSelectionMenu ui menu">
+      <a class="item" data-diveSelectionAction="delete" th:classappend="${#lists.isEmpty(selectedDives) ? 'disabled' : ''}">
+        <i class="remove icon"></i>
+        <span th:text="#{delete_selected_items}">Delete</span>
+      </a>
+      <a class="item" data-diveSelectionAction="print" th:classappend="${#lists.isEmpty(selectedDives) ? 'disabled' : ''}">
+        <i class="print icon"></i>
+        <span th:text="#{print_selected_items}">Print</span>
+      </a>
+    </div>
+
+  </body>
+</html>

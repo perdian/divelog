@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+
+    <div th:fragment="pagination(page, targetUrl)" th:if="${page.totalPages > 1}" class="ui centered grid" >
+      <div class="center aligned column">
+        <div class="ui pagination menu">
+          <div class="item" th:text="#{page}">Page</div>
+          <div th:switch="${pageIndex == page.number}" th:each="pageIndex : ${#numbers.sequence(0, page.totalPages)}">
+              <div th:case="${true}" class="active item" th:text="${pageIndex + 1}">Index</div>
+              <a th:case="${false}" class="item" th:href="@{__${targetUrl}__(pageIndex=__${pageIndex}__,pageSize=__${page.size}__)}" th:text="${pageIndex + 1}">Index</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,8 +1,11 @@
 package de.perdian.divelog.model.components;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -75,6 +78,18 @@ public class PlaceAndTime implements Serializable {
     }
     public void setTime(LocalTime time) {
         this.time = time;
+    }
+
+    @Transient
+    public Instant getUtcTimestamp() {
+        if (this.getDate() == null || this.getTime() == null) {
+            return null;
+        } else if (this.getLocation() == null || StringUtils.isEmpty(this.getLocation().getTimezoneId())) {
+            return null;
+        } else {
+            LocalDateTime localDateTime = this.getTime().atDate(this.getDate());
+            return localDateTime.atZone(ZoneId.of(this.getLocation().getTimezoneId())).toInstant();
+        }
     }
 
 }

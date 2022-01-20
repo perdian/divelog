@@ -10,7 +10,65 @@
         </div>
       </h2>
 
-      <pre>[[ ${dives} ]]</pre>
+      <form th:action="@{/dives/selection}" method="post" id="diveSelectionForm">
+
+        <input type="hidden" name="diveSelectionAction" id="diveSelectionAction" />
+
+        <div th:replace="/dives/fragments/list-selection :: selection-menu">Menu</div>
+
+        <table class="ui striped table">
+          <thead>
+            <tr>
+              <th>
+                <div class="ui checkbox">
+                  <input type="checkbox" id="diveSelectionAll" th:checked="${selectedDives.size == dives.size}" />
+                </div>
+              </th>
+              <th th:text="#{date}">Date</th>
+              <th th:text="#{duration}">Duration</th>
+              <th th:text="#{location}">Location</th>
+              <th th:text="#{actions}">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="dive : ${dives.content}" class="top aligned">
+              <td class="collapsing">
+                <div class="ui checkbox">
+                  <input class="diveSelection" type="checkbox" th:name="${'diveSelection_' + dive.id}" th:checked="${selectedDives.contains(dive)}" />
+                </div>
+              </td>
+              <td class="collapsing">
+                <div>
+                  <span th:text="${#temporals.format(dive.start.date, 'dd.MM.yyyy')}">Date</span>
+                  <span th:text="${' ' + #temporals.format(dive.start.time, 'HH:mm')}" th:if="${dive.start.time != null}">Time Start</span>
+                  <span th:text="${' - ' + #temporals.format(dive.end.time, 'HH:mm')}" th:if="${dive.end != null && dive.end.time != null}">Time End</span>
+                </div>
+              </td>
+              <td class="collapsing">
+                <div class="ui label" th:text="${#numbers.formatInteger(dive.totalTimeMinutes / 60, 2) + ':' + #numbers.formatInteger(dive.totalTimeMinutes % 60, 2)}">Duration</div>
+              </td>
+              <td>
+                <div th:text="${dive.start.location.name}">Location</div>
+              </td>
+              <td class="collapsing">
+                <a class="tiny ui primary button" th:href="@{/dives/edit/__${dive.id}__}">
+                  <i class="edit icon"></i>
+                  <span th:text="#{edit}">Edit</span>
+                </a>
+                <a class="tiny ui negative button" th:href="@{/dives/delete/__${dive.id}__}">
+                  <i class="remove icon"></i>
+                  <span th:text="#{delete}">Delete</span>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div th:replace="/dives/fragments/list-selection :: selection-menu">Menu</div>
+        <script th:replace="/dives/fragments/list-selection :: selection-javascript"></script>
+
+      </form>
+      <div th:replace="/components/pagination :: pagination(page = ${dives}, targetUrl='/dives/list')">Pagination</div>
 
     </main>
   </body>
