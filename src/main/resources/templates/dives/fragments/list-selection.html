@@ -47,7 +47,7 @@
         <i class="remove icon"></i>
         <span th:text="#{delete_selected_items}">Delete</span>
       </a>
-      <a class="item" data-diveSelectionAction="print" th:classappend="${#lists.isEmpty(selectedDives) ? 'disabled' : ''}">
+      <a class="mobile hidden item" data-diveSelectionAction="print" th:classappend="${#lists.isEmpty(selectedDives) ? 'disabled' : ''}">
         <i class="print icon"></i>
         <span th:text="#{print_selected_items}">Print</span>
       </a>
