@@ -1,6 +1,5 @@
 package de.perdian.divelog.web.modules.dives;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +37,7 @@ public class DiveListController {
 
     @ModelAttribute("dives")
     public Page<Dive> dives(@RequestParam(name = "pageIndex", required = false) Integer pageIndex, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
+
         int cleanedPageIndex = pageIndex == null ? 0 : Math.max(0, pageIndex.intValue());
         int cleanedPageSize = pageSize == null ? this.getMaxDivesPerPage() : Math.min(this.getMaxDivesPerPage(), Math.max(1, pageSize.intValue()));
         Sort pageSort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
@@ -45,26 +45,24 @@ public class DiveListController {
         Specification<Dive> specification = (root, query, criteriaBuilder) -> criteriaBuilder.and(
             criteriaBuilder.equal(root.get("user"), this.getCurrentUser())
         );
+
         return this.getDiveRepository().findAll(specification, pageRequest);
+
     }
 
     @ModelAttribute("selectedDives")
-    public List<Dive> selectedDives(@RequestParam Map<String, String> allRequestParameters) {
+    public List<Dive> selectedDives(@ModelAttribute("dives") Page<Dive> allDives, @RequestParam Map<String, String> allRequestParameters) {
+
         Set<UUID> requestedDiveIdentifiers = allRequestParameters.keySet().stream()
             .filter(parameter -> parameter.startsWith("diveSelection_"))
             .map(parameter -> parameter.substring("diveSelection_".length()))
             .map(diveIdentifier -> UUID.fromString(diveIdentifier))
             .collect(Collectors.toSet());
-        if (requestedDiveIdentifiers.isEmpty()) {
-            return Collections.emptyList();
-        } else {
-            Specification<Dive> specification = (root, query, criteriaBuilder) -> criteriaBuilder.and(
-                criteriaBuilder.equal(root.get("user"), this.getCurrentUser()),
-                root.get("id").in(requestedDiveIdentifiers)
-            );
-            List<Dive> selectedDives = this.getDiveRepository().findAll(specification, Sort.by(Order.desc("start.date"), Order.desc("start.time")));
-            return selectedDives;
-        }
+
+        return allDives.getContent().stream()
+            .filter(dive -> requestedDiveIdentifiers.contains(dive.getId()))
+            .toList();
+
     }
 
     User getCurrentUser() {

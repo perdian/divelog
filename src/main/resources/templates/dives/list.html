@@ -26,8 +26,8 @@
               </th>
               <th th:text="#{date}">Date</th>
               <th th:text="#{duration}">Duration</th>
-              <th th:text="#{location}">Location</th>
               <th th:text="#{max_depth}">Max Depth</th>
+              <th th:text="#{location}">Location</th>
               <th th:text="#{actions}">Actions</th>
             </tr>
           </thead>
@@ -62,6 +62,15 @@
                   <span th:text="#{unit.min}" />
                 </div>
               </td>
+              <td class="collapsing">
+                <div th:if="${dive.maxDepth != null}">
+                  <i class="arrow alternate circle down icon"></i>
+                  <strong>
+                    <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.##')}" />
+                  </strong>
+                  <span th:text="#{unit.m}" />
+                </div>
+              </td>
               <td>
                 <div th:if="${!#strings.isEmpty(dive.start.location.name)}">
                   <i th:class="${#strings.toLowerCase(dive.start.location.countryCode) + ' flag'}"></i>
@@ -70,14 +79,6 @@
                     <i class="null flag"></i>
                     <span th:text="${dive.spot.location.name}">Location</span>
                   </div>
-                </div>
-              </td>
-              <td class="collapsing right aligned">
-                <div th:if="${dive.maxDepth != null}">
-                  <strong>
-                    <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.##')}" />
-                    <span th:text="#{unit.m}" />
-                  </strong>
                 </div>
               </td>
               <td class="collapsing">
