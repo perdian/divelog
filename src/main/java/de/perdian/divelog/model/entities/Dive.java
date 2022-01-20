@@ -10,6 +10,7 @@ import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Buddy;
 import de.perdian.divelog.model.components.Environment;
 import de.perdian.divelog.model.components.Equipment;
+import de.perdian.divelog.model.components.Organizer;
 import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.components.Spot;;
@@ -33,6 +34,7 @@ public class Dive extends AbstractEntity {
     private Environment environment = null;
     private Buddy buddy = null;
     private PadiStatistics padiStatistics = null;
+    private Organizer organizer = null;
     private String comments = null;
 
     @Override
@@ -137,6 +139,13 @@ public class Dive extends AbstractEntity {
     }
     public void setPadiStatistics(PadiStatistics padiStatistics) {
         this.padiStatistics = padiStatistics;
+    }
+
+    public Organizer getOrganizer() {
+        return this.organizer;
+    }
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
     }
 
     @Column(length = 2000)

@@ -8,6 +8,7 @@ import de.perdian.divelog.model.components.Air;
 import de.perdian.divelog.model.components.Buddy;
 import de.perdian.divelog.model.components.Environment;
 import de.perdian.divelog.model.components.Equipment;
+import de.perdian.divelog.model.components.Organizer;
 import de.perdian.divelog.model.components.PadiStatistics;
 import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.components.Spot;
@@ -27,6 +28,7 @@ public class DiveEditor {
     private PadiStatistics padiStatistics = null;
     private Equipment equipment = null;
     private Buddy buddy = null;
+    private Organizer organizer = null;
 
     public void applyTo(Dive dive) {
         dive.setAir(this.getAir());
@@ -36,6 +38,7 @@ public class DiveEditor {
         dive.setEnvironment(this.getEnvironment());
         dive.setEquipment(this.getEquipment());
         dive.setMaxDepth(this.getMaxDepth());
+        dive.setOrganizer(this.getOrganizer());
         dive.setPadiStatistics(this.getPadiStatistics());
         dive.setSpot(this.getSpot());
         dive.setStart(this.getStart());
@@ -50,6 +53,7 @@ public class DiveEditor {
         this.setEnvironment(dive.getEnvironment());
         this.setEquipment(dive.getEquipment());
         this.setMaxDepth(dive.getMaxDepth());
+        this.setOrganizer(dive.getOrganizer());
         this.setPadiStatistics(dive.getPadiStatistics());
         this.setSpot(dive.getSpot());
         this.setStart(dive.getStart());
@@ -146,6 +150,13 @@ public class DiveEditor {
     }
     public void setBuddy(Buddy buddy) {
         this.buddy = buddy;
+    }
+
+    public Organizer getOrganizer() {
+        return this.organizer;
+    }
+    public void setOrganizer(Organizer organizer) {
+        this.organizer = organizer;
     }
 
 }
