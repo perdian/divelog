@@ -1,4 +1,4 @@
-package de.perdian.divelog.web.support;
+package de.perdian.divelog.web.support.spring;
 
 import java.util.Locale;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @ControllerAdvice
-public class ModelContributorAdive {
+public class ModelContributorAdvice {
 
     private Locale locale = null;
     private Locale language = null;
