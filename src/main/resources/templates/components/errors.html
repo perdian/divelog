@@ -4,7 +4,7 @@
 
     <div th:fragment="all_errors" th:if="${#fields.hasErrors}">
       <div class="ui negative icon message">
-        <i class="exclamation icon"></i>
+        <i class="exclamation triangle icon"></i>
         <div class="content">
           <div class="header" th:text="${#strings.isEmpty(title) ? #messages.msg('error') : title}">Error</div>
           <ul class="list">
