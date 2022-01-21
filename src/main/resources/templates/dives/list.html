@@ -18,15 +18,14 @@
 
         <table class="ui striped table">
           <thead>
-            <tr>
+            <tr class="top aligned">
               <th>
                 <div class="ui checkbox">
                   <input type="checkbox" id="diveSelectionAll" th:checked="${selectedDives.size == dives.size}" />
                 </div>
               </th>
               <th th:text="#{date}">Date</th>
-              <th th:text="#{duration}">Duration</th>
-              <th th:text="#{max_depth}">Max Depth</th>
+              <th><span th:text="#{duration}">Duration</span> /<br /><span th:text="#{max_depth}">Max depth</span></th>
               <th th:text="#{location}">Location</th>
               <th th:text="#{actions}">Actions</th>
             </tr>
@@ -40,7 +39,7 @@
               </td>
               <td class="collapsing">
                 <div>
-                  <i class="calendar outline icon"></i>
+                  <i class="calendar icon"></i>
                   <strong th:text="${#divelog.formatTemporal(dive.start.date, 'dd.MM.yyyy')}">Date</strong>
                 </div>
                 <div th:if="${dive.start.time != null && dive.end.time != null}">
@@ -61,13 +60,9 @@
                   </strong>
                   <span th:text="#{unit.min}" />
                 </div>
-              </td>
-              <td class="collapsing">
                 <div th:if="${dive.maxDepth != null}">
-                  <i class="arrow alternate circle down icon"></i>
-                  <strong>
-                    <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.##')}" />
-                  </strong>
+                  <i class="arrow alternate circle down outline icon"></i>
+                  <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.##')}" />
                   <span th:text="#{unit.m}" />
                 </div>
               </td>
