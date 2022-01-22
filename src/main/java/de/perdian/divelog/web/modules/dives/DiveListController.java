@@ -35,7 +35,7 @@ public class DiveListController {
         return "/dives/list";
     }
 
-    @ModelAttribute("dives")
+    @ModelAttribute(name = "dives", binding = false)
     public Page<Dive> dives(@RequestParam(name = "pageIndex", required = false) Integer pageIndex, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
         int cleanedPageIndex = pageIndex == null ? 0 : Math.max(0, pageIndex.intValue());
@@ -50,7 +50,7 @@ public class DiveListController {
 
     }
 
-    @ModelAttribute("selectedDives")
+    @ModelAttribute(name = "selectedDives", binding = false)
     public List<Dive> selectedDives(@ModelAttribute("dives") Page<Dive> allDives, @RequestParam Map<String, String> allRequestParameters) {
 
         Set<UUID> requestedDiveIdentifiers = allRequestParameters.keySet().stream()

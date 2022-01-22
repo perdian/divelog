@@ -1,4 +1,4 @@
-package de.perdian.divelog.web.authentication;
+package de.perdian.divelog.web.support.authentication;
 
 import java.util.List;
 

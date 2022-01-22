@@ -69,7 +69,7 @@ public class DiveEditorController {
         }
     }
 
-    @ModelAttribute("dive")
+    @ModelAttribute(name = "dive")
     DiveEditor diveEditor(@ModelAttribute("diveEntity") Dive diveEntity) {
         DiveEditor diveEditor = new DiveEditor();
         if (diveEntity != null) {
@@ -80,7 +80,7 @@ public class DiveEditorController {
         return diveEditor;
     }
 
-    @ModelAttribute("diveEntity")
+    @ModelAttribute(name = "diveEntity", binding = false)
     public Dive diveEntity(@PathVariable(name = "id", required = false) UUID diveEntityId) {
         Specification<Dive> diveEntitySpecification = (root, query, criteriaBuilder) -> criteriaBuilder.and(
             criteriaBuilder.equal(root.get("user"), this.getCurrentUser()),
@@ -89,7 +89,7 @@ public class DiveEditorController {
         return diveEntityId == null ? null : this.getDiveRepository().findOne(diveEntitySpecification).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @ModelAttribute("nextDiveNumber")
+    @ModelAttribute(name = "nextDiveNumber", binding = false)
     Long nextDiveNumber() {
         return this.getDiveRepository().countByUser(this.getCurrentUser()) + 1;
     }
