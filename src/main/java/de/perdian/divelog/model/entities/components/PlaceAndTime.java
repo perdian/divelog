@@ -18,6 +18,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Embeddable
 public class PlaceAndTime implements Serializable {
 
@@ -59,6 +61,7 @@ public class PlaceAndTime implements Serializable {
 
     @NotEmpty
     @Transient
+    @JsonIgnore
     public String getDateIso() {
         return this.getDate() == null ? null : this.getDate().toString();
     }
@@ -81,6 +84,7 @@ public class PlaceAndTime implements Serializable {
     }
 
     @Transient
+    @JsonIgnore
     public Instant getUtcTimestamp() {
         if (this.getDate() == null || this.getTime() == null) {
             return null;

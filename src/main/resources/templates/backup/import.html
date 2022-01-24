@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="upload icon"></i>
+        <div class="content">
+          <span th:text="#{import_data}">Import data</span>
+          <div class="sub header" th:text="#{import_data_description}">Upload data</div>
+        </div>
+      </h2>
+
+      <form class="ui form" th:action="@{/backup/import}" method="post">
+      </form>
+
+    </main>
+  </body>
+</html>

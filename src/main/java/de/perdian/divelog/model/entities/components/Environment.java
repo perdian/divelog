@@ -9,6 +9,9 @@ import javax.persistence.Enumerated;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Embeddable
 public class Environment implements Serializable {
 
@@ -63,6 +66,7 @@ public class Environment implements Serializable {
         this.visibility = visibility;
     }
 
+    @JsonInclude(Include.NON_DEFAULT)
     public Boolean getWaves() {
         return this.waves;
     }
@@ -70,6 +74,7 @@ public class Environment implements Serializable {
         this.waves = waves;
     }
 
+    @JsonInclude(Include.NON_DEFAULT)
     public Boolean getCurrent() {
         return this.current;
     }

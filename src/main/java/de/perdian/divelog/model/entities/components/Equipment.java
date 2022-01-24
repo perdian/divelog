@@ -11,6 +11,9 @@ import javax.validation.constraints.PositiveOrZero;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @Embeddable
 public class Equipment implements Serializable {
 
@@ -52,6 +55,7 @@ public class Equipment implements Serializable {
         this.suitThickness = suitThickness;
     }
 
+    @JsonInclude(Include.NON_DEFAULT)
     public Boolean getCap() {
         return this.cap;
     }
@@ -59,6 +63,7 @@ public class Equipment implements Serializable {
         this.cap = cap;
     }
 
+    @JsonInclude(Include.NON_DEFAULT)
     public Boolean getGloves() {
         return this.gloves;
     }
