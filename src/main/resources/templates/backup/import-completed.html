@@ -18,7 +18,78 @@
         </div>
       </div>
 
-      <pre>[[ ${importItems} ]]</pre>
+        <table class="ui striped table">
+          <thead>
+            <tr class="top aligned">
+              <th th:text="#{import_result}">Import result</th>
+              <th th:text="#{date}">Date</th>
+              <th><span th:text="#{duration}">Duration</span> /<br /><span th:text="#{max_depth}">Max depth</span></th>
+              <th th:text="#{location}">Location</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="importItem : ${importItems}" class="top aligned">
+              <td class="collapsing">
+                <th:block th:switch="${importItem.consolidationResult}">
+                  <div th:case="${T(de.perdian.divelog.web.modules.backup.BackupImportItem.ConsolidationResult).UPDATE}">
+                    <i class="orange sync icon"></i>
+                    <span class="ui orange text" th:text="#{updated}">Updated</span>
+                  </div>
+                  <div th:case="${T(de.perdian.divelog.web.modules.backup.BackupImportItem.ConsolidationResult).INSERT}">
+                    <i class="plus square outline green icon"></i>
+                    <span class="ui green text" th:text="#{inserted}">Inserted</span>
+                  </div>
+                </th:block>
+              </td>
+              <td class="collapsing">
+                <div>
+                  <i class="calendar icon"></i>
+                  <strong th:text="${#divelog.formatTemporal(importItem.databaseDive.start.date, 'dd.MM.yyyy')}">Date</strong>
+                </div>
+                <div th:if="${importItem.databaseDive.start.time != null && importItem.databaseDive.end.time != null}">
+                  <i class="clock outline icon"></i>
+                  <span th:text="${' ' + #divelog.formatTemporal(importItem.databaseDive.start.time, 'HH:mm')}" th:if="${importItem.databaseDive.start.time != null}">Time Start</span>
+                  <span th:text="${' - ' + #divelog.formatTemporal(importItem.databaseDive.end.time, 'HH:mm')}" th:if="${importItem.databaseDive.end != null && importItem.databaseDive.end.time != null}">Time End</span>
+                  <div th:if="${importItem.databaseDive.start.location.timezoneId != null}">
+                    <i class="compass outline icon"></i>
+                    <span th:text="${importItem.databaseDive.start.location.timezoneId}">Timezone</span>
+                  </div>
+                </div>
+              </td>
+              <td class="collapsing">
+                <div>
+                  <i class="stopwatch icon"></i>
+                  <strong>
+                    <span th:text="${#divelog.formatNumber(importItem.databaseDive.totalTimeMinutes, '00')}">Duration</span>
+                  </strong>
+                  <span th:text="#{unit.min}" />
+                </div>
+                <div th:if="${importItem.databaseDive.maxDepth != null}">
+                  <i class="arrow alternate circle down outline icon"></i>
+                  <span th:text="${#divelog.formatNumber(importItem.databaseDive.maxDepth, '0.##')}" />
+                  <span th:text="#{unit.m}" />
+                </div>
+              </td>
+              <td>
+                <div th:if="${!#strings.isEmpty(importItem.databaseDive.start.location.name)}">
+                  <i th:class="${#strings.toLowerCase(importItem.databaseDive.start.location.countryCode) + ' flag'}"></i>
+                  <strong><span th:text="${importItem.databaseDive.start.location.name}">Location</span></strong>
+                  <div th:if="${!#strings.isEmpty(importItem.databaseDive.spot.location.name)}">
+                    <i class="null flag"></i>
+                    <span th:text="${importItem.databaseDive.spot.location.name}">Location</span>
+                  </div>
+                </div>
+              </td>
+              <td class="collapsing">
+                <a class="tiny ui primary button" th:href="@{/dives/edit/__${importItem.databaseDive.id}__}">
+                  <i class="edit icon"></i>
+                  <span th:text="#{edit}">Edit</span>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
     </main>
   </body>
