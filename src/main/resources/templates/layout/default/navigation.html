@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+
+    <div th:fragment="navigation-menu-items-desktop" th:remove="tag">
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/list}" th:text="#{list_dives}">List dives</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
+      <div class="ui simple mobile hidden dropdown item">
+        <span th:text="#{backup}">Backup</span>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <a tabindex="-1" class="item" th:href="@{/backup/export}" th:text="#{export_data}">Export data</a>
+          <a tabindex="-1" class="item" th:href="@{/backup/import}" th:text="#{import_data}">Import data</a>
+        </div>
+      </div>
+    </div>
+
+    <div th:fragment="navigation-menu-items-mobile" th:remove="tag">
+      <div class="mobile only right menu">
+        <div class="ui dropdown mobile only item">
+          <span th:text="#{navigation}">Navigation</span>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a tabindex="-1" class="item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
+            <a tabindex="-1" class="item" th:href="@{/dives/list}" th:text="#{list_dives}">List dives</a>
+            <a tabindex="-1" class="item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
+            <div class="ui divider"></div>
+            <div class="header" th:text="#{backup}">Backup</div>
+            <a tabindex="-1" class="item" th:href="@{/backup/export}" th:text="#{export_data}">Export data</a>
+            <a tabindex="-1" class="item" th:href="@{/backup/import}" th:text="#{import_data}">Import data</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
