@@ -3,15 +3,30 @@
   <body>
 
     <div th:fragment="navigation-menu-items-desktop" th:remove="tag">
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/list}" th:text="#{list_dives}">List dives</a>
-      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/overview}">
+        <i class="home icon"></i>
+        <span th:text="#{overview}">Overview</span>
+      </a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/list}">
+        <i class="list icon"></i>
+        <span th:text="#{list_dives}">List dives</span>
+      </a>
+      <a tabindex="-1" class="mobile hidden item" th:href="@{/dives/add}">
+        <i class="add icon"></i>
+        <span th:text="#{add_dive}">Add dive</span>
+      </a>
       <div class="ui simple mobile hidden dropdown item">
-        <span th:text="#{backup}">Backup</span>
+        <i class="save icon"></i> <span th:text="#{backup}">Backup</span>
         <i class="dropdown icon"></i>
         <div class="menu">
-          <a tabindex="-1" class="item" th:href="@{/backup/export}" th:text="#{export_data}">Export data</a>
-          <a tabindex="-1" class="item" th:href="@{/backup/import}" th:text="#{import_data}">Import data</a>
+          <a tabindex="-1" class="item" th:href="@{/backup/export}">
+            <i class="download icon"></i>
+            <span th:text="#{export_data}">Export data</span>
+          </a>
+          <a tabindex="-1" class="item" th:href="@{/backup/import}">
+            <i class="upload icon"></i>
+            <span th:text="#{import_data}">Import data</span>
+          </a>
         </div>
       </div>
     </div>
@@ -22,13 +37,28 @@
           <span th:text="#{navigation}">Navigation</span>
           <i class="dropdown icon"></i>
           <div class="menu">
-            <a tabindex="-1" class="item" th:href="@{/overview}" th:text="#{overview}">Overview</a>
-            <a tabindex="-1" class="item" th:href="@{/dives/list}" th:text="#{list_dives}">List dives</a>
-            <a tabindex="-1" class="item" th:href="@{/dives/add}" th:text="#{add_dive}">Add dive</a>
+            <a tabindex="-1" class="item" th:href="@{/overview}">
+              <i class="home icon"></i>
+              <span th:text="#{overview}">Overview</span>
+            </a>
+            <a tabindex="-1" class="item" th:href="@{/dives/list}">
+              <i class="list icon"></i>
+              <span  th:text="#{list_dives}">List dives</span>
+            </a>
+            <a tabindex="-1" class="item" th:href="@{/dives/add}">
+              <i class="add icon"></i>
+              <span th:text="#{add_dive}">Add dive</span>
+            </a>
             <div class="ui divider"></div>
             <div class="header" th:text="#{backup}">Backup</div>
-            <a tabindex="-1" class="item" th:href="@{/backup/export}" th:text="#{export_data}">Export data</a>
-            <a tabindex="-1" class="item" th:href="@{/backup/import}" th:text="#{import_data}">Import data</a>
+            <a tabindex="-1" class="item" th:href="@{/backup/export}">
+              <i class="download icon"></i>
+              <span th:text="#{export_data}">Export data</span>
+            </a>
+            <a tabindex="-1" class="item" th:href="@{/backup/import}">
+              <i class="upload icon"></i>
+              <span th:text="#{import_data}">Import data</span>
+            </a>
           </div>
         </div>
       </div>
