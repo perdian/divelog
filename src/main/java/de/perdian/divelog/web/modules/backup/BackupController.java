@@ -1,6 +1,7 @@
 package de.perdian.divelog.web.modules.backup;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -12,47 +13,34 @@ import java.util.List;
 import java.util.zip.GZIPOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-
-import de.perdian.divelog.model.entities.Dive;
-import de.perdian.divelog.model.repositories.DiveRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
 @Controller
 @RequestMapping("/backup")
 public class BackupController {
 
-    private DiveLogUser currentUser = null;
-    private DiveRepository diveRepository = null;
+    private BackupService backupService = null;
     private ObjectMapper objectMapper = null;
 
     @GetMapping("/export")
     @ResponseBody
     public ResponseEntity<?> doBackup() throws IOException {
 
-        Specification<Dive> diveSpecification = this.getCurrentUser().specification(Dive.class);
-        Sort diveSort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
-        List<Dive> diveList = this.getDiveRepository().findAll(diveSpecification, diveSort);
-
-        BackupMetadata backupMetadata = new BackupMetadata();
-        backupMetadata.setCreatedAt(Instant.now());
-        backupMetadata.setUsername(this.getCurrentUser().getUserEntity().getName());
-        Backup backup = new Backup();
-        backup.setDives(diveList);
-        backup.setMetadata(backupMetadata);
-
+        Backup backup = this.getBackupService().createBackup();
         ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
         GZIPOutputStream gzipStream = new GZIPOutputStream(resultStream);
         Writer jsonWriter = new OutputStreamWriter(gzipStream, StandardCharsets.UTF_8);
@@ -77,20 +65,35 @@ public class BackupController {
         return "backup/import";
     }
 
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
-    }
-    @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    @PostMapping("/import")
+    public String doImportPost(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            if (file == null || file.getSize() <= 0) {
+                throw new FileNotFoundException("No data file was uploaded!");
+            } else {
+                List<BackupImportItem> importItems = this.getBackupService().executeImport(file);
+                redirectAttributes.addFlashAttribute("importItems", importItems);
+model.addAttribute("importItems", importItems);
+return "/backup/import-completed";
+//                return "redirect:/backup/import/completed";
+            }
+        } catch (Exception e) {
+            model.addAttribute("importException", e);
+            return this.doImportGet();
+        }
     }
 
-    DiveRepository getDiveRepository() {
-        return this.diveRepository;
+    @GetMapping("/import/completed")
+    public String doImportCompleted() {
+        return "backup/import-completed";
+    }
+
+    BackupService getBackupService() {
+        return this.backupService;
     }
     @Autowired
-    void setDiveRepository(DiveRepository diveRepository) {
-        this.diveRepository = diveRepository;
+    void setBackupService(BackupService backupService) {
+        this.backupService = backupService;
     }
 
     ObjectMapper getObjectMapper() {

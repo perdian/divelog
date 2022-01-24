@@ -11,7 +11,22 @@
         </div>
       </h2>
 
-      <form class="ui form" th:action="@{/backup/import}" method="post">
+      <div class="ui negative icon message" th:if="${importException != null}">
+        <i class="exclamation triangle icon"></i>
+        <div class="content">
+          <div class="header" th:text="#{import_failed}">Import failed</div>
+          <pre th:text="${importException}"></pre>
+        </div>
+      </div>
+
+      <form class="ui form" th:action="@{/backup/import}" method="post" enctype="multipart/form-data">
+        <div class="field">
+          <label th:text="#{upload_backup_file}">Upload backup file</label>
+          <input type="file" name="file" />
+        </div>
+        <div class="field">
+          <button type="submit" class="ui primary button">Submit</button>
+        </div>
       </form>
 
     </main>

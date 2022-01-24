@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="upload icon"></i>
+        <div class="content">
+          <span th:text="#{import_data}">Import data</span>
+          <div class="sub header" th:text="#{import_completed}">Import completed</div>
+        </div>
+      </h2>
+
+      <div class="ui positive icon message">
+        <i class="check icon"></i>
+        <div class="content">
+          <div class="header" th:text="#{data_has_been_imported}">Data has been imported</div>
+        </div>
+      </div>
+
+      <pre>[[ ${importItems} ]]</pre>
+
+    </main>
+  </body>
+</html>
