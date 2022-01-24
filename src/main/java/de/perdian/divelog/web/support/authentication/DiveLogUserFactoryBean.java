@@ -13,25 +13,25 @@ import de.perdian.divelog.model.repositories.UserRepository;
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class DummyUserFactoryBean extends AbstractFactoryBean<User> {
+public class DiveLogUserFactoryBean extends AbstractFactoryBean<DiveLogUser> {
 
     private UserRepository userRepository = null;
 
     @Override
     public Class<?> getObjectType() {
-        return User.class;
+        return DiveLogUser.class;
     }
 
     @Override
-    protected User createInstance() throws Exception {
+    protected DiveLogUser createInstance() throws Exception {
         List<User> allUsers = this.getUserRepository().findAll();
         if (allUsers == null || allUsers.isEmpty()) {
             User newUser = new User();
             newUser.setName("dummy");
             this.getUserRepository().save(newUser);
-            return newUser;
+            return new DiveLogUserImpl(newUser);
         } else {
-            return allUsers.get(0);
+            return new DiveLogUserImpl(allUsers.get(0));
         }
     }
 

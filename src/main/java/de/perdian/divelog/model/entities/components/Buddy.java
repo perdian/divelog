@@ -1,20 +1,21 @@
-package de.perdian.divelog.model.components;
+package de.perdian.divelog.model.entities.components;
 
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Embeddable
-public class Organizer implements Serializable {
+public class Buddy implements Serializable {
 
     static final long serialVersionUID = 1L;
 
     private String name = null;
-    private Location location = null;
-    private String website = null;
+    private BuddyType type = BuddyType.BUDDY;
 
     @Override
     public String toString() {
@@ -28,18 +29,12 @@ public class Organizer implements Serializable {
         this.name = name;
     }
 
-    public Location getLocation() {
-        return this.location;
+    @Enumerated(EnumType.STRING)
+    public BuddyType getType() {
+        return this.type;
     }
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public String getWebsite() {
-        return this.website;
-    }
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setType(BuddyType type) {
+        this.type = type;
     }
 
 }

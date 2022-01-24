@@ -1,4 +1,4 @@
-package de.perdian.divelog.model.components;
+package de.perdian.divelog.model.entities.components;
 
 import java.io.Serializable;
 import java.time.Instant;

@@ -5,6 +5,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
+import de.perdian.divelog.model.entities.components.UserProvider;
+
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import de.perdian.divelog.model.entities.Dive;
-import de.perdian.divelog.model.entities.User;
 import de.perdian.divelog.model.repositories.DiveRepository;
+import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
 @Controller
 public class OverviewController {
@@ -22,7 +22,7 @@ public class OverviewController {
     private static final Logger log = LoggerFactory.getLogger(OverviewController.class);
 
     private DiveRepository diveRepository = null;
-    private User currentUser = null;
+    private DiveLogUser currentUser = null;
     private List<OverviewContributor> overviewContributors = null;
 
     @GetMapping(path = { "/", "/overview" })
@@ -43,7 +43,7 @@ public class OverviewController {
     @ModelAttribute(name = "dives", binding = false)
     public List<Dive> dives() {
         Sort sort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
-        Specification<Dive> specification = (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("user"), this.getCurrentUser());
+        Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
         return this.getDiveRepository().findAll(specification, sort);
     }
 
@@ -65,11 +65,11 @@ public class OverviewController {
         this.diveRepository = diveRepository;
     }
 
-    User getCurrentUser() {
+    DiveLogUser getCurrentUser() {
         return this.currentUser;
     }
     @Autowired
-    void setCurrentUser(User currentUser) {
+    void setCurrentUser(DiveLogUser currentUser) {
         this.currentUser = currentUser;
     }
 

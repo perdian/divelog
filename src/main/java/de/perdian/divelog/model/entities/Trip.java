@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import de.perdian.divelog.model.components.PlaceAndTime;
+import de.perdian.divelog.model.entities.components.PlaceAndTime;
 
 @Entity
 @Table(name = "trips")

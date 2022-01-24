@@ -4,15 +4,15 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import de.perdian.divelog.model.components.Air;
-import de.perdian.divelog.model.components.Buddy;
-import de.perdian.divelog.model.components.Environment;
-import de.perdian.divelog.model.components.Equipment;
-import de.perdian.divelog.model.components.Organizer;
-import de.perdian.divelog.model.components.PadiStatistics;
-import de.perdian.divelog.model.components.PlaceAndTime;
-import de.perdian.divelog.model.components.Spot;
 import de.perdian.divelog.model.entities.Dive;
+import de.perdian.divelog.model.entities.components.Air;
+import de.perdian.divelog.model.entities.components.Buddy;
+import de.perdian.divelog.model.entities.components.Environment;
+import de.perdian.divelog.model.entities.components.Equipment;
+import de.perdian.divelog.model.entities.components.Organizer;
+import de.perdian.divelog.model.entities.components.PadiStatistics;
+import de.perdian.divelog.model.entities.components.PlaceAndTime;
+import de.perdian.divelog.model.entities.components.Spot;
 
 public class DiveEditor {
 

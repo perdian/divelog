@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import de.perdian.divelog.model.components.PlaceAndTime;
 import de.perdian.divelog.model.entities.Dive;
-import de.perdian.divelog.model.entities.User;
+import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.repositories.DiveRepository;
+import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
 @Controller
 @RequestMapping("/dives")
 public class DiveEditorController {
 
-    private User currentUser = null;
+    private DiveLogUser currentUser = null;
     private DiveRepository diveRepository = null;
 
     @GetMapping(path = "/add")
@@ -43,7 +43,7 @@ public class DiveEditorController {
 
             Dive newEntity = new Dive();
             diveEditor.applyTo(newEntity);
-            newEntity.setUser(this.getCurrentUser());
+            newEntity.setUser(this.getCurrentUser().getUserEntity());
 
             Dive savedEntity = this.getDiveRepository().save(newEntity);
             redirectAttributes.addFlashAttribute("savedDive", savedEntity);
@@ -82,16 +82,15 @@ public class DiveEditorController {
 
     @ModelAttribute(name = "diveEntity", binding = false)
     public Dive diveEntity(@PathVariable(name = "id", required = false) UUID diveEntityId) {
-        Specification<Dive> diveEntitySpecification = (root, query, criteriaBuilder) -> criteriaBuilder.and(
-            criteriaBuilder.equal(root.get("user"), this.getCurrentUser()),
-            criteriaBuilder.equal(root.get("id"), diveEntityId)
+        Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class).and(
+            (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), diveEntityId)
         );
         return diveEntityId == null ? null : this.getDiveRepository().findOne(diveEntitySpecification).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @ModelAttribute(name = "nextDiveNumber", binding = false)
     Long nextDiveNumber() {
-        return this.getDiveRepository().countByUser(this.getCurrentUser()) + 1;
+        return this.getDiveRepository().count(this.getCurrentUser().specification(Dive.class)) + 1;
     }
 
     DiveRepository getDiveRepository() {
@@ -102,11 +101,11 @@ public class DiveEditorController {
         this.diveRepository = diveRepository;
     }
 
-    User getCurrentUser() {
+    DiveLogUser getCurrentUser() {
         return this.currentUser;
     }
     @Autowired
-    void setCurrentUser(User currentUser) {
+    void setCurrentUser(DiveLogUser currentUser) {
         this.currentUser = currentUser;
     }
 

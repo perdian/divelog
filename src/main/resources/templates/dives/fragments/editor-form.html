@@ -59,13 +59,13 @@
         <div class="ui segment">
           <h4 class="ui header" th:text="#{equipment}">Equipment</h4>
           <div class="fields">
-            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='air.type', enumClass='de.perdian.divelog.model.components.AirType', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='air.type', enumClass='de.perdian.divelog.model.entities.components.AirType', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureStart', fieldLabel=${#messages.msg('unit.bar')}, localizationPrefix='dive', type='number')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='air.pressureEnd', fieldLabel=${#messages.msg('unit.bar')}, localizationPrefix='dive', type='number')"></div>
             <div th:replace="components/fields :: semantic_input(class='six wide field', fieldName='equipment.computer', localizationPrefix='dive')"></div>
           </div>
           <div class="fields">
-            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='equipment.suitType', enumClass='de.perdian.divelog.model.components.SuitType', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='equipment.suitType', enumClass='de.perdian.divelog.model.entities.components.SuitType', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.suitThickness', fieldLabel=${#messages.msg('unit.mm')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='equipment.weight', fieldLabel=${#messages.msg('unit.kg')}, localizationPrefix='dive')"></div>
             <div class="three wide field">
@@ -83,7 +83,7 @@
           <div class="ui stackable grid">
             <div class="eleven wide column nopaddinghorizontal">
               <div class="fields">
-                <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='start.type', enumClass='de.perdian.divelog.model.components.PlaceType', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='start.type', enumClass='de.perdian.divelog.model.entities.components.PlaceType', localizationPrefix='dive')"></div>
                 <div th:replace="components/fields :: semantic_input_action(class='twelve wide field', fieldName='start.location.name', localizationPrefix='dive', action=~{::button#startLocationSearch})">
                   <button type="button" id="startLocationSearch" class="ui button">
                     <i class="search icon"></i>
@@ -141,7 +141,7 @@
         <div class="ui segment">
           <h4 class="ui header" th:text="#{environment}">Environment</h4>
           <div class="fields">
-            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.components.WaterType', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.entities.components.WaterType', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', localizationPrefix='dive')"></div>
@@ -152,7 +152,7 @@
         <div class="ui segment">
           <h4 class="ui header" th:text="#{buddy}">Buddy</h4>
           <div class="fields">
-            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='buddy.type', enumClass='de.perdian.divelog.model.components.BuddyType', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='buddy.type', enumClass='de.perdian.divelog.model.entities.components.BuddyType', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='twelve wide field', fieldName='buddy.name', localizationPrefix='dive')"></div>
           </div>
         </div>

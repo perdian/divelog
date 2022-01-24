@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.perdian.divelog.model.entities.Dive;
-import de.perdian.divelog.model.entities.User;
 import de.perdian.divelog.model.repositories.DiveRepository;
+import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
 @Controller
 @RequestMapping("/dives")
 public class DiveListController {
 
-    private User currentUser = null;
+    private DiveLogUser currentUser = null;
     private DiveRepository diveRepository = null;
     private Integer maxDivesPerPage = 100;
 
@@ -42,9 +42,7 @@ public class DiveListController {
         int cleanedPageSize = pageSize == null ? this.getMaxDivesPerPage() : Math.min(this.getMaxDivesPerPage(), Math.max(1, pageSize.intValue()));
         Sort pageSort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
         PageRequest pageRequest = PageRequest.of(cleanedPageIndex, cleanedPageSize, pageSort);
-        Specification<Dive> specification = (root, query, criteriaBuilder) -> criteriaBuilder.and(
-            criteriaBuilder.equal(root.get("user"), this.getCurrentUser())
-        );
+        Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
 
         return this.getDiveRepository().findAll(specification, pageRequest);
 
@@ -65,11 +63,11 @@ public class DiveListController {
 
     }
 
-    User getCurrentUser() {
+    DiveLogUser getCurrentUser() {
         return this.currentUser;
     }
     @Autowired
-    void setCurrentUser(User currentUser) {
+    void setCurrentUser(DiveLogUser currentUser) {
         this.currentUser = currentUser;
     }
 

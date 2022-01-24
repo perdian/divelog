@@ -14,6 +14,8 @@ import javax.persistence.PreUpdate;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @MappedSuperclass
 public class AbstractEntity implements Serializable {
 
@@ -59,6 +61,7 @@ public class AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid2")
+    @JsonIgnore
     public UUID getId() {
         return this.id;
     }
@@ -66,6 +69,7 @@ public class AbstractEntity implements Serializable {
         this.id = id;
     }
 
+    @JsonIgnore
     public Instant getCreatedAt() {
         return this.createdAt;
     }
@@ -73,6 +77,7 @@ public class AbstractEntity implements Serializable {
         this.createdAt = createdAt;
     }
 
+    @JsonIgnore
     public Instant getUpdatedAt() {
         return this.updatedAt;
     }
