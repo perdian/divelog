@@ -73,9 +73,7 @@ public class BackupController {
             } else {
                 List<BackupImportItem> importItems = this.getBackupService().executeImport(file);
                 redirectAttributes.addFlashAttribute("importItems", importItems);
-model.addAttribute("importItems", importItems);
-return "/backup/import-completed";
-//                return "redirect:/backup/import/completed";
+                return "redirect:/backup/import/completed";
             }
         } catch (Exception e) {
             model.addAttribute("importException", e);

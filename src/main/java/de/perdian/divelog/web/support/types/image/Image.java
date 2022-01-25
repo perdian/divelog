@@ -19,7 +19,7 @@ public class Image implements Serializable {
     public byte[] getJpegBytes() {
         return this.jpegBytes;
     }
-    public void setJpegBytes(byte[] jpegBytes) {
+    private void setJpegBytes(byte[] jpegBytes) {
         this.jpegBytes = jpegBytes;
     }
 

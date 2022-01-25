@@ -171,10 +171,10 @@
                 </button>
               </span>
               <span class="right floated">
-                <button tabindex="-1" class="ui button">
+                <a tabindex="-1" class="ui button" th:href="@{'/dives/image/' + ${diveEntity.id}}" target="_blank">
                   <i class="binoculars icon"></i>
                   <span th:text="#{zoom}">Zoom image</span>
-                </button>
+                </a>
               </span>
             </div>
             <script type="text/javascript">
