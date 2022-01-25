@@ -232,7 +232,7 @@
 
         <div class="ui segment">
           <h4 class="ui header" th:text="#{field.dive.image}">Image</h4>
-          <div class="ui centered card" th:if="${dive.image.available}">
+          <div class="ui centered card" th:if="${dive.image != null && dive.image.available}">
             <a tabindex="-1" class="ui image" th:href="@{'/dives/image/' + ${diveEntity.id}}" target="_blank">
               <img th:src="@{'/dives/image/' + ${diveEntity.id}}" />
             </a>
