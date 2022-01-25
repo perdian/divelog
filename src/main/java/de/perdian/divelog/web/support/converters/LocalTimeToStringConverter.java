@@ -1,4 +1,4 @@
-package de.perdian.divelog.support.converters;
+package de.perdian.divelog.web.support.converters;
 
 import java.time.LocalTime;
 

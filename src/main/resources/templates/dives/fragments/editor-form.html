@@ -158,6 +158,37 @@
         </div>
 
         <div class="ui segment">
+          <h4 class="ui header" th:text="#{field.dive.image}">Image</h4>
+          <div class="ui centered card" th:if="${dive.image.available}">
+            <div class="ui image">
+              <img th:src="@{'/dives/image/' + ${diveEntity.id}}" />
+            </div>
+            <div class="extra content">
+              <span class="left floated">
+                <button tabindex="-1" type="button" class="ui negative button" id="imageDeleteButton">
+                  <i class="trash alternate icon"></i>
+                  <span th:text="#{delete}">Delete image</span>
+                </button>
+              </span>
+              <span class="right floated">
+                <button tabindex="-1" class="ui button">
+                  <i class="binoculars icon"></i>
+                  <span th:text="#{zoom}">Zoom image</span>
+                </button>
+              </span>
+            </div>
+            <script type="text/javascript">
+                $("#imageDeleteButton").on("click", function() {
+                    $("input[name='imageDelete']").val("true");
+                    $("#diveEditorForm").submit();
+                });
+            </script>
+          </div>
+          <div th:replace="components/fields :: semantic_input_file(class='field', fieldName='imageUpload', localizationPrefix='dive')"></div>
+          <input type="hidden" name="imageDelete" value="false" />
+        </div>
+
+        <div class="ui segment">
           <h4 class="ui header" th:text="#{field.dive.comments}">Comments</h4>
           <div th:replace="components/fields :: semantic_textarea(class='field', fieldName='comments')"></div>
         </div>

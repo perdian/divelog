@@ -8,7 +8,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.DigestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,6 +69,20 @@ public class DiveEditorController {
             return "redirect:/dives/edit/" + diveEntity.getId();
         } else {
             return this.doEdit(diveEditor);
+        }
+    }
+
+    @GetMapping(path = "/image/{id}")
+    public ResponseEntity<?> doImage(@ModelAttribute("dive") DiveEditor diveEditor) {
+        if (diveEditor.getImage() == null || !diveEditor.getImage().isAvailable()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity
+                .ok()
+                .contentLength(diveEditor.getImage().getJpegBytes().length)
+                .contentType(MediaType.IMAGE_JPEG)
+                .eTag(DigestUtils.md5DigestAsHex(diveEditor.getImage().getJpegBytes()))
+                .body(diveEditor.getImage().getJpegBytes());
         }
     }
 

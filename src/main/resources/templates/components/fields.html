@@ -51,5 +51,10 @@
       <textarea th:field="*{__${fieldName}__}" th:rows="${rows}"></textarea>
     </div>
 
+    <div th:fragment="semantic_input_file(fieldName)" th:class="${#strings.isEmpty(class) ? 'field' : class}" th:classappend="${#fields.hasErrors(fieldName) ? 'error' : ''}">
+      <label th:text="#{__${#strings.concat('field.', #strings.isEmpty(localizationPrefix) ? '' : (localizationPrefix + '.'), fieldName)}__}">Title</label>
+      <input th:type="file" th:field="*{__${fieldName}__}" />
+    </div>
+
   </body>
 </html>

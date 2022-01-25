@@ -13,6 +13,7 @@ import de.perdian.divelog.model.entities.components.Organizer;
 import de.perdian.divelog.model.entities.components.PadiStatistics;
 import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.entities.components.Spot;
+import de.perdian.divelog.web.support.types.image.Image;
 
 public class DiveEditor {
 
@@ -29,6 +30,9 @@ public class DiveEditor {
     private Equipment equipment = null;
     private Buddy buddy = null;
     private Organizer organizer = null;
+    private Image image = null;
+    private Image imageUpload = null;
+    private boolean imageDelete = false;
 
     public void applyTo(Dive dive) {
         dive.setAir(this.getAir());
@@ -43,6 +47,11 @@ public class DiveEditor {
         dive.setSpot(this.getSpot());
         dive.setStart(this.getStart());
         dive.setTotalTimeMinutes(this.getTotalTimeMinutes());
+        if (this.isImageDelete()) {
+            dive.setImage(null);
+        } else if (this.getImageUpload() != null && this.getImageUpload().isAvailable()) {
+            dive.setImage(this.getImageUpload().getJpegBytes());
+        }
     }
 
     public void applyFrom(Dive dive) {
@@ -58,6 +67,7 @@ public class DiveEditor {
         this.setSpot(dive.getSpot());
         this.setStart(dive.getStart());
         this.setTotalTimeMinutes(dive.getTotalTimeMinutes());
+        this.setImage(new Image(dive.getImage()));
     }
 
     @Valid
@@ -157,6 +167,27 @@ public class DiveEditor {
     }
     public void setOrganizer(Organizer organizer) {
         this.organizer = organizer;
+    }
+
+    public Image getImage() {
+        return this.image;
+    }
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+    public Image getImageUpload() {
+        return this.imageUpload;
+    }
+    public void setImageUpload(Image imageUpload) {
+        this.imageUpload = imageUpload;
+    }
+
+    public boolean isImageDelete() {
+        return this.imageDelete;
+    }
+    public void setImageDelete(boolean imageDelete) {
+        this.imageDelete = imageDelete;
     }
 
 }

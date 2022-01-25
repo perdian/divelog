@@ -38,6 +38,7 @@ public class Dive extends AbstractEntity implements UserContainer {
     private PadiStatistics padiStatistics = null;
     private Organizer organizer = null;
     private String comments = null;
+    private byte[] image = null;
 
     @Override
     public boolean equals(Object that) {
@@ -159,6 +160,13 @@ public class Dive extends AbstractEntity implements UserContainer {
     }
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public byte[] getImage() {
+        return this.image;
+    }
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
 }

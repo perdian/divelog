@@ -11,15 +11,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
-import de.perdian.divelog.support.converters.LocalTimeToStringConverter;
-import de.perdian.divelog.support.converters.NumberToStringConverter;
-import de.perdian.divelog.support.converters.StringToLocalDateTimeConverter;
-import de.perdian.divelog.support.converters.StringToNumberConverter;
+import de.perdian.divelog.web.support.converters.LocalTimeToStringConverter;
+import de.perdian.divelog.web.support.converters.MultipartFileToImageConverter;
+import de.perdian.divelog.web.support.converters.NumberToStringConverter;
+import de.perdian.divelog.web.support.converters.StringToLocalDateTimeConverter;
+import de.perdian.divelog.web.support.converters.StringToNumberConverter;
+import de.perdian.divelog.web.support.types.image.Image;
 
 @Configuration
 class WebConfigurationn implements WebMvcConfigurer {
@@ -38,6 +41,7 @@ class WebConfigurationn implements WebMvcConfigurer {
         registry.addConverter(String.class, LocalTime.class, new StringToLocalDateTimeConverter());
         registry.addConverter(Double.class, String.class, new NumberToStringConverter(new DecimalFormat("0.######", new DecimalFormatSymbols(this.getLocale()))));
         registry.addConverter(LocalTime.class, String.class, new LocalTimeToStringConverter());
+        registry.addConverter(MultipartFile.class, Image.class, new MultipartFileToImageConverter());
         WebMvcConfigurer.super.addFormatters(registry);
     }
 

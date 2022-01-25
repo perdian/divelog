@@ -11,7 +11,7 @@
         </div>
       </h2>
 
-      <form class="ui form" th:action="@{/dives/add}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_add_new_dive')})">
+      <form id="diveEditorForm" class="ui form" th:action="@{/dives/add}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_add_new_dive')})" enctype="multipart/form-data">
       </form>
 
     </main>
