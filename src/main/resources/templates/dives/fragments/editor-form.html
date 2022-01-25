@@ -46,13 +46,6 @@
             <div th:replace="components/fields :: semantic_input_right_labeled(class='four wide field', fieldName='maxDepth', localizationPrefix='dive', fieldLabel=${#messages.msg('unit.m')})"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupBefore', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='padiStatistics.pressureGroupAfter', localizationPrefix='dive')"></div>
-            <div class="three wide field">
-              <label>&nbsp;</label>
-              <div class="inline fields">
-                <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.waves', localizationPrefix='dive')"></div>
-                <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.current', localizationPrefix='dive')"></div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -107,16 +100,19 @@
                       }
                   });
               </script>
-              <div class="three wide fields">
-                <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.longitude', localizationPrefix='dive')"></div>
-                <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.latitude', localizationPrefix='dive')"></div>
-                <div th:replace="components/fields :: semantic_input(class='field', fieldName='start.location.timezoneId', localizationPrefix='dive')"></div>
-                <div th:replace="components/fields :: semantic_input_right_labeled_custom(class='field', fieldName='start.location.countryCode', fieldLabel=~{::i#startLocationCountryFlag}, localizationPrefix='dive')">
+              <div class="fields">
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='start.location.longitude', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='start.location.latitude', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='start.location.timezoneId', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input_right_labeled_custom(class='four wide field', fieldName='start.location.countryCode', fieldLabel=~{::i#startLocationCountryFlag}, localizationPrefix='dive')">
                   <i id="startLocationCountryFlag" th:class="${#strings.toLowerCase(dive.start.location.countryCode) + ' flag'}"></i>
                 </div>
                 <script type="text/javascript">
                   $("input[name='start.location.countryCode']").on("change input", () => updateCountryFlag($("input[name='start.location.countryCode']").val(), $("i#startLocationCountryFlag")));
                 </script>
+              </div>
+              <div class="fields">
+                <div th:replace="components/fields :: semantic_input(class='sixteen wide field', fieldName='start.location.comments', localizationPrefix='dive')"></div>
               </div>
             </div>
             <div class="five wide column nopaddinghorizontal">
@@ -139,6 +135,79 @@
         </div>
 
         <div class="ui segment">
+          <h4 class="ui header" th:text="#{organizer}">Organizer</h4>
+          <div class="ui stackable grid">
+            <div class="eleven wide column nopaddinghorizontal">
+              <div class="fields">
+                <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='organizer.type', enumClass='de.perdian.divelog.model.entities.components.OrganizerType', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input_action(class='twelve wide field', fieldName='organizer.name', localizationPrefix='dive', action=~{::button#organizerNameSearch})">
+                  <button type="button" id="organizerNameSearch" class="ui button">
+                    <i class="search icon"></i>
+                    <span th:text="#{search}">Search</span>
+                  </button>
+                </div>
+              </div>
+              <div class="fields">
+                <div th:replace="components/fields :: semantic_input_action(class='ten wide field', fieldName='organizer.location.name', localizationPrefix='dive', action=~{::button#organizerLocationSearch})">
+                  <button type="button" id="organizerLocationSearch" class="ui button">
+                    <i class="search icon"></i>
+                    <span th:text="#{search}">Search</span>
+                  </button>
+                </div>
+                <div th:replace="components/fields :: semantic_input(class='six wide field', fieldName='organizer.website', localizationPrefix='dive')"></div>
+              </div>
+              <script type="text/javascript">
+                  $("#organizerNameSearch").click(function() {
+                      let locationValue = $("input[name='organizer.name']").val().trim();
+                      if (locationValue.length > 0) {
+                        searchPlace(locationValue, {
+                            addressField: $("input[name='organizer.location.name']"),
+                            latitudeField: $("input[name='organizer.location.latitude']"),
+                            longitudeField: $("input[name='organizer.location.longitude']"),
+                            timezoneIdField: $("input[name='organizer.location.timezoneId']"),
+                            countryCodeField: $("input[name='organizer.location.countryCode']"),
+                            countryFlagField: $("i#organizerLocationCountryFlag"),
+                            mapDiv: $("#organizerLocationMap")
+                        })
+                      }
+                  });
+                  $("#organizerLocationSearch").click(function() {
+                      let locationValue = $("input[name='organizer.location.name']").val().trim();
+                      if (locationValue.length > 0) {
+                        searchPlace(locationValue, {
+                            latitudeField: $("input[name='organizer.location.latitude']"),
+                            longitudeField: $("input[name='organizer.location.longitude']"),
+                            timezoneIdField: $("input[name='organizer.location.timezoneId']"),
+                            countryCodeField: $("input[name='organizer.location.countryCode']"),
+                            countryFlagField: $("i#organizerLocationCountryFlag"),
+                            mapDiv: $("#organizerLocationMap")
+                        })
+                      }
+                  });
+              </script>
+              <div class="fields">
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='organizer.location.longitude', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='organizer.location.latitude', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input(class='four wide field', fieldName='organizer.location.timezoneId', localizationPrefix='dive')"></div>
+                <div th:replace="components/fields :: semantic_input_right_labeled_custom(class='four wide field', fieldName='organizer.location.countryCode', fieldLabel=~{::i#organizerLocationCountryFlag}, localizationPrefix='dive')">
+                  <i id="organizerLocationCountryFlag" th:class="${#strings.toLowerCase(dive.organizer.location.countryCode) + ' flag'}"></i>
+                </div>
+                <script type="text/javascript">
+                  $("input[name='organizer.location.countryCode']").on("change input", () => updateCountryFlag($("input[name='organizer.location.countryCode']").val(), $("i#organizerLocationCountryFlag")));
+                </script>
+              </div>
+            </div>
+            <div class="five wide column nopaddinghorizontal">
+              <div class="ui segment" id="organizerLocationMap" style="height: 100%; min-height: 150px;">
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+              registerMap($("#organizerLocationMap"), $("input[name='organizer.location.longitude']"), $("input[name='organizer.location.latitude']"))
+          </script>
+        </div>
+
+        <div class="ui segment">
           <h4 class="ui header" th:text="#{environment}">Environment</h4>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.entities.components.WaterType', localizationPrefix='dive')"></div>
@@ -146,6 +215,10 @@
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', localizationPrefix='dive')"></div>
             <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
+          </div>
+          <div class="inline fields">
+            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.waves', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.current', localizationPrefix='dive')"></div>
           </div>
         </div>
 
@@ -160,9 +233,9 @@
         <div class="ui segment">
           <h4 class="ui header" th:text="#{field.dive.image}">Image</h4>
           <div class="ui centered card" th:if="${dive.image.available}">
-            <div class="ui image">
+            <a tabindex="-1" class="ui image" th:href="@{'/dives/image/' + ${diveEntity.id}}" target="_blank">
               <img th:src="@{'/dives/image/' + ${diveEntity.id}}" />
-            </div>
+            </a>
             <div class="extra content">
               <span class="left floated">
                 <button tabindex="-1" type="button" class="ui negative button" id="imageDeleteButton">

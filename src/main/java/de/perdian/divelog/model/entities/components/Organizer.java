@@ -15,6 +15,7 @@ public class Organizer implements Serializable {
     private String name = null;
     private Location location = null;
     private String website = null;
+    private OrganizerType type = null;
 
     @Override
     public String toString() {
@@ -40,6 +41,13 @@ public class Organizer implements Serializable {
     }
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public OrganizerType getType() {
+        return this.type;
+    }
+    public void setType(OrganizerType type) {
+        this.type = type;
     }
 
 }

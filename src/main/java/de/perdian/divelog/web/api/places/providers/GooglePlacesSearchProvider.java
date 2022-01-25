@@ -63,6 +63,7 @@ class GooglePlacesSearchProvider implements PlacesSearchProvider {
                         resultItem.setLongitude(geometryNode.get("location").get("lng").asDouble());
                     }
                     resultItem.setName(candidateNode.get("name").asText());
+                    resultItem.setAddress(candidateNode.get("formatted_address").asText());
                     resultItem.setDescription(candidateNode.get("formatted_address").asText());
                     resultItems.add(resultItem);
                 }

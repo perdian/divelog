@@ -11,6 +11,7 @@ public class PlacesSearchResultItem implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String name = null;
+    private String address = null;
     private String description = null;
     private Double latitude = null;
     private Double longitude = null;
@@ -27,6 +28,13 @@ public class PlacesSearchResultItem implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDescription() {

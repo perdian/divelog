@@ -87,6 +87,10 @@ function searchPlaceSelect(item, targetFields) {
     targetFields.countryCodeField.val(item.countryCode);
     targetFields.countryCodeField.closest(".field").removeClass("error");
     targetFields.countryFlagField.attr("class", item.countryCode == null ? "" : (item.countryCode.toLowerCase() + " flag"));
+    if (targetFields.addressField != null) {
+        targetFields.addressField.val(item.address);
+        targetFields.addressField.closest(".field").removeClass("error");
+    }
     updateMap(targetFields.mapDiv, item.longitude, item.latitude);
     searchPlaceModal().modal("hide");
 }

@@ -16,6 +16,7 @@ public class Location implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String name = null;
+    private String comments = null;
     private Double latitude = null;
     private Double longitude = null;
     private String timezoneId = null;
@@ -31,6 +32,13 @@ public class Location implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getComments() {
+        return this.comments;
+    }
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @DecimalMin("-90")
