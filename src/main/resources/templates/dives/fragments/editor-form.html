@@ -266,7 +266,6 @@
         </div>
 
         <div class="ui segment printerhidden">
-
           <span class="mobile hidden" th:if="${diveEntity == null && nextDiveNumber != null}">
             <span class="bottom right aligned floating ui label"><span th:text="#{diveNo}">Dive No.</span> <span class="detail" th:text="${nextDiveNumber}"></span></span>
           </span>
@@ -274,6 +273,10 @@
             <i class="save icon"></i>
             <span id="editorSubmitButtonText" th:text="#{save}">Save</span>
           </button>
+          <a class="ui right floated negative button" th:href="@{'/dives/delete/' + ${diveEntity.id}}" th:if="${diveEntity != null && diveEntity.id != null}">
+            <i class="trash icon"></i>
+            <span th:text="#{delete}">Delete</span>
+          </a>
           <script type="text/javascript">
               $("#diveEditorForm").on("submit", function() {
                   $("#editorSubmitButton").prop("disabled", true);

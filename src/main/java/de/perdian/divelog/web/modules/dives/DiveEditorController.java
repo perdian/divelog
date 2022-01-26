@@ -26,14 +26,14 @@ public class DiveEditorController {
     private DiveEditorService diveEditorService = null;
 
     @GetMapping(path = "/add")
-    public String doAdd(@ModelAttribute("dive") DiveEditor diveEditor) {
+    public String doAdd() {
         return "/dives/add";
     }
 
     @PostMapping(path = "/add")
     public String doAddPost(@Valid @ModelAttribute("dive") DiveEditor diveEditor, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return this.doAdd(diveEditor);
+            return this.doAdd();
         } else {
             Dive createdDiveEntity = this.getDiveEditorService().createDiveFromEditor(diveEditor);
             redirectAttributes.addFlashAttribute("updatedDive", createdDiveEntity);
@@ -42,7 +42,7 @@ public class DiveEditorController {
     }
 
     @GetMapping(path = "/edit/{id}")
-    public String doEdit(@ModelAttribute("dive") DiveEditor diveEditor) {
+    public String doEdit() {
         return "/dives/edit";
     }
 
@@ -53,8 +53,25 @@ public class DiveEditorController {
             redirectAttributes.addFlashAttribute("updatedDive", updatedDiveEntity);
             return "redirect:/dives/edit/" + updatedDiveEntity.getId();
         } else {
-            return this.doEdit(diveEditor);
+            return this.doEdit();
         }
+    }
+
+    @GetMapping(path = "/delete/{id}")
+    public String doDeleteGet() {
+        return "/dives/delete";
+    }
+
+    @PostMapping(path = "/delete/{id}")
+    public String doDeletePost(@ModelAttribute("diveEntity") Dive diveEntity, RedirectAttributes redirectAttributes) {
+        Dive deletedDiveEntity = this.getDiveEditorService().deleteDiveEntity(diveEntity);
+        redirectAttributes.addFlashAttribute("deletedDive", deletedDiveEntity);
+        return "redirect:/dives/delete/completed";
+    }
+
+    @GetMapping(path = "/delete/completed")
+    public String doDeleteCompleted() {
+        return "/dives/delete-completed";
     }
 
     @GetMapping(path = "/logbookImage/{id}")

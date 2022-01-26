@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <div class="ui icon attached message">
+        <i class="trash icon"></i>
+        <div class="header" th:text="#{dive_has_been_deleted}">Deleted</div>
+      </div>
+      <div class="ui form attached fluid segment" th:if="${deletedDive != null}">
+        <table class="ui single line table">
+          <tbody>
+            <tr>
+              <td class="collapsing" th:text="#{field.dive.start.dateIso}"></td>
+              <td>
+                <span th:text="${deletedDive.start.dateIso}"></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing" th:text="#{field.dive.start.location.name}"></td>
+              <td>
+                <span th:text="${deletedDive.start.location.name}"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </body>
+</html>

@@ -17,7 +17,7 @@
         <div th:replace="/dives/fragments/list-selection :: selection-menu">Menu</div>
 
         <table class="ui striped table">
-          <thead>
+          <thead th:if="${not #lists.isEmpty(dives.content)}" >
             <tr class="top aligned">
               <th>
                 <div class="ui checkbox">
@@ -31,6 +31,16 @@
             </tr>
           </thead>
           <tbody>
+            <tr th:if="${#lists.isEmpty(dives.content)}" class="warning">
+              <td colspan="5">
+                <p th:text="#{no_dives_available}"></p>
+                <a class="ui primary button" th:href="@{/dives/add}">
+                  <i class="plus icon"></i>
+                  <span th:text="#{add_dive}">Add dive</span>
+                </a>
+
+              </td>
+            </tr>
             <tr th:each="dive : ${dives.content}" class="top aligned">
               <td class="collapsing">
                 <div class="ui checkbox">

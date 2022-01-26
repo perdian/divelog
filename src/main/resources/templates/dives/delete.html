@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+  <body>
+    <main class="ui container">
+
+      <div class="ui warning icon attached message">
+        <i class="trash icon"></i>
+        <div class="header" th:text="#{are_you_sure_you_want_to_delete_the_dive}">
+
+        </div>
+      </div>
+      <div class="ui form attached fluid segment">
+        <table class="ui single line table">
+          <tbody>
+            <tr>
+              <td class="collapsing" th:text="#{field.dive.start.dateIso}"></td>
+              <td>
+                <span th:text="${dive.start.dateIso}"></span>
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing" th:text="#{field.dive.start.location.name}"></td>
+              <td>
+                <span th:text="${dive.start.location.name}"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ui bottom attached warning message">
+        <form class="ui form" id="diveEditorForm" th:action="@{'/dives/delete/' + ${diveEntity.id}}" th:object="${dive}" method="post">
+          <button type="submit" class="ui negative button">
+            <i class="trash icon"></i>
+            <span th:text="#{delete_dive}">Delete</span>
+          </button>
+          <a type="button" class="ui right floated button" th:href="@{'/dives/edit/' + ${diveEntity.id}}">
+            <i class="edit icon"></i>
+            <span th:text="#{back}">Back</span>
+          </a>
+        </form>
+      </div>
+
+    </main>
+  </body>
+</html>

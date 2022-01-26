@@ -86,6 +86,12 @@ class DiveEditorService {
         return this.updateDiveFromEditor(newEntity, diveEditor);
     }
 
+    @Transactional
+    public Dive deleteDiveEntity(Dive diveEntity) {
+        this.getDiveRepository().delete(diveEntity);
+        return diveEntity;
+    }
+
     public Dive createDiveEntity(UUID diveEntityId) {
         Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class).and(
             (root, query, criteriaBuilder) -> {
