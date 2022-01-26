@@ -36,7 +36,7 @@ Both the database location as well as the database type can be configured using 
 
 ### Docker container
 
-#### Fetch from GitHub package registry
+#### Fetch from DockerHub
 
 An alternative do running the JAR file directly is to create a Docker container that wraps the complete application.
 
