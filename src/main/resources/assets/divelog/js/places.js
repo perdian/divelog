@@ -119,27 +119,16 @@ function updateMap(target, longitude, latitude) {
     }
 }
 
-function renderMap(target, longitude, latitude) {
+function createMap(target) {
 
     let mapLayer = new ol.layer.Tile({
         source: new ol.source.OSM()
     })
 
-    let locationFeature = new ol.Feature({
-        geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'))
-    });
-    let locationSource = new ol.source.Vector();
-    locationSource.addFeature(locationFeature);
-    let locationLayer = new ol.layer.Vector({ source: locationSource })
-
     var map = new ol.Map({
         target: target,
         projection: "EPSG:3857",
-        layers: [mapLayer, locationLayer],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([longitude, latitude]),
-          zoom: 11
-        }),
+        layers: [mapLayer],
         controls: [
           new ol.control.Zoom()
         ]
@@ -148,6 +137,28 @@ function renderMap(target, longitude, latitude) {
 
     $(".ol-zoom-in").attr("tabindex", "-1");
     $(".ol-zoom-out").attr("tabindex", "-1");
+    return map;
+
+}
+
+function renderMap(target, longitude, latitude) {
+
+    let locationFeature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857'))
+    });
+    let locationSource = new ol.source.Vector();
+    locationSource.addFeature(locationFeature);
+    let locationLayer = new ol.layer.Vector({ source: locationSource })
+
+    let locationView = new ol.View({
+      center: ol.proj.fromLonLat([longitude, latitude]),
+      zoom: 11
+    });
+
+    let map = createMap(target);
+    map.setView(locationView);
+    map.addLayer(locationLayer);
+    return map;
 
 }
 

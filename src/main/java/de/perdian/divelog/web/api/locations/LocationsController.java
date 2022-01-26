@@ -24,8 +24,8 @@ public class LocationsController {
     private DiveLogUser currentUser = null;
     private DiveRepository diveRepository = null;
 
-    @GetMapping("/")
-    public LocationsResult doLocations() {
+    @GetMapping("/overview")
+    public LocationsResult doOverview() {
 
         Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
         List<Dive> allDives = this.getDiveRepository().findAll(specification);

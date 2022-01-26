@@ -5,6 +5,73 @@
 
       <pre>[[ ${overview} ]]</pre>
 
+
+      <div class="ui fluid card">
+        <div id="globalMap" class="image" style="width: 100%; height: 400px" th:data-endpoint="@{/api/locations/overview}">
+        </div>
+      </div>
+      <script type="text/javascript">
+
+          let globalMap = createMap($("#globalMap").get(0))
+          globalMap.setView(new ol.View({
+              center: ol.proj.fromLonLat([0, 25]),
+              zoom: 1.85
+          }));
+
+          function globalMapAddLocationsForType(locations, style) {
+              var locationsSource = new ol.source.Vector();
+              for (var i=0; i < locations.length; i++) {
+
+                  var location = locations[i];
+                  var locationFeature = new ol.Feature({
+                      geometry: new ol.geom.Point(ol.proj.transform([location.coordinates.longitude, location.coordinates.latitude], 'EPSG:4326', 'EPSG:3857')),
+                  });
+
+                  locationFeature.setStyle(style);
+                  locationsSource.addFeature(locationFeature);
+
+              }
+              globalMap.addLayer(new ol.layer.Vector({ source: locationsSource }));
+          }
+
+          function globalMapAddLocations(data) {
+
+              globalMapAddLocationsForType(data.locations, new ol.style.Style({
+                  image: new ol.style.Circle({
+                      radius: 2,
+                      fill: new ol.style.Fill({
+                          color: 'rgba(10,10,10,0.5)'
+                      }),
+                      stroke: new ol.style.Stroke({
+                          color: 'rgba(10,10,10,0.8)',
+                          width: 3
+                      })
+                  })
+              }));
+
+              globalMapAddLocationsForType(data.spots, new ol.style.Style({
+                  image: new ol.style.Circle({
+                      radius: 2,
+                      fill: new ol.style.Fill({
+                          color: 'rgba(100,10,50,0.5)'
+                      }),
+                      stroke: new ol.style.Stroke({
+                          color: 'rgba(100,10,50,0.8)',
+                          width: 3
+                      })
+                  })
+              }));
+
+              globalMap.render();
+          }
+
+          $.ajax({
+              url: $("#globalMap").attr("data-endpoint"),
+              success: globalMapAddLocations
+          });
+
+      </script>
+
     </main>
   </body>
 </html>
