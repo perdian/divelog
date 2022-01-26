@@ -10,6 +10,33 @@
         </div>
       </h2>
 
+      <div class="ui secondary segment" th:if="${not #lists.isEmpty(previousDives)}">
+        <h4 class="ui header" th:text="#{select_previous_dive_as_template}">Select previous dive as template</h4>
+        <form id="previousDivesForm" class="ui form" th:action="@{/dives/add}" method="get">
+          <div class="field">
+            <select name="diveTemplate" id="previousDiveSelect" class="ui selection dropdown">
+              <option value=""></option>
+              <option th:each="previousDive : ${previousDives}" th:value="${previousDive.id}" th:selected="${diveTemplate != null && diveTemplate.id == previousDive.id}">
+                <span th:text="${#divelog.formatTemporal(previousDive.start.date, 'dd.MM.yyyy')}">Date</span>
+                <th:block th:if="${previousDive.start.time != null && previousDive.end != null && previousDive.end.time != null}">
+                  &nbsp;
+                  <span th:text="${#divelog.formatTemporal(previousDive.start.time, 'HH:mm')}">Start time</span>
+                  -
+                  <span th:text="${#divelog.formatTemporal(previousDive.end.time, 'HH:mm')}">End time</span>
+                  &nbsp;
+                  <span th:text="${previousDive.start.location.name}">Location</span>
+                </th:block>
+              </option>
+            </select>
+            <script type="text/javascript">
+                $("#previousDiveSelect").on("change", function() {
+                    $("#previousDivesForm").submit();
+                });
+            </script>
+          </div>
+        </form>
+      </div>
+
       <form id="diveEditorForm" class="ui form" th:action="@{/dives/add}" th:object="${dive}" method="post" th:insert="dives/fragments/editor-form :: editor(errorTitle = ${#messages.msg('cannot_add_new_dive')})" enctype="multipart/form-data">
       </form>
 

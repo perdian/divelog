@@ -277,6 +277,10 @@
             <i class="trash icon"></i>
             <span th:text="#{delete}">Delete</span>
           </a>
+          <a class="ui right floated button" th:href="@{/dives/add(diveTemplate=${diveEntity.id})}" th:if="${diveEntity != null && diveEntity.id != null}">
+            <i class="plus icon"></i>
+            <span th:text="#{add_new_dive_with_this_dive_as_template}">Add new dive</span>
+          </a>
           <script type="text/javascript">
               $("#diveEditorForm").on("submit", function() {
                   $("#editorSubmitButton").prop("disabled", true);

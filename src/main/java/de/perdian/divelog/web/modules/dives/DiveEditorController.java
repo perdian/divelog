@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.perdian.divelog.model.entities.Dive;
@@ -26,14 +28,15 @@ public class DiveEditorController {
     private DiveEditorService diveEditorService = null;
 
     @GetMapping(path = "/add")
-    public String doAdd() {
+    public String doAdd(Model model) {
+        model.addAttribute("previousDives", this.getDiveEditorService().createPreviousDives());
         return "/dives/add";
     }
 
     @PostMapping(path = "/add")
     public String doAddPost(@Valid @ModelAttribute("dive") DiveEditor diveEditor, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return this.doAdd();
+            return "/dives/add";
         } else {
             Dive createdDiveEntity = this.getDiveEditorService().createDiveFromEditor(diveEditor);
             redirectAttributes.addFlashAttribute("updatedDive", createdDiveEntity);
@@ -53,7 +56,7 @@ public class DiveEditorController {
             redirectAttributes.addFlashAttribute("updatedDive", updatedDiveEntity);
             return "redirect:/dives/edit/" + updatedDiveEntity.getId();
         } else {
-            return this.doEdit();
+            return "/dives/edit";
         }
     }
 
@@ -89,13 +92,18 @@ public class DiveEditorController {
     }
 
     @ModelAttribute(name = "dive")
-    DiveEditor diveEditor(@ModelAttribute("diveEntity") Dive diveEntity) {
-        return this.getDiveEditorService().createDiveEditor(diveEntity);
+    public DiveEditor diveEditor(@ModelAttribute("diveEntity") Dive diveEntity, @ModelAttribute("diveTemplate") Dive diveTemplate) {
+        return this.getDiveEditorService().createDiveEditor(diveEntity, diveTemplate);
     }
 
     @ModelAttribute(name = "diveEntity", binding = false)
     public Dive diveEntity(@PathVariable(name = "id", required = false) UUID diveEntityId) {
-        return this.getDiveEditorService().createDiveEntity(diveEntityId);
+        return this.getDiveEditorService().createDiveEntity(diveEntityId, true);
+    }
+
+    @ModelAttribute(name = "diveTemplate", binding = false)
+    public Dive diveTemplate(@RequestParam(name = "diveTemplate", required = false) UUID diveTemplateId) {
+        return this.getDiveEditorService().createDiveEntity(diveTemplateId, false);
     }
 
     DiveEditorService getDiveEditorService() {

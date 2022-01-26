@@ -20,6 +20,13 @@ public class Air implements Serializable {
     private Integer pressureStart = null;
     private Integer pressureEnd = null;
 
+    public Air() {
+    }
+
+    public Air(AirType type) {
+        this.setType(type);
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);

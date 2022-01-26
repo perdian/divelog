@@ -1,9 +1,13 @@
 package de.perdian.divelog.web.modules.dives;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,6 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import de.perdian.divelog.model.entities.Dive;
 import de.perdian.divelog.model.entities.DiveLogbookImage;
+import de.perdian.divelog.model.entities.components.Air;
+import de.perdian.divelog.model.entities.components.AirType;
 import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.repositories.DiveLookbookImageRepository;
 import de.perdian.divelog.model.repositories.DiveRepository;
@@ -25,7 +31,7 @@ class DiveEditorService {
     private DiveLookbookImageRepository diveLookbookImageRepository = null;
     private DiveLogUser currentUser = null;
 
-    public DiveEditor createDiveEditor(Dive diveEntity) {
+    public DiveEditor createDiveEditor(Dive diveEntity, Dive templateEntity) {
         DiveEditor diveEditor = new DiveEditor();
         if (diveEntity != null) {
             diveEditor.setAir(diveEntity.getAir());
@@ -42,7 +48,27 @@ class DiveEditorService {
             diveEditor.setTotalTimeMinutes(diveEntity.getTotalTimeMinutes());
             diveEditor.setLogbookImage(new Image(diveEntity.getLogbookImage() == null ? null : diveEntity.getLogbookImage().getJpegBytes()));
         } else {
-            diveEditor.setStart(new PlaceAndTime(LocalDate.now(), null));
+            if (templateEntity == null) {
+                diveEditor.setAir(new Air(AirType.REGULAR));
+                diveEditor.setStart(new PlaceAndTime(LocalDate.now(), null));
+            } else {
+
+                PlaceAndTime newStart = new PlaceAndTime();
+                newStart.setDate(templateEntity.getStart().getDate());
+                newStart.setLocation(templateEntity.getStart().getLocation());
+                newStart.setType(templateEntity.getStart().getType());
+                PlaceAndTime newEnd = new PlaceAndTime();
+                newEnd.setLocation(templateEntity.getEnd().getLocation());
+
+                diveEditor.setAir(new Air(templateEntity.getAir() == null ? AirType.REGULAR : templateEntity.getAir().getType()));
+                diveEditor.setBuddy(templateEntity.getBuddy());
+                diveEditor.setEnd(newEnd);
+                diveEditor.setEnvironment(templateEntity.getEnvironment());
+                diveEditor.setEquipment(templateEntity.getEquipment());
+                diveEditor.setOrganizer(templateEntity.getOrganizer());
+                diveEditor.setStart(newStart);
+
+            }
         }
         return diveEditor;
     }
@@ -92,14 +118,23 @@ class DiveEditorService {
         return diveEntity;
     }
 
-    public Dive createDiveEntity(UUID diveEntityId) {
+    public Dive createDiveEntity(UUID diveEntityId, boolean includeDetails) {
         Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class).and(
             (root, query, criteriaBuilder) -> {
-                root.fetch("logbookImage");
+                if (includeDetails) {
+                    root.fetch("logbookImage");
+                }
                 return criteriaBuilder.equal(root.get("id"), diveEntityId);
             }
         );
         return diveEntityId == null ? null : this.getDiveRepository().findOne(diveEntitySpecification).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public List<Dive> createPreviousDives() {
+        Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class);
+        Sort diveEntitySort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
+        PageRequest diveEntityPageRequest = PageRequest.of(0, 5, diveEntitySort);
+        return this.getDiveRepository().findAll(diveEntitySpecification, diveEntityPageRequest).getContent();
     }
 
     DiveRepository getDiveRepository() {
