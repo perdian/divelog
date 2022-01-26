@@ -4,7 +4,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import de.perdian.divelog.model.entities.Dive;
 import de.perdian.divelog.model.entities.components.Air;
 import de.perdian.divelog.model.entities.components.Buddy;
 import de.perdian.divelog.model.entities.components.Environment;
@@ -30,45 +29,9 @@ public class DiveEditor {
     private Equipment equipment = null;
     private Buddy buddy = null;
     private Organizer organizer = null;
-    private Image image = null;
-    private Image imageUpload = null;
-    private boolean imageDelete = false;
-
-    public void applyTo(Dive dive) {
-        dive.setAir(this.getAir());
-        dive.setBuddy(this.getBuddy());
-        dive.setComments(this.getComments());
-        dive.setEnd(this.getEnd());
-        dive.setEnvironment(this.getEnvironment());
-        dive.setEquipment(this.getEquipment());
-        dive.setMaxDepth(this.getMaxDepth());
-        dive.setOrganizer(this.getOrganizer());
-        dive.setPadiStatistics(this.getPadiStatistics());
-        dive.setSpot(this.getSpot());
-        dive.setStart(this.getStart());
-        dive.setTotalTimeMinutes(this.getTotalTimeMinutes());
-        if (this.isImageDelete()) {
-            dive.setImage(null);
-        } else if (this.getImageUpload() != null && this.getImageUpload().isAvailable()) {
-            dive.setImage(this.getImageUpload().getJpegBytes());
-        }
-    }
-
-    public void applyFrom(Dive dive) {
-        this.setAir(dive.getAir());
-        this.setBuddy(dive.getBuddy());
-        this.setComments(dive.getComments());
-        this.setEnd(dive.getEnd());
-        this.setEnvironment(dive.getEnvironment());
-        this.setEquipment(dive.getEquipment());
-        this.setMaxDepth(dive.getMaxDepth());
-        this.setOrganizer(dive.getOrganizer());
-        this.setPadiStatistics(dive.getPadiStatistics());
-        this.setSpot(dive.getSpot());
-        this.setStart(dive.getStart());
-        this.setTotalTimeMinutes(dive.getTotalTimeMinutes());
-        this.setImage(new Image(dive.getImage()));
-    }
+    private Image logbookImage = null;
+    private Image logbookImageUpload = null;
+    private boolean logbookImageDelete = false;
 
     @Valid
     public PlaceAndTime getStart() {
@@ -169,25 +132,25 @@ public class DiveEditor {
         this.organizer = organizer;
     }
 
-    public Image getImage() {
-        return this.image;
+    public Image getLogbookImage() {
+        return this.logbookImage;
     }
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public Image getImageUpload() {
-        return this.imageUpload;
-    }
-    public void setImageUpload(Image imageUpload) {
-        this.imageUpload = imageUpload;
+    public void setLogbookImage(Image logbookImage) {
+        this.logbookImage = logbookImage;
     }
 
-    public boolean isImageDelete() {
-        return this.imageDelete;
+    public Image getLogbookImageUpload() {
+        return this.logbookImageUpload;
     }
-    public void setImageDelete(boolean imageDelete) {
-        this.imageDelete = imageDelete;
+    public void setLogbookImageUpload(Image logbookImageUpload) {
+        this.logbookImageUpload = logbookImageUpload;
+    }
+
+    public boolean isLogbookImageDelete() {
+        return this.logbookImageDelete;
+    }
+    public void setLogbookImageDelete(boolean logbookImageDelete) {
+        this.logbookImageDelete = logbookImageDelete;
     }
 
 }

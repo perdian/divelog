@@ -9,7 +9,7 @@ import de.perdian.divelog.model.entities.components.PlaceAndTime;
 
 @Entity
 @Table(name = "trips")
-public class Trip extends AbstractEntity {
+public class Trip extends AbstractIdentifiedEntity {
 
     static final long serialVersionUID = 1L;
 

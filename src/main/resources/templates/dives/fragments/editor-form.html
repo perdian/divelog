@@ -7,7 +7,6 @@
       <div th:insert="components/errors :: all_errors(title = ${errorTitle}, object = 'dive')" />
 
       <div class="ui segments" >
-
         <div class="ui segment">
           <h4 class="ui header">
             <span class="right aligned floating ui label" th:if="${diveEntity == null && nextDiveNumber != null}"><span th:text="#{diveNo}">Dive No.</span>  <span class="detail" th:text="${nextDiveNumber}"></span></span>
@@ -231,34 +230,34 @@
         </div>
 
         <div class="ui segment">
-          <h4 class="ui header" th:text="#{field.dive.image}">Image</h4>
-          <div class="ui centered card" th:if="${dive.image != null && dive.image.available}">
-            <a tabindex="-1" class="ui image" th:href="@{'/dives/image/' + ${diveEntity.id}}" target="_blank">
-              <img th:src="@{'/dives/image/' + ${diveEntity.id}}" />
+          <h4 class="ui header" th:text="#{field.dive.logbookImage}">Logbook image</h4>
+          <div class="ui centered card" th:if="${dive.logbookImage != null && dive.logbookImage.available}">
+            <a tabindex="-1" class="ui image" th:href="@{'/dives/logbookImage/' + ${diveEntity.id}}" target="_blank">
+              <img th:src="@{'/dives/logbookImage/' + ${diveEntity.id}}" />
             </a>
             <div class="extra content">
               <span class="left floated">
-                <button tabindex="-1" type="button" class="ui negative button" id="imageDeleteButton">
+                <button tabindex="-1" type="button" class="ui negative button" id="logbookImageDeleteButton">
                   <i class="trash alternate icon"></i>
                   <span th:text="#{delete}">Delete image</span>
                 </button>
               </span>
               <span class="right floated">
-                <a tabindex="-1" class="ui button" th:href="@{'/dives/image/' + ${diveEntity.id}}" target="_blank">
+                <a tabindex="-1" class="ui button" th:href="@{'/dives/logbookImage/' + ${diveEntity.id}}" target="_blank">
                   <i class="binoculars icon"></i>
                   <span th:text="#{zoom}">Zoom image</span>
                 </a>
               </span>
             </div>
             <script type="text/javascript">
-                $("#imageDeleteButton").on("click", function() {
-                    $("input[name='imageDelete']").val("true");
+                $("#logbookImageDeleteButton").on("click", function() {
+                    $("input[name='logbookImageDelete']").val("true");
                     $("#diveEditorForm").submit();
                 });
             </script>
           </div>
-          <div th:replace="components/fields :: semantic_input_file(class='field', fieldName='imageUpload', localizationPrefix='dive')"></div>
-          <input type="hidden" name="imageDelete" value="false" />
+          <div th:replace="components/fields :: semantic_input_file(class='field', fieldName='logbookImageUpload', localizationPrefix='dive')"></div>
+          <input type="hidden" name="logbookImageDelete" value="false" />
         </div>
 
         <div class="ui segment">
@@ -267,13 +266,19 @@
         </div>
 
         <div class="ui segment printerhidden">
+
           <span class="mobile hidden" th:if="${diveEntity == null && nextDiveNumber != null}">
             <span class="bottom right aligned floating ui label"><span th:text="#{diveNo}">Dive No.</span> <span class="detail" th:text="${nextDiveNumber}"></span></span>
           </span>
-          <button type="submit" class="ui primary button">
+          <button type="submit" class="ui primary button" id="editorSubmitButton">
             <i class="save icon"></i>
-            <span th:text="#{save}">Save</span>
+            <span id="editorSubmitButtonText" th:text="#{save}">Save</span>
           </button>
+          <script type="text/javascript">
+              $("#diveEditorForm").on("submit", function() {
+                  $("#editorSubmitButton").prop("disabled", true);
+              });
+          </script>
         </div>
 
       </div>

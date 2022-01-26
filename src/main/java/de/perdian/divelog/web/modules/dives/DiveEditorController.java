@@ -1,13 +1,10 @@
 package de.perdian.divelog.web.modules.dives;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,20 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import de.perdian.divelog.model.entities.Dive;
-import de.perdian.divelog.model.entities.components.PlaceAndTime;
-import de.perdian.divelog.model.repositories.DiveRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
 @Controller
 @RequestMapping("/dives")
 public class DiveEditorController {
 
-    private DiveLogUser currentUser = null;
-    private DiveRepository diveRepository = null;
+    private DiveEditorService diveEditorService = null;
 
     @GetMapping(path = "/add")
     public String doAdd(@ModelAttribute("dive") DiveEditor diveEditor) {
@@ -43,15 +35,9 @@ public class DiveEditorController {
         if (bindingResult.hasErrors()) {
             return this.doAdd(diveEditor);
         } else {
-
-            Dive newEntity = new Dive();
-            diveEditor.applyTo(newEntity);
-            newEntity.setUser(this.getCurrentUser().getUserEntity());
-
-            Dive savedEntity = this.getDiveRepository().save(newEntity);
-            redirectAttributes.addFlashAttribute("savedDive", savedEntity);
-            return "redirect:/dives/edit/" + savedEntity.getId();
-
+            Dive createdDiveEntity = this.getDiveEditorService().createDiveFromEditor(diveEditor);
+            redirectAttributes.addFlashAttribute("updatedDive", createdDiveEntity);
+            return "redirect:/dives/edit/" + createdDiveEntity.getId();
         }
     }
 
@@ -63,67 +49,44 @@ public class DiveEditorController {
     @PostMapping(path = "/edit/{id}")
     public String doEditPost(@Valid @ModelAttribute("dive") DiveEditor diveEditor, BindingResult bindingResult, @ModelAttribute("diveEntity") Dive diveEntity, RedirectAttributes redirectAttributes) {
         if (!bindingResult.hasErrors()) {
-            diveEditor.applyTo(diveEntity);
-            this.getDiveRepository().save(diveEntity);
-            redirectAttributes.addFlashAttribute("savedDive", diveEntity);
-            return "redirect:/dives/edit/" + diveEntity.getId();
+            Dive updatedDiveEntity = this.getDiveEditorService().updateDiveFromEditor(diveEntity, diveEditor);
+            redirectAttributes.addFlashAttribute("updatedDive", updatedDiveEntity);
+            return "redirect:/dives/edit/" + updatedDiveEntity.getId();
         } else {
             return this.doEdit(diveEditor);
         }
     }
 
-    @GetMapping(path = "/image/{id}")
+    @GetMapping(path = "/logbookImage/{id}")
     public ResponseEntity<?> doImage(@ModelAttribute("dive") DiveEditor diveEditor) {
-        if (diveEditor.getImage() == null || !diveEditor.getImage().isAvailable()) {
+        if (diveEditor.getLogbookImage() == null || !diveEditor.getLogbookImage().isAvailable()) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity
                 .ok()
-                .contentLength(diveEditor.getImage().getJpegBytes().length)
+                .contentLength(diveEditor.getLogbookImage().getJpegBytes().length)
                 .contentType(MediaType.IMAGE_JPEG)
-                .eTag(DigestUtils.md5DigestAsHex(diveEditor.getImage().getJpegBytes()))
-                .body(diveEditor.getImage().getJpegBytes());
+                .eTag(DigestUtils.md5DigestAsHex(diveEditor.getLogbookImage().getJpegBytes()))
+                .body(diveEditor.getLogbookImage().getJpegBytes());
         }
     }
 
     @ModelAttribute(name = "dive")
     DiveEditor diveEditor(@ModelAttribute("diveEntity") Dive diveEntity) {
-        DiveEditor diveEditor = new DiveEditor();
-        if (diveEntity != null) {
-            diveEditor.applyFrom(diveEntity);
-        } else {
-            diveEditor.setStart(new PlaceAndTime(LocalDate.now(), null));
-        }
-        return diveEditor;
+        return this.getDiveEditorService().createDiveEditor(diveEntity);
     }
 
     @ModelAttribute(name = "diveEntity", binding = false)
     public Dive diveEntity(@PathVariable(name = "id", required = false) UUID diveEntityId) {
-        Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class).and(
-            (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("id"), diveEntityId)
-        );
-        return diveEntityId == null ? null : this.getDiveRepository().findOne(diveEntitySpecification).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return this.getDiveEditorService().createDiveEntity(diveEntityId);
     }
 
-    @ModelAttribute(name = "nextDiveNumber", binding = false)
-    Long nextDiveNumber() {
-        return this.getDiveRepository().count(this.getCurrentUser().specification(Dive.class)) + 1;
-    }
-
-    DiveRepository getDiveRepository() {
-        return this.diveRepository;
+    DiveEditorService getDiveEditorService() {
+        return this.diveEditorService;
     }
     @Autowired
-    void setDiveRepository(DiveRepository diveRepository) {
-        this.diveRepository = diveRepository;
-    }
-
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
-    }
-    @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    void setDiveEditorService(DiveEditorService diveEditorService) {
+        this.diveEditorService = diveEditorService;
     }
 
 }

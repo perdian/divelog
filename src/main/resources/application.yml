@@ -21,6 +21,7 @@ spring:
         jdbc:
           time_zone: "UTC"
         show_sql: ${DIVELOG_DB_SHOW_SQL:false}
+        format_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
   servlet:
     multipart:

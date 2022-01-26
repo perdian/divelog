@@ -9,7 +9,7 @@ import de.perdian.divelog.model.entities.components.UserProvider;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+public class User extends AbstractIdentifiedEntity {
 
     static final long serialVersionUID = 1L;
 

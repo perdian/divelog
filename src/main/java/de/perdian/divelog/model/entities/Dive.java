@@ -1,8 +1,11 @@
 package de.perdian.divelog.model.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
@@ -19,7 +22,7 @@ import de.perdian.divelog.model.entities.components.Spot;;
 
 @Entity
 @Table(name = "dives")
-public class Dive extends AbstractEntity implements UserContainer {
+public class Dive extends AbstractIdentifiedEntity implements UserContainer {
 
     static final long serialVersionUID = 1L;
 
@@ -38,7 +41,7 @@ public class Dive extends AbstractEntity implements UserContainer {
     private PadiStatistics padiStatistics = null;
     private Organizer organizer = null;
     private String comments = null;
-    private byte[] image = null;
+    private DiveLogbookImage logbookImage = null;
 
     @Override
     public boolean equals(Object that) {
@@ -162,11 +165,20 @@ public class Dive extends AbstractEntity implements UserContainer {
         this.comments = comments;
     }
 
-    public byte[] getImage() {
-        return this.image;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true, mappedBy = "dive")
+    public DiveLogbookImage getLogbookImage() {
+        return this.logbookImage;
     }
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setLogbookImage(DiveLogbookImage logbookImage) {
+        this.logbookImage = logbookImage;
+    }
+    public DiveLogbookImage ensureLogbookImage() {
+        if (this.getLogbookImage() == null) {
+            DiveLogbookImage newLogbookImage = new DiveLogbookImage();
+            newLogbookImage.setDive(this);
+            this.setLogbookImage(newLogbookImage);
+        }
+        return this.getLogbookImage();
     }
 
 }

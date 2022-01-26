@@ -7,7 +7,7 @@
     </appender>
 
     <logger name="org.flywaydb" level="INFO" />
-    <logger name="com.zaxxer.hikari" level="INFO" />
+    <logger name="com.zaxxer.hikari" level="WARN" />
     <logger name="org.hibernate" level="INFO" />
     <logger name="org.hibernate.jpa" level="INFO" />
     <logger name="_org.springframework" level="WARN" />
