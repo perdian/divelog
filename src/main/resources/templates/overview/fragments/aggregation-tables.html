@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+
+    <table th:fragment="aggregation-items(list, enumClass)" class="ui very basic compact table">
+      <tbody>
+        <tr th:each="listItem : ${list}">
+          <td th:text="${#messages.msg(listItem.titleKey)}">Type</td>
+          <td class="right aligned" th:text="${listItem.totalValue}">42</td>
+          <td class="collapsing right aligned">
+            <span th:text="${'(' + #divelog.formatNumber(listItem.percentValue, '0') + ' %)'}" th:if="${listItem.percentValue != null && listItem.percentValue > 0}"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </body>
+</html>

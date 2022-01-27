@@ -3,8 +3,46 @@
   <body>
     <main>
 
-      <pre>[[ ${overview} ]]</pre>
+      <div class="ui header">
+        <i class="home icon"></i>
+        <div class="content" th:text="#{overview}"></div>
+      </div>
+      <div class="ui divider"></div>
 
+      <div class="ui stackable grid">
+        <div class="row">
+          <div class="four wide column">
+            <h3 th:text="#{dive_totals}">Dive totals</h3>
+            <table class="ui very basic compact table">
+              <tbody>
+                <tr>
+                  <td th:text="#{total_number_of_dives}">Total number of dives</td>
+                  <td class="right aligned" th:text="${overview.totalDives}">42</td>
+                </tr>
+                <tr>
+                  <td th:text="#{aggregated_underwater_time}">Aggregated underwater time</td>
+                  <td class="right aligned">
+                    <span th:text="${#divelog.formatNumber(overview.aggregatedTotalTimeMinutes / 60d, '#,##0.#')}">Time</span>
+                    <span th:text="#{unit.h}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="four wide column">
+            <h3 th:text="#{dives_by_location_type}">Dives by location type</h3>
+            <table th:replace="overview/fragments/aggregation-tables :: aggregation-items(${overview.aggregatedLocationTypes}, 'PlaceType')"></table>
+          </div>
+          <div class="four wide column">
+            <h3 th:text="#{dives_by_water_type}">Dives by water type</h3>
+            <table th:replace="overview/fragments/aggregation-tables :: aggregation-items(${overview.aggregatedWaterTypes}, 'WaterType')"></table>
+          </div>
+          <div class="four wide column">
+            <h3 th:text="#{dives_by_suit_type}">Dives by suit type</h3>
+            <table th:replace="overview/fragments/aggregation-tables :: aggregation-items(${overview.aggregatedSuitTypes}, 'SuitType')"></table>
+          </div>
+        </div>
+      </div>
 
       <div class="ui fluid card">
         <div id="globalMap" class="image" style="width: 100%; height: 500px" th:data-endpoint="@{/api/locations/overview}">
