@@ -71,6 +71,21 @@
         </div>
 
         <div class="ui segment">
+          <h4 class="ui header" th:text="#{environment}">Environment</h4>
+          <div class="fields">
+            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.entities.components.WaterType', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
+          </div>
+          <div class="inline fields">
+            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.waves', localizationPrefix='dive')"></div>
+            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.current', localizationPrefix='dive')"></div>
+          </div>
+        </div>
+
+        <div class="ui segment">
           <h4 class="ui header" th:text="#{location}">Location</h4>
           <div class="ui stackable grid">
             <div class="eleven wide column nopaddinghorizontal">
@@ -247,21 +262,6 @@
         </div>
 
         <div class="ui segment">
-          <h4 class="ui header" th:text="#{environment}">Environment</h4>
-          <div class="fields">
-            <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='environment.waterType', enumClass='de.perdian.divelog.model.entities.components.WaterType', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureSurface', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureGround', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input(class='three wide field', fieldName='environment.visibility', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_input_right_labeled(class='three wide field', fieldName='environment.temperatureAir', fieldLabel=${#messages.msg('unit.celsius')}, localizationPrefix='dive')"></div>
-          </div>
-          <div class="inline fields">
-            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.waves', localizationPrefix='dive')"></div>
-            <div th:replace="components/fields :: semantic_checkbox(class='field', fieldName='environment.current', localizationPrefix='dive')"></div>
-          </div>
-        </div>
-
-        <div class="ui segment">
           <h4 class="ui header" th:text="#{buddy}">Buddy</h4>
           <div class="fields">
             <div th:replace="components/fields :: semantic_select_enum(class='four wide field', fieldName='buddy.type', enumClass='de.perdian.divelog.model.entities.components.BuddyType', localizationPrefix='dive')"></div>
@@ -305,19 +305,19 @@
           <div th:replace="components/fields :: semantic_textarea(class='field', fieldName='comments')"></div>
         </div>
 
-        <div class="ui segment printerhidden">
+        <div class="ui clearing segment printerhidden">
           <span class="mobile hidden" th:if="${diveEntity == null && nextDiveNumber != null}">
             <span class="bottom right aligned floating ui label"><span th:text="#{dive_no}">Dive No.</span> <span class="detail" th:text="${nextDiveNumber}"></span></span>
           </span>
-          <button type="submit" class="ui primary button" id="editorSubmitButton">
+          <button type="submit" class="ui right floated primary button" id="editorSubmitButton">
             <i class="save icon"></i>
             <span id="editorSubmitButtonText" th:text="#{save}">Save</span>
           </button>
-          <a class="ui right floated negative button" th:href="@{'/dives/delete/' + ${diveEntity.id}}" th:if="${diveEntity != null && diveEntity.id != null}">
+          <a class="ui negative button" th:href="@{'/dives/delete/' + ${diveEntity.id}}" th:if="${diveEntity != null && diveEntity.id != null}">
             <i class="trash icon"></i>
             <span th:text="#{delete}">Delete</span>
           </a>
-          <a class="ui right floated button" th:href="@{/dives/add(diveTemplate=${diveEntity.id})}" th:if="${diveEntity != null && diveEntity.id != null}">
+          <a class="ui button" th:href="@{/dives/add(diveTemplate=${diveEntity.id})}" th:if="${diveEntity != null && diveEntity.id != null}">
             <i class="plus icon"></i>
             <span th:text="#{add_new_dive_with_this_dive_as_template}">Add new dive</span>
           </a>
