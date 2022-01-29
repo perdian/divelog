@@ -16,7 +16,6 @@ import de.perdian.divelog.model.entities.components.Buddy;
 import de.perdian.divelog.model.entities.components.Environment;
 import de.perdian.divelog.model.entities.components.Equipment;
 import de.perdian.divelog.model.entities.components.Organizer;
-import de.perdian.divelog.model.entities.components.PadiStatistics;
 import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.entities.components.Spot;;
 
@@ -38,7 +37,6 @@ public class Dive extends AbstractIdentifiedEntity implements UserContainer {
     private Integer bottomTimeMinutes = null;
     private Environment environment = null;
     private Buddy buddy = null;
-    private PadiStatistics padiStatistics = null;
     private Organizer organizer = null;
     private String comments = null;
     private DiveLogbookImage logbookImage = null;
@@ -141,13 +139,6 @@ public class Dive extends AbstractIdentifiedEntity implements UserContainer {
     }
     public void setBuddy(Buddy buddy) {
         this.buddy = buddy;
-    }
-
-    public PadiStatistics getPadiStatistics() {
-        return this.padiStatistics;
-    }
-    public void setPadiStatistics(PadiStatistics padiStatistics) {
-        this.padiStatistics = padiStatistics;
     }
 
     public Organizer getOrganizer() {

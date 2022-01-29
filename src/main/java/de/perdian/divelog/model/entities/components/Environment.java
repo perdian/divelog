@@ -17,9 +17,8 @@ public class Environment implements Serializable {
 
     static final long serialVersionUID = 1L;
 
-    private Double temperatureAir = null;
-    private Double temperatureSurface = null;
-    private Double temperatureGround = null;
+    private Double waterTemperature = null;
+    private Double airTemperature = null;
     private WaterType waterType = null;
     private String visibility = null;
     private Boolean waves = null;
@@ -30,25 +29,18 @@ public class Environment implements Serializable {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.NO_CLASS_NAME_STYLE);
     }
 
-    public Double getTemperatureAir() {
-        return this.temperatureAir;
+    public Double getWaterTemperature() {
+        return this.waterTemperature;
     }
-    public void setTemperatureAir(Double temperatureAir) {
-        this.temperatureAir = temperatureAir;
-    }
-
-    public Double getTemperatureSurface() {
-        return this.temperatureSurface;
-    }
-    public void setTemperatureSurface(Double temperatureSurface) {
-        this.temperatureSurface = temperatureSurface;
+    public void setWaterTemperature(Double waterTemperature) {
+        this.waterTemperature = waterTemperature;
     }
 
-    public Double getTemperatureGround() {
-        return this.temperatureGround;
+    public Double getAirTemperature() {
+        return this.airTemperature;
     }
-    public void setTemperatureGround(Double temperatureGround) {
-        this.temperatureGround = temperatureGround;
+    public void setAirTemperature(Double airTemperature) {
+        this.airTemperature = airTemperature;
     }
 
     @Enumerated(EnumType.STRING)

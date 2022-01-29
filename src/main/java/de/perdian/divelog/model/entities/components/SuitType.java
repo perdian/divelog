@@ -5,6 +5,7 @@ public enum SuitType {
     NONE,
     WET_SHORT,
     WET_FULL,
+    SEMI,
     DRY;
 
 }

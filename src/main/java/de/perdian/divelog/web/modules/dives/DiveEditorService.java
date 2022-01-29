@@ -42,7 +42,6 @@ class DiveEditorService {
             diveEditor.setEquipment(diveEntity.getEquipment());
             diveEditor.setMaxDepth(diveEntity.getMaxDepth());
             diveEditor.setOrganizer(diveEntity.getOrganizer());
-            diveEditor.setPadiStatistics(diveEntity.getPadiStatistics());
             diveEditor.setSpot(diveEntity.getSpot());
             diveEditor.setStart(diveEntity.getStart());
             diveEditor.setTotalTimeMinutes(diveEntity.getTotalTimeMinutes());
@@ -83,7 +82,6 @@ class DiveEditorService {
         diveEntity.setEquipment(diveEditor.getEquipment());
         diveEntity.setMaxDepth(diveEditor.getMaxDepth());
         diveEntity.setOrganizer(diveEditor.getOrganizer());
-        diveEntity.setPadiStatistics(diveEditor.getPadiStatistics());
         diveEntity.setSpot(diveEditor.getSpot());
         diveEntity.setStart(diveEditor.getStart());
         diveEntity.setTotalTimeMinutes(diveEditor.getTotalTimeMinutes());

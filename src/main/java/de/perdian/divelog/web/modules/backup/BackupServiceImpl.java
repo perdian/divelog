@@ -74,7 +74,6 @@ class BackupServiceImpl implements BackupService {
         targetDive.setEquipment(sourceDive.getEquipment());
         targetDive.setMaxDepth(sourceDive.getMaxDepth());
         targetDive.setOrganizer(sourceDive.getOrganizer());
-        targetDive.setPadiStatistics(sourceDive.getPadiStatistics());
         targetDive.setSpot(sourceDive.getSpot());
         targetDive.setStart(sourceDive.getStart());
         targetDive.setTotalTimeMinutes(sourceDive.getTotalTimeMinutes());

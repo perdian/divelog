@@ -9,7 +9,6 @@ import de.perdian.divelog.model.entities.components.Buddy;
 import de.perdian.divelog.model.entities.components.Environment;
 import de.perdian.divelog.model.entities.components.Equipment;
 import de.perdian.divelog.model.entities.components.Organizer;
-import de.perdian.divelog.model.entities.components.PadiStatistics;
 import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.entities.components.Spot;
 import de.perdian.divelog.web.support.types.image.Image;
@@ -25,7 +24,6 @@ public class DiveEditor {
     private Air air = null;
     private Double maxDepth = null;
     private Environment environment = null;
-    private PadiStatistics padiStatistics = null;
     private Equipment equipment = null;
     private Buddy buddy = null;
     private Organizer organizer = null;
@@ -101,13 +99,6 @@ public class DiveEditor {
     }
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-    }
-
-    public PadiStatistics getPadiStatistics() {
-        return this.padiStatistics;
-    }
-    public void setPadiStatistics(PadiStatistics padiStatistics) {
-        this.padiStatistics = padiStatistics;
     }
 
     @Valid
