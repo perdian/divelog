@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})" th:with="a='b'">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})">
   <body>
     <main class="ui container">
 
@@ -38,13 +38,12 @@
                   <i class="plus icon"></i>
                   <span th:text="#{add_dive}">Add dive</span>
                 </a>
-
               </td>
             </tr>
             <tr th:each="dive : ${dives.content}" class="top aligned">
               <td class="collapsing">
                 <div class="ui checkbox">
-                  <input class="diveSelection" type="checkbox" th:name="${'diveSelection_' + dive.id}" th:checked="${selectedDives.contains(dive)}" />
+                  <input class="diveSelection" type="checkbox" name="diveSelection" th:value="${dive.id}" th:checked="${selectedDives.contains(dive)}" />
                 </div>
               </td>
               <td class="collapsing">

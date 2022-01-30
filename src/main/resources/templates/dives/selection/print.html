@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(title=_, head=~{::head}, content=~{::main})">
+  <head>
+    <link rel="stylesheet" th:href="@{/assets/divelog/css/print/dives.css}" />
+  </head>
+  <body>
+    <main class="dives">
+
+      <div th:each="dive : ${selectedDives}" class="dive" >
+
+        DIVE: [[ ${dive} ]]
+
+      </div>
+
+    </main>
+  </body>
+</html>

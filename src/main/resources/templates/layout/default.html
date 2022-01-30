@@ -17,7 +17,7 @@
 
     <script th:src="@{/webjars/momentjs/min/moment.min.js}"></script>
 
-    <link rel="stylesheet" th:href="@{/assets/divelog/css/screen.css}" />
+    <link rel="stylesheet" th:href="@{/assets/divelog/css/default.css}" />
     <script th:src="@{/assets/divelog/js/i18n.js}"></script>
     <script th:src="@{/assets/divelog/js/places.js}"></script>
 
@@ -25,7 +25,7 @@
 
     <div th:if="${#strings.length(head) > 1}" th:replace="${head}">Additional header content</div>
   </head>
-  <body class="default">
+  <body th:class="${#strings.isEmpty(bodyClass) ? 'default' : bodyClass}">
 
     <header class="ui inverted menu">
       <div class="active item">

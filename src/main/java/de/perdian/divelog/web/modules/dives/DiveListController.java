@@ -1,10 +1,8 @@
 package de.perdian.divelog.web.modules.dives;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +33,15 @@ public class DiveListController {
         return "/dives/list";
     }
 
+    @RequestMapping("/selection")
+    public String doSelection(@RequestParam("diveSelectionAction") String diveSelectionAction, @ModelAttribute("selectedDives") List<Dive> selectedDives) {
+        if ("print".equalsIgnoreCase(diveSelectionAction)) {
+            return "/dives/selection/print";
+        } else {
+            throw new UnsupportedOperationException("Unsupported diveSelectionAction: " + diveSelectionAction);
+        }
+    }
+
     @ModelAttribute(name = "dives", binding = false)
     public Page<Dive> dives(@RequestParam(name = "pageIndex", required = false) Integer pageIndex, @RequestParam(name = "pageSize", required = false) Integer pageSize) {
 
@@ -49,18 +56,10 @@ public class DiveListController {
     }
 
     @ModelAttribute(name = "selectedDives", binding = false)
-    public List<Dive> selectedDives(@ModelAttribute("dives") Page<Dive> allDives, @RequestParam Map<String, String> allRequestParameters) {
-
-        Set<UUID> requestedDiveIdentifiers = allRequestParameters.keySet().stream()
-            .filter(parameter -> parameter.startsWith("diveSelection_"))
-            .map(parameter -> parameter.substring("diveSelection_".length()))
-            .map(diveIdentifier -> UUID.fromString(diveIdentifier))
-            .collect(Collectors.toSet());
-
-        return allDives.getContent().stream()
-            .filter(dive -> requestedDiveIdentifiers.contains(dive.getId()))
+    public List<Dive> selectedDives(@ModelAttribute("dives") Page<Dive> allDives, @RequestParam(name = "diveSelection", required = false) List<UUID> diveIdentifiers) {
+        return diveIdentifiers == null ? Collections.emptyList() : allDives.getContent().stream()
+            .filter(dive -> diveIdentifiers.contains(dive.getId()))
             .toList();
-
     }
 
     DiveLogUser getCurrentUser() {

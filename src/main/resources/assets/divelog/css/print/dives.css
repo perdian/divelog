@@ -1,0 +1,10 @@
+@media only print {
+
+  header { display: none !important; }
+  footer { display: none !important; }
+
+  @page { size: A5; }
+
+  main.dives .dive { break-before: page; }
+
+}

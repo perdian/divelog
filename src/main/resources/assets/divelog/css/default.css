@@ -1,7 +1,8 @@
 .printeronly { display: none; }
 
 @media only screen {
-  body.default { display: flex; flex-direction: column; height: 100%; padding: 0.5rem; }
+  body { padding: 0.5rem; }
+  body.default { display: flex; flex-direction: column; height: 100%; }
   body.default div.main { height: 100%; flex-grow: 1; display: flex; flex-direction: column; overflow: auto; }
   body.default div.main > main { padding: 0.5rem 1rem 0.5rem 1rem; flex-grow: 1; }
 }
