@@ -9,6 +9,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.perdian.divelog.model.entities.components.Air;
@@ -49,6 +52,14 @@ public class Dive extends AbstractIdentifiedEntity implements UserContainer {
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    public static Sort sortWithNewestFirst() {
+        return Sort.by(Order.desc("start.date"), Order.desc("start.time"), Order.desc("createdAt"));
+    }
+
+    public static Sort sortWithOldestFirst() {
+        return Sort.by(Order.asc("start.date"), Order.asc("start.time"), Order.asc("createdAt"));
     }
 
     @Override

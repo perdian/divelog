@@ -5,8 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +40,8 @@ public class OverviewController {
 
     @ModelAttribute(name = "dives", binding = false)
     public List<Dive> dives() {
-        Sort sort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
         Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
-        return this.getDiveRepository().findAll(specification, sort);
+        return this.getDiveRepository().findAll(specification, Dive.sortWithNewestFirst());
     }
 
     @ModelAttribute(name = "overviewQuery")

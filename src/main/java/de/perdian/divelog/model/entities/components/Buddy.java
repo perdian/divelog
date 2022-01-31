@@ -15,6 +15,7 @@ public class Buddy implements Serializable {
     static final long serialVersionUID = 1L;
 
     private String name = null;
+    private String certificationNumber = null;
     private BuddyType type = BuddyType.BUDDY;
 
     @Override
@@ -27,6 +28,13 @@ public class Buddy implements Serializable {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCertificationNumber() {
+        return this.certificationNumber;
+    }
+    public void setCertificationNumber(String certificationNumber) {
+        this.certificationNumber = certificationNumber;
     }
 
     @Enumerated(EnumType.STRING)

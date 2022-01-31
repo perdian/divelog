@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +33,9 @@ public class DiveListController {
     }
 
     @RequestMapping("/selection")
-    public String doSelection(@RequestParam("diveSelectionAction") String diveSelectionAction, @ModelAttribute("selectedDives") List<Dive> selectedDives) {
+    public String doSelection(@RequestParam("diveSelectionAction") String diveSelectionAction, @ModelAttribute("selectedDives") List<Dive> selectedDives, Model model) {
         if ("print".equalsIgnoreCase(diveSelectionAction)) {
+            model.addAttribute("allDives", this.getDiveRepository().findAll(this.getCurrentUser().specification(Dive.class), Dive.sortWithOldestFirst()));
             return "/dives/selection/print";
         } else {
             throw new UnsupportedOperationException("Unsupported diveSelectionAction: " + diveSelectionAction);
@@ -47,8 +47,7 @@ public class DiveListController {
 
         int cleanedPageIndex = pageIndex == null ? 0 : Math.max(0, pageIndex.intValue());
         int cleanedPageSize = pageSize == null ? this.getMaxDivesPerPage() : Math.min(this.getMaxDivesPerPage(), Math.max(1, pageSize.intValue()));
-        Sort pageSort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
-        PageRequest pageRequest = PageRequest.of(cleanedPageIndex, cleanedPageSize, pageSort);
+        PageRequest pageRequest = PageRequest.of(cleanedPageIndex, cleanedPageSize, Dive.sortWithNewestFirst());
         Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
 
         return this.getDiveRepository().findAll(specification, pageRequest);

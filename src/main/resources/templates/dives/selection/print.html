@@ -2,14 +2,169 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(title=_, head=~{::head}, content=~{::main})">
   <head>
     <link rel="stylesheet" th:href="@{/assets/divelog/css/print/dives.css}" />
+    <style type="text/css">
+
+      @media only print {
+
+        header { display: none !important; }
+        footer { display: none !important; }
+        body { font-size: 13px !important; }
+
+        .ui.divider { display: none !important; }
+
+        @page { size: A5; }
+
+        main.dives .dive { break-before: page; padding: 1rem; }
+
+      }
+
+      @media only screen {
+        main.dives .dive { margin: 0 0 1rem 0; }
+      }
+
+      main.dives .dive h2 { margin: 1.5rem 0.75rem 0.5rem 0.75rem; }
+      main.dives .dive h2:first-child { margin-top: 0; }
+      main.dives .dive table { margin: 0; }
+      main.dives .dive table td { vertical-align: top; padding: 0.5rem 0.75rem !important; }
+      main.dives .dive table .value { font-weight: bold; }
+
+    </style>
   </head>
   <body>
     <main class="dives">
 
-      <div th:each="dive : ${selectedDives}" class="dive" >
+      <div th:each="dive,diveStatus : ${selectedDives}" class="dive">
 
-        DIVE: [[ ${dive} ]]
+        <div class="ui divider" th:if="${diveStatus.index > 0}"></div>
 
+        <h2 class="ui small header" th:text="#{general_information}">General information</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="collapsing">
+                <label th:text="#{dive}">Dive No.</label>
+                <div class="value" th:text="${allDives.indexOf(dive) + 1}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{date}">Date</label>
+                <div class="value" th:text="${dive.start == null ? '' : #divelog.formatTemporal(dive.start.date, 'dd.MM.yyyy')}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{start_time}">Start time</label>
+                <div class="value" th:text="${dive.start == null ? '' : dive.start.time == null ? '' : #divelog.formatTemporal(dive.start.time, 'HH:mm')}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{end_time}">End time</label>
+                <div class="value" th:text="${dive.end == null || dive.end.time == null ? '' : #divelog.formatTemporal(dive.end.time, 'HH:mm')}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{duration}">Total time</label>
+                <div class="value">
+                  <span th:text="${dive.totalTimeMinutes}">Time</span> <span th:text="#{unit.min}">min</span>
+                </div>
+              </td>
+              <td>
+                <label th:text="#{max_depth}">Max depth</label>
+                <div class="value">
+                  <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.#')}">Max depth</span> <span th:text="#{unit.m}">m</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <label th:text="#{type}">Type</label>
+                <div class="value" th:text="${dive.start.type == null ? '' : #messages.msg('enum.PlaceType.' + dive.start.type)}"></div>
+              </td>
+              <td colspan="5">
+                <label th:text="#{field.dive.start.location.name}">Location</label>
+                <div class="value" th:text="${dive.start == null || dive.start.location == null ? '' : dive.start.location.name}"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="ui small header" th:text="#{equipment}">Equipment</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="collapsing">
+                <label th:text="#{air}">Air</label>
+                <div class="value" th:text="${dive.air.type == null ? '' : #messages.msg('enum.AirType.' + dive.air.type)}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{pressure_start}">Pressure start</label>
+                <div class="value" th:if="${dive.air.pressureStart != null}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureStart, '0')}">Start</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{pressure_start}">Pressure end</label>
+                <div class="value" th:if="${dive.air.pressureEnd != null}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+              <td>
+                <label th:text="#{computer}">Computer</label>
+                <div class="value" th:text="${dive.equipment == null ? '' : dive.equipment.computer}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="collapsing">
+                <label th:text="#{suit}">Suit</label>
+                <div class="value" th:text="${dive.equipment.suitType == null ? '' : #messages.msg('enum.SuitType.' + dive.equipment.suitType)}"></div>
+              </td>
+              <td class="collapsing">
+                <label>&nbsp;</label>
+                <div class="value" th:if="${dive.equipment.suitThickness != null}">
+                  <span th:text="${#divelog.formatNumber(dive.equipment.suitThickness, '0')}">Thickness</span> <span th:text="#{unit.mm}">mm</span>
+                </div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{weight}">Weight</label>
+                <div class="value" th:if="${dive.equipment.weight != null}">
+                  <span th:text="${#divelog.formatNumber(dive.equipment.weight, '0.#')}">Weight</span> <span th:text="#{unit.kg}">kg</span>
+                </div>
+              </td>
+              <td>
+                <label>&nbsp;</label>
+                <div class="value">
+                  <span>
+                    +<span th:text="#{cap}"></span>
+                  </span>
+                  <span>
+                    +<span th:text="#{gloves}"></span>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="ui small header" th:text="#{environment}">Environment</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="collapsing">
+                <label th:text="#{water}">Water</label>
+                <div class="value" th:text="${dive.environment.waterType == null ? '' : #messages.msg('enum.WaterType.' + dive.environment.waterType)}"></div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{water_temp}">Water temp</label>
+                <div class="value" th:if="${dive.environment.waterTemperature != null}">
+                  <span th:text="${#divelog.formatNumber(dive.environment.waterTemperature, '0.#')}">Temp</span> <span th:text="#{unit.celsius}">°C</span>
+                </div>
+              </td>
+              <td class="collapsing">
+                <label th:text="#{air_temp}">Air temp</label>
+                <div class="value" th:if="${dive.environment.airTemperature != null}">
+                  <span th:text="${#divelog.formatNumber(dive.environment.airTemperature, '0.#')}">Temp</span> <span th:text="#{unit.celsius}">°C</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
     </main>

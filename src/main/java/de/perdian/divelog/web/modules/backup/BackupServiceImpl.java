@@ -12,8 +12,6 @@ import java.util.Objects;
 import java.util.zip.GZIPInputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,8 +90,7 @@ class BackupServiceImpl implements BackupService {
     public Backup createBackup() {
 
         Specification<Dive> diveSpecification = this.getCurrentUser().specification(Dive.class);
-        Sort diveSort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
-        List<Dive> diveList = this.getDiveRepository().findAll(diveSpecification, diveSort);
+        List<Dive> diveList = this.getDiveRepository().findAll(diveSpecification, Dive.sortWithNewestFirst());
 
         BackupMetadata backupMetadata = new BackupMetadata();
         backupMetadata.setCreatedAt(Instant.now());

@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -130,8 +128,7 @@ class DiveEditorService {
 
     public List<Dive> createPreviousDives() {
         Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class);
-        Sort diveEntitySort = Sort.by(Order.desc("start.date"), Order.desc("start.time"));
-        PageRequest diveEntityPageRequest = PageRequest.of(0, 5, diveEntitySort);
+        PageRequest diveEntityPageRequest = PageRequest.of(0, 5, Dive.sortWithNewestFirst());
         return this.getDiveRepository().findAll(diveEntitySpecification, diveEntityPageRequest).getContent();
     }
 
