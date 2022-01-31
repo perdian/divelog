@@ -1,5 +1,11 @@
 package de.perdian.divelog.model.entities;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Comparator;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 
@@ -54,8 +63,35 @@ public class Dive extends AbstractIdentifiedEntity implements UserContainer {
         return super.hashCode();
     }
 
+    @Override
+    public String toString() {
+        ToStringBuilder toStringBuilder = new ToStringBuilder(this, ToStringStyle.NO_CLASS_NAME_STYLE);
+        toStringBuilder.append("id", this.getId());
+        toStringBuilder.append("start", this.getStart());
+        toStringBuilder.append("end", this.getEnd());
+        return toStringBuilder.toString();
+    }
+
     public static Sort sortWithNewestFirst() {
         return Sort.by(Order.desc("start.date"), Order.desc("start.time"), Order.desc("createdAt"));
+    }
+
+    public static Comparator<Dive> comparatorWithOldestFirst() {
+        return (d1, d2) -> {
+
+            ZoneId zoneId = d1.getStart() == null ? null : d1.getStart().getLocation() == null || StringUtils.isEmpty(d1.getStart().getLocation().getTimezoneId()) ? ZoneId.of("UTC") : ZoneId.of(d1.getStart().getLocation().getTimezoneId());
+            LocalDate localDate1 = d1.getStart() == null ? null : d1.getStart().getDate();
+            LocalTime localTime1 = d1.getStart() == null || d1.getStart().getTime() == null ? LocalTime.of(12, 0) : d1.getStart().getTime();
+            Instant instant1 = localDate1 == null ? null : localDate1.atTime(localTime1).atZone(zoneId).toInstant();
+
+            LocalDate localDate2 = d2.getEnd() == null || d2.getEnd().getDate() == null ? localDate1 : d2.getEnd().getDate();
+            LocalTime localTime2 = d2.getEnd() == null || d2.getEnd().getTime() == null ? LocalTime.of(12, 0) : d2.getEnd().getTime();
+            Instant instant2 = localDate2 == null ? null : localDate2.atTime(localTime2).atZone(zoneId).toInstant();
+
+            int resultInstant = instant1 == null || instant2 == null ? 0 : instant1.compareTo(instant2);
+            return resultInstant != 0 ? resultInstant : d1.getCreatedAt().compareTo(d2.getCreatedAt());
+
+        };
     }
 
     public static Sort sortWithOldestFirst() {

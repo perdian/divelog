@@ -8,25 +8,34 @@
 
         header { display: none !important; }
         footer { display: none !important; }
-        body { font-size: 13px !important; }
+        body { font-size: 9pt !important; }
 
         .ui.divider { display: none !important; }
 
         @page { size: A5; }
 
         main.dives .dive { break-before: page; padding: 1rem; }
+        main.dives .dive .page-header { margin: 0 0 1rem 0; }
 
       }
 
       @media only screen {
+
+        main.dives { max-width: 148mm; }
         main.dives .dive { margin: 0 0 1rem 0; }
+        main.dives .dive .page-header { display: none !important; }
+
+        .ui.divider { margin: 5rem 0; }
+
       }
 
-      main.dives .dive h2 { margin: 1.5rem 0.75rem 0.5rem 0.75rem; }
+      main.dives { margin: 0; padding: 0 0 0 1.75rem; }
+      main.dives .dive h2 { margin: 1.2rem 0.6rem 0.5rem 0.6rem; }
       main.dives .dive h2:first-child { margin-top: 0; }
       main.dives .dive table { margin: 0; }
-      main.dives .dive table td { vertical-align: top; padding: 0.5rem 0.75rem !important; }
+      main.dives .dive table td { vertical-align: top; padding: 0.4rem 0.6rem !important; }
       main.dives .dive table .value { font-weight: bold; }
+      main.dives .dive .breaking-lines { white-space: pre; }
 
     </style>
   </head>
@@ -37,33 +46,53 @@
 
         <div class="ui divider" th:if="${diveStatus.index > 0}"></div>
 
-        <h2 class="ui small header" th:text="#{general_information}">General information</h2>
+        <table class="ui basic table page-header">
+          <tbody>
+            <tr>
+              <td class="six wide">
+                <i class="book icon"></i> &nbsp; <strong>DiveLog</strong>
+              </td>
+              <td class="ten wide right aligned">
+                <a tabindex="-1" th:href="@{https://github.com/perdian/divelog}" target="_blank">
+                  <i class="code icon"></i>
+                  https://github.com/perdian/divelog
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+        <h2 class="ui right floated small header">
+          <span th:text="#{all_dives_duration}"></span>:
+          <span th:text="${#divelog.formatNumber(#divelog.sumTotalHours(dives, dive), '0.#')}" />
+          <span th:text="#{unit.h}" />
+        </h2>
+        <h2 class="ui small header">
+          <span th:text="#{dive}"></span> <strong><span th:text="${allDives.indexOf(dive) + 1}"></span></strong>
+        </h2>
         <table class="ui basic table">
           <tbody>
             <tr>
-              <td class="collapsing">
-                <label th:text="#{dive}">Dive No.</label>
-                <div class="value" th:text="${allDives.indexOf(dive) + 1}"></div>
-              </td>
-              <td class="collapsing">
+              <td class="four wide">
                 <label th:text="#{date}">Date</label>
                 <div class="value" th:text="${dive.start == null ? '' : #divelog.formatTemporal(dive.start.date, 'dd.MM.yyyy')}"></div>
               </td>
-              <td class="collapsing">
+              <td class="three wide">
                 <label th:text="#{start_time}">Start time</label>
                 <div class="value" th:text="${dive.start == null ? '' : dive.start.time == null ? '' : #divelog.formatTemporal(dive.start.time, 'HH:mm')}"></div>
               </td>
-              <td class="collapsing">
+              <td class="three wide">
                 <label th:text="#{end_time}">End time</label>
                 <div class="value" th:text="${dive.end == null || dive.end.time == null ? '' : #divelog.formatTemporal(dive.end.time, 'HH:mm')}"></div>
               </td>
-              <td class="collapsing">
-                <label th:text="#{duration}">Total time</label>
+              <td class="three wide">
+                <label th:text="#{duration}">Duration</label>
                 <div class="value">
                   <span th:text="${dive.totalTimeMinutes}">Time</span> <span th:text="#{unit.min}">min</span>
                 </div>
               </td>
-              <td>
+              <td class="three wide">
                 <label th:text="#{max_depth}">Max depth</label>
                 <div class="value">
                   <span th:text="${#divelog.formatNumber(dive.maxDepth, '0.#')}">Max depth</span> <span th:text="#{unit.m}">m</span>
@@ -71,72 +100,24 @@
               </td>
             </tr>
             <tr>
-              <td class="collapsing">
+              <td colspan="4">
+                <label th:text="#{field.dive.start.location.name}">Location</label>
+                <div class="value">
+                  <span th:text="${dive.start == null || dive.start.location == null ? '' : dive.start.location.name}"></span>
+                  <span th:if="${not #strings.isEmpty(dive.start.location.countryCode)}">
+                    &nbsp; <i th:class="${#strings.toLowerCase(dive.start.location.countryCode) + ' flag'}"></i>
+                  </span>
+                </div>
+              </td>
+              <td class="three wide">
                 <label th:text="#{type}">Type</label>
                 <div class="value" th:text="${dive.start.type == null ? '' : #messages.msg('enum.PlaceType.' + dive.start.type)}"></div>
               </td>
-              <td colspan="5">
-                <label th:text="#{field.dive.start.location.name}">Location</label>
-                <div class="value" th:text="${dive.start == null || dive.start.location == null ? '' : dive.start.location.name}"></div>
-              </td>
             </tr>
-          </tbody>
-        </table>
-
-        <h2 class="ui small header" th:text="#{equipment}">Equipment</h2>
-        <table class="ui basic table">
-          <tbody>
-            <tr>
-              <td class="collapsing">
-                <label th:text="#{air}">Air</label>
-                <div class="value" th:text="${dive.air.type == null ? '' : #messages.msg('enum.AirType.' + dive.air.type)}"></div>
-              </td>
-              <td class="collapsing">
-                <label th:text="#{pressure_start}">Pressure start</label>
-                <div class="value" th:if="${dive.air.pressureStart != null}">
-                  <span th:text="${#divelog.formatNumber(dive.air.pressureStart, '0')}">Start</span> <span th:text="#{unit.bar}">bar</span>
-                </div>
-              </td>
-              <td class="collapsing">
-                <label th:text="#{pressure_start}">Pressure end</label>
-                <div class="value" th:if="${dive.air.pressureEnd != null}">
-                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
-                </div>
-              </td>
-              <td>
-                <label th:text="#{computer}">Computer</label>
-                <div class="value" th:text="${dive.equipment == null ? '' : dive.equipment.computer}">
-                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td class="collapsing">
-                <label th:text="#{suit}">Suit</label>
-                <div class="value" th:text="${dive.equipment.suitType == null ? '' : #messages.msg('enum.SuitType.' + dive.equipment.suitType)}"></div>
-              </td>
-              <td class="collapsing">
-                <label>&nbsp;</label>
-                <div class="value" th:if="${dive.equipment.suitThickness != null}">
-                  <span th:text="${#divelog.formatNumber(dive.equipment.suitThickness, '0')}">Thickness</span> <span th:text="#{unit.mm}">mm</span>
-                </div>
-              </td>
-              <td class="collapsing">
-                <label th:text="#{weight}">Weight</label>
-                <div class="value" th:if="${dive.equipment.weight != null}">
-                  <span th:text="${#divelog.formatNumber(dive.equipment.weight, '0.#')}">Weight</span> <span th:text="#{unit.kg}">kg</span>
-                </div>
-              </td>
-              <td>
-                <label>&nbsp;</label>
-                <div class="value">
-                  <span>
-                    +<span th:text="#{cap}"></span>
-                  </span>
-                  <span>
-                    +<span th:text="#{gloves}"></span>
-                  </span>
-                </div>
+            <tr th:if="${dive.spot != null && not #strings.isEmpty(dive.spot.location.name)}">
+              <td colspan="5" class="sixteen wide">
+                <label th:text="#{spot}">Spot</label>
+                <div class="value" th:text="${dive.spot.location.name}"></div>
               </td>
             </tr>
           </tbody>
@@ -146,27 +127,126 @@
         <table class="ui basic table">
           <tbody>
             <tr>
-              <td class="collapsing">
+              <td class="four wide">
                 <label th:text="#{water}">Water</label>
                 <div class="value" th:text="${dive.environment.waterType == null ? '' : #messages.msg('enum.WaterType.' + dive.environment.waterType)}"></div>
               </td>
-              <td class="collapsing">
-                <label th:text="#{water_temp}">Water temp</label>
+              <td class="three wide">
+                <label th:text="#{temp}">Water temp</label>
                 <div class="value" th:if="${dive.environment.waterTemperature != null}">
                   <span th:text="${#divelog.formatNumber(dive.environment.waterTemperature, '0.#')}">Temp</span> <span th:text="#{unit.celsius}">°C</span>
                 </div>
               </td>
-              <td class="collapsing">
+              <td class="three wide">
                 <label th:text="#{air_temp}">Air temp</label>
                 <div class="value" th:if="${dive.environment.airTemperature != null}">
                   <span th:text="${#divelog.formatNumber(dive.environment.airTemperature, '0.#')}">Temp</span> <span th:text="#{unit.celsius}">°C</span>
                 </div>
               </td>
+              <td class="six wide">
+                <label>&nbsp;</label>
+                <div class="value">
+                  <span th:if="${dive.environment.waves}">
+                    +<span th:text="#{waves}"></span>
+                  </span>
+                  <span th:if="${dive.environment.current}">
+                    +<span th:text="#{current}"></span>
+                  </span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
-      </div>
 
+        <h2 class="ui small header" th:text="#{equipment}">Equipment</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="four wide">
+                <label th:text="#{air}">Air</label>
+                <div class="value" th:text="${dive.air.type == null ? '' : #messages.msg('enum.AirType.' + dive.air.type)}"></div>
+              </td>
+              <td class="three wide">
+                <label th:text="#{start}">Start</label>
+                <div class="value" th:if="${dive.air.pressureStart != null}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureStart, '0')}">Start</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+              <td class="three wide">
+                <label th:text="#{end}">End</label>
+                <div class="value" th:if="${dive.air.pressureEnd != null}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+              <td class="six wide">
+                <label th:text="#{computer}">Computer</label>
+                <div class="value" th:text="${dive.equipment == null ? '' : dive.equipment.computer}">
+                  <span th:text="${#divelog.formatNumber(dive.air.pressureEnd, '0')}">End</span> <span th:text="#{unit.bar}">bar</span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="four wide">
+                <label th:text="#{suit}">Suit</label>
+                <div class="value" th:text="${dive.equipment.suitType == null ? '' : #messages.msg('enum.SuitType.' + dive.equipment.suitType)}"></div>
+              </td>
+              <td class="three wide">
+                <label>&nbsp;</label>
+                <div class="value" th:if="${dive.equipment.suitThickness != null}">
+                  <span th:text="${#divelog.formatNumber(dive.equipment.suitThickness, '0')}">Thickness</span> <span th:text="#{unit.mm}">mm</span>
+                </div>
+              </td>
+              <td class="three wide">
+                <label th:text="#{weight}">Weight</label>
+                <div class="value" th:if="${dive.equipment.weight != null}">
+                  <span th:text="${#divelog.formatNumber(dive.equipment.weight, '0.#')}">Weight</span> <span th:text="#{unit.kg}">kg</span>
+                </div>
+              </td>
+              <td class="six wide">
+                <label>&nbsp;</label>
+                <div class="value">
+                  <span th:if="${dive.equipment.cap}">
+                    +<span th:text="#{cap}"></span>
+                  </span>
+                  <span th:if="${dive.equipment.gloves}">
+                    +<span th:text="#{gloves}"></span>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="ui small header" th:text="#{buddy}">Buddy</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="four wide">
+                <label th:text="#{type}">Type</label>
+                <div class="value" th:text="${dive.buddy == null || dive.buddy.type == null ? '' : #messages.msg('enum.BuddyType.' + dive.buddy.type)}"></div>
+              </td>
+              <td class="nine wide">
+                <label th:text="#{name}">Name</label>
+                <div class="value" th:text="${dive.buddy == null ? '' : dive.buddy.name}"></div>
+              </td>
+              <td class="three wide">
+                <label th:if="${dive.buddy != null && not #strings.isEmpty(dive.buddy.certificationNumber)}" th:text="#{cert_no}">Certification number</label>
+                <div class="value" th:text="${dive.buddy == null ? '' : dive.buddy.certificationNumber}"></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="ui small header" th:text="#{comments}">Comments</h2>
+        <table class="ui basic table">
+          <tbody>
+            <tr>
+              <td class="sixteen wide breaking-lines" th:text="${#strings.isEmpty(dive.comments) ? '---' : dive.comments}"></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
     </main>
   </body>
 </html>

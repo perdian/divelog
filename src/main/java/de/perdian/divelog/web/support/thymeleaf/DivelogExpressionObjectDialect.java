@@ -5,6 +5,8 @@ import java.text.DecimalFormatSymbols;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.IExpressionContext;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
 import org.thymeleaf.expression.IExpressionObjectFactory;
+
+import de.perdian.divelog.model.entities.Dive;
 
 @Component
 public class DivelogExpressionObjectDialect implements IExpressionObjectDialect {
@@ -75,6 +79,15 @@ public class DivelogExpressionObjectDialect implements IExpressionObjectDialect 
             result.append(format.format(value.toHours())).append(":").append(format.format(value.toMinutesPart()));
             return result.toString();
         }
+    }
+
+    public double sumTotalHours(List<Dive> allDives, Dive untilDive) {
+        int untilDiveIndex = allDives.indexOf(untilDive);
+        List<Dive> countDives = untilDiveIndex < 0 ? Collections.emptyList() : allDives.subList(untilDiveIndex, allDives.size());
+
+        return countDives.stream()
+            .mapToInt(dive -> dive.getTotalTimeMinutes() == null ? 0 : dive.getTotalTimeMinutes().intValue())
+            .sum() / 60d;
     }
 
     Locale getLocale() {
