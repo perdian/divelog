@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="sign out alternate icon"></i>
+        <div class="content">
+          <span th:text="#{logout}">Logout</span>
+        </div>
+      </h2>
+
+      <div class="ui positive icon message">
+        <i class="check icon"></i>
+        <div class="content">
+          <div class="header" th:text="#{logout}">Logout</div>
+          <p th:text="#{logout_completed}"></p>
+        </div>
+      </div>
+
+    </main>
+  </body>
+</html>

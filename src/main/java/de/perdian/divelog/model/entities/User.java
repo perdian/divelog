@@ -1,11 +1,7 @@
 package de.perdian.divelog.model.entities;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Table;
-
-import de.perdian.divelog.model.entities.components.UserProvider;
 
 @Entity
 @Table(name = "users")
@@ -13,7 +9,7 @@ public class User extends AbstractIdentifiedEntity {
 
     static final long serialVersionUID = 1L;
 
-    private UserProvider provider = null;
+    private String provider = null;
     private String providerId = null;
     private String name = null;
 
@@ -27,11 +23,10 @@ public class User extends AbstractIdentifiedEntity {
         return super.hashCode();
     }
 
-    @Enumerated(EnumType.STRING)
-    public UserProvider getProvider() {
+    public String getProvider() {
         return this.provider;
     }
-    public void setProvider(UserProvider provider) {
+    public void setProvider(String provider) {
         this.provider = provider;
     }
 

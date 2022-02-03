@@ -22,12 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import de.perdian.divelog.model.entities.Dive;
 import de.perdian.divelog.model.repositories.DiveRepository;
 import de.perdian.divelog.web.modules.backup.BackupImportItem.ConsolidationResult;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
+import de.perdian.divelog.web.support.authentication.DiveLogUserHolder;
 
 @Service
 class BackupServiceImpl implements BackupService {
 
-    private DiveLogUser currentUser = null;
+    private DiveLogUserHolder userHolder = null;
     private DiveRepository diveRepository = null;
     private ObjectMapper objectMapper = null;
 
@@ -35,7 +35,7 @@ class BackupServiceImpl implements BackupService {
     @Transactional
     public List<BackupImportItem> executeImport(MultipartFile inputFile) throws IOException {
         Backup backup = this.extractBackupFromFile(inputFile);
-        List<Dive> allDives = this.getDiveRepository().findAll(this.getCurrentUser().specification(Dive.class));
+        List<Dive> allDives = this.getDiveRepository().findAll(this.getUserHolder().getCurrentUser().specification(Dive.class));
         List<BackupImportItem> importedItems = new ArrayList<>(backup.getDives().size());
         for (Dive importedDive : backup.getDives()) {
 
@@ -48,7 +48,7 @@ class BackupServiceImpl implements BackupService {
             BackupImportItem importItem = new BackupImportItem(importedDive);
             if (databaseDive == null) {
                 databaseDive = new Dive();
-                databaseDive.setUser(this.getCurrentUser().getUserEntity());
+                databaseDive.setUser(this.getUserHolder().getCurrentUser().getUserEntity());
                 importItem.setConsolidationResult(ConsolidationResult.INSERT);
             } else {
                 importItem.setConsolidationResult(ConsolidationResult.UPDATE);
@@ -89,12 +89,12 @@ class BackupServiceImpl implements BackupService {
     @Transactional
     public Backup createBackup() {
 
-        Specification<Dive> diveSpecification = this.getCurrentUser().specification(Dive.class);
+        Specification<Dive> diveSpecification = this.getUserHolder().getCurrentUser().specification(Dive.class);
         List<Dive> diveList = this.getDiveRepository().findAll(diveSpecification, Dive.sortWithNewestFirst());
 
         BackupMetadata backupMetadata = new BackupMetadata();
         backupMetadata.setCreatedAt(Instant.now());
-        backupMetadata.setUsername(this.getCurrentUser().getUserEntity().getName());
+        backupMetadata.setUsername(this.getUserHolder().getCurrentUser().getUserEntity().getName());
         Backup backup = new Backup();
         backup.setDives(diveList);
         backup.setMetadata(backupMetadata);
@@ -102,12 +102,12 @@ class BackupServiceImpl implements BackupService {
 
     }
 
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
+    DiveLogUserHolder getUserHolder() {
+        return this.userHolder;
     }
     @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    void setUserHolder(DiveLogUserHolder userHolder) {
+        this.userHolder = userHolder;
     }
 
     DiveRepository getDiveRepository() {

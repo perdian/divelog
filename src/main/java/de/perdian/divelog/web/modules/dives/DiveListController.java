@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import de.perdian.divelog.model.entities.Dive;
 import de.perdian.divelog.model.repositories.DiveRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
+import de.perdian.divelog.web.support.authentication.DiveLogUserHolder;
 
 @Controller
 @RequestMapping("/dives")
 public class DiveListController {
 
-    private DiveLogUser currentUser = null;
+    private DiveLogUserHolder userHolder = null;
     private DiveRepository diveRepository = null;
     private Integer maxDivesPerPage = 100;
 
@@ -35,7 +35,7 @@ public class DiveListController {
     @RequestMapping("/selection")
     public String doSelection(@RequestParam("diveSelectionAction") String diveSelectionAction, @ModelAttribute("selectedDives") List<Dive> selectedDives, Model model) {
         if ("print".equalsIgnoreCase(diveSelectionAction)) {
-            model.addAttribute("allDives", this.getDiveRepository().findAll(this.getCurrentUser().specification(Dive.class), Dive.sortWithOldestFirst()));
+            model.addAttribute("allDives", this.getDiveRepository().findAll(this.getUserHolder().getCurrentUser().specification(Dive.class), Dive.sortWithOldestFirst()));
             return "/dives/selection/print";
         } else {
             throw new UnsupportedOperationException("Unsupported diveSelectionAction: " + diveSelectionAction);
@@ -48,7 +48,7 @@ public class DiveListController {
         int cleanedPageIndex = pageIndex == null ? 0 : Math.max(0, pageIndex.intValue());
         int cleanedPageSize = pageSize == null ? this.getMaxDivesPerPage() : Math.min(this.getMaxDivesPerPage(), Math.max(1, pageSize.intValue()));
         PageRequest pageRequest = PageRequest.of(cleanedPageIndex, cleanedPageSize, Dive.sortWithNewestFirst());
-        Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
+        Specification<Dive> specification = this.getUserHolder().getCurrentUser().specification(Dive.class);
 
         return this.getDiveRepository().findAll(specification, pageRequest);
 
@@ -61,12 +61,12 @@ public class DiveListController {
             .toList();
     }
 
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
+    DiveLogUserHolder getUserHolder() {
+        return this.userHolder;
     }
     @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    void setUserHolder(DiveLogUserHolder userHolder) {
+        this.userHolder = userHolder;
     }
 
     DiveRepository getDiveRepository() {

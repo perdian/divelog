@@ -19,7 +19,7 @@ import de.perdian.divelog.model.entities.components.AirType;
 import de.perdian.divelog.model.entities.components.PlaceAndTime;
 import de.perdian.divelog.model.repositories.DiveLookbookImageRepository;
 import de.perdian.divelog.model.repositories.DiveRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
+import de.perdian.divelog.web.support.authentication.DiveLogUserHolder;
 import de.perdian.divelog.web.support.types.image.Image;
 
 @Service
@@ -27,7 +27,7 @@ class DiveEditorService {
 
     private DiveRepository diveRepository = null;
     private DiveLookbookImageRepository diveLookbookImageRepository = null;
-    private DiveLogUser currentUser = null;
+    private DiveLogUserHolder userHolder = null;
 
     public DiveEditor createDiveEditor(Dive diveEntity, Dive templateEntity) {
         DiveEditor diveEditor = new DiveEditor();
@@ -104,7 +104,7 @@ class DiveEditorService {
     @Transactional
     public Dive createDiveFromEditor(DiveEditor diveEditor) {
         Dive newEntity = new Dive();
-        newEntity.setUser(this.getCurrentUser().getUserEntity());
+        newEntity.setUser(this.getUserHolder().getCurrentUser().getUserEntity());
         return this.updateDiveFromEditor(newEntity, diveEditor);
     }
 
@@ -115,7 +115,7 @@ class DiveEditorService {
     }
 
     public Dive createDiveEntity(UUID diveEntityId, boolean includeDetails) {
-        Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class).and(
+        Specification<Dive> diveEntitySpecification = this.getUserHolder().getCurrentUser().specification(Dive.class).and(
             (root, query, criteriaBuilder) -> {
                 if (includeDetails) {
                     root.fetch("logbookImage");
@@ -127,7 +127,7 @@ class DiveEditorService {
     }
 
     public List<Dive> createPreviousDives() {
-        Specification<Dive> diveEntitySpecification = this.getCurrentUser().specification(Dive.class);
+        Specification<Dive> diveEntitySpecification = this.getUserHolder().getCurrentUser().specification(Dive.class);
         PageRequest diveEntityPageRequest = PageRequest.of(0, 5, Dive.sortWithNewestFirst());
         return this.getDiveRepository().findAll(diveEntitySpecification, diveEntityPageRequest).getContent();
     }
@@ -148,12 +148,12 @@ class DiveEditorService {
         this.diveLookbookImageRepository = diveLookbookImageRepository;
     }
 
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
+    DiveLogUserHolder getUserHolder() {
+        return this.userHolder;
     }
     @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    void setUserHolder(DiveLogUserHolder userHolder) {
+        this.userHolder = userHolder;
     }
 
 }

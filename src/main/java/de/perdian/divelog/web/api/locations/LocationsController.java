@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import de.perdian.divelog.model.entities.Dive;
 import de.perdian.divelog.model.entities.components.Location;
 import de.perdian.divelog.model.repositories.DiveRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogUser;
+import de.perdian.divelog.web.support.authentication.DiveLogUserHolder;
 
 @RestController
 @RequestMapping("/api/locations")
 public class LocationsController {
 
-    private DiveLogUser currentUser = null;
+    private DiveLogUserHolder userHolder = null;
     private DiveRepository diveRepository = null;
 
     @GetMapping("/overview")
     public LocationsResult doOverview() {
 
-        Specification<Dive> specification = this.getCurrentUser().specification(Dive.class);
+        Specification<Dive> specification = this.getUserHolder().getCurrentUser().specification(Dive.class);
         List<Dive> allDives = this.getDiveRepository().findAll(specification);
 
         LocationsResult result = new LocationsResult();
@@ -55,12 +55,12 @@ public class LocationsController {
 
     }
 
-    DiveLogUser getCurrentUser() {
-        return this.currentUser;
+    DiveLogUserHolder getUserHolder() {
+        return this.userHolder;
     }
     @Autowired
-    void setCurrentUser(DiveLogUser currentUser) {
-        this.currentUser = currentUser;
+    void setUserHolder(DiveLogUserHolder userHolder) {
+        this.userHolder = userHolder;
     }
 
     DiveRepository getDiveRepository() {

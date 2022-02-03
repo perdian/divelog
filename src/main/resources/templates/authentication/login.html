@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/default :: html(_, _, ~{::main})">
+  <body>
+    <main class="ui container">
+
+      <h2 class="ui header">
+        <i class="user icon"></i>
+        <div class="content">
+          <span th:text="#{login}">Login</span>
+        </div>
+      </h2>
+
+      <div class="ui negative icon message" th:if="${authenticationException != null}">
+        <i class="exclamation triangle icon"></i>
+        <div class="content">
+          <div class="header" th:text="#{error}">Error</div>
+          <p th:text="${authenticationException.message}"></p>
+        </div>
+      </div>
+
+    </main>
+  </body>
+</html>

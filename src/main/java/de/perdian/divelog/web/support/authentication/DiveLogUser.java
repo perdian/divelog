@@ -9,6 +9,8 @@ public interface DiveLogUser {
 
     User getUserEntity();
 
-    <T extends UserContainer> Specification<T> specification(Class<T> entityClass);
+    default <T extends UserContainer> Specification<T> specification(Class<T> entityClass) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("user"), this.getUserEntity());
+    }
 
 }

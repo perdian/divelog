@@ -23,6 +23,13 @@ spring:
         show_sql: ${DIVELOG_DB_SHOW_SQL:false}
         format_sql: true
         implicit_naming_strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${DIVELOG_AUTHENTICATION_OAUTH2_GOOGLE_CLIENT_ID:null}
+            client-secret: ${DIVELOG_AUTHENTICATION_OAUTH2_GOOGLE_CLIENT_SECRET:null}
   servlet:
     multipart:
       max-file-size: 5MB
@@ -47,6 +54,11 @@ server:
       protocol-header: x-forwarded-proto
 
 divelog:
+  authentication:
+    required: ${DIVELOG_AUTHENTICATION_REQUIRED:false}
+    oauth2Provider: ${DIVELOG_AUTHENTICATION_OAUTH2_PROVIDER:google}
+    whitelistedUserIdentifiers:
+      google: ${DIVELOG_AUTHENTICATION_WHITELISTED_USER_IDENTIFIERS:null}
   locale: ${DIVELOG_LOCALE:de_DE}
   language: ${DIVELOG_LANGUAGE:en}
   api:
