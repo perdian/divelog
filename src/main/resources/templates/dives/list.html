@@ -55,10 +55,10 @@
                   <i class="clock outline icon"></i>
                   <span th:text="${' ' + #divelog.formatTemporal(dive.start.time, 'HH:mm')}" th:if="${dive.start.time != null}">Time Start</span>
                   <span th:text="${' - ' + #divelog.formatTemporal(dive.end.time, 'HH:mm')}" th:if="${dive.end != null && dive.end.time != null}">Time End</span>
-                  <div th:if="${dive.start.location.timezoneId != null}">
-                    <i class="compass outline icon"></i>
-                    <span th:text="${dive.start.location.timezoneId}">Timezone</span>
-                  </div>
+                </div>
+                <div th:if="${dive.start.location.timezoneId != null}">
+                  <i class="compass outline icon"></i>
+                  <span th:text="${dive.start.location.timezoneId}">Timezone</span>
                 </div>
               </td>
               <td class="collapsing">

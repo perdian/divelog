@@ -55,7 +55,7 @@ class DiveEditorService {
                 newStart.setLocation(templateEntity.getStart().getLocation());
                 newStart.setType(templateEntity.getStart().getType());
                 PlaceAndTime newEnd = new PlaceAndTime();
-                newEnd.setLocation(templateEntity.getEnd().getLocation());
+                newEnd.setLocation(templateEntity.getEnd() == null ? null : templateEntity.getEnd().getLocation());
 
                 diveEditor.setAir(new Air(templateEntity.getAir() == null ? AirType.REGULAR : templateEntity.getAir().getType()));
                 diveEditor.setBuddy(templateEntity.getBuddy());

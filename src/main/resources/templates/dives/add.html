@@ -23,6 +23,8 @@
                   <span th:text="${#divelog.formatTemporal(previousDive.start.time, 'HH:mm')}">Start time</span>
                   -
                   <span th:text="${#divelog.formatTemporal(previousDive.end.time, 'HH:mm')}">End time</span>
+                </th:block>
+                <th:block th:if="${not #strings.isEmpty(previousDive.start.location.name)}">
                   &nbsp;
                   <span th:text="${previousDive.start.location.name}">Location</span>
                 </th:block>
