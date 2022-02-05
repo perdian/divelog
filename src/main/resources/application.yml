@@ -55,10 +55,8 @@ server:
 
 divelog:
   authentication:
-    required: ${DIVELOG_AUTHENTICATION_REQUIRED:false}
-    oauth2Provider: ${DIVELOG_AUTHENTICATION_OAUTH2_PROVIDER:google}
-    whitelistedUserIdentifiers:
-      google: ${DIVELOG_AUTHENTICATION_WHITELISTED_USER_IDENTIFIERS:null}
+    type: ${DIVELOG_AUTHENTICATION_TYPE:none}
+    whitelistedUserIdentifiers: ${DIVELOG_AUTHENTICATION_WHITELISTED_USER_IDENTIFIERS:null}
   locale: ${DIVELOG_LOCALE:de_DE}
   language: ${DIVELOG_LANGUAGE:en}
   api:

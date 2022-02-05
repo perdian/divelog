@@ -48,7 +48,7 @@ class BackupServiceImpl implements BackupService {
             BackupImportItem importItem = new BackupImportItem(importedDive);
             if (databaseDive == null) {
                 databaseDive = new Dive();
-                databaseDive.setUser(this.getUserHolder().getCurrentUser().getUserEntity());
+                databaseDive.setUser(this.getUserHolder().getCurrentUser().getEntity());
                 importItem.setConsolidationResult(ConsolidationResult.INSERT);
             } else {
                 importItem.setConsolidationResult(ConsolidationResult.UPDATE);
@@ -94,7 +94,7 @@ class BackupServiceImpl implements BackupService {
 
         BackupMetadata backupMetadata = new BackupMetadata();
         backupMetadata.setCreatedAt(Instant.now());
-        backupMetadata.setUsername(this.getUserHolder().getCurrentUser().getUserEntity().getName());
+        backupMetadata.setUsername(this.getUserHolder().getCurrentUser().getEntity().getName());
         Backup backup = new Backup();
         backup.setDives(diveList);
         backup.setMetadata(backupMetadata);

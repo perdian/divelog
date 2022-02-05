@@ -104,7 +104,7 @@ class DiveEditorService {
     @Transactional
     public Dive createDiveFromEditor(DiveEditor diveEditor) {
         Dive newEntity = new Dive();
-        newEntity.setUser(this.getUserHolder().getCurrentUser().getUserEntity());
+        newEntity.setUser(this.getUserHolder().getCurrentUser().getEntity());
         return this.updateDiveFromEditor(newEntity, diveEditor);
     }
 

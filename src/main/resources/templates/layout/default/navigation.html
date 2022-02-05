@@ -30,8 +30,8 @@
             </a>
           </div>
         </div>
-        <div tabindex="-1" class="ui simple mobile hidden right aligned dropdown item">
-          <i class="user icon"></i> <span th:text="${user.email}">User</span>
+        <div tabindex="-1" class="ui simple mobile hidden right aligned dropdown item" th:if="${not #strings.isEmpty(user.username)}">
+          <i class="user icon"></i> <span th:text="${user.username}">User</span>
           <i class="dropdown icon"></i>
           <div class="menu">
             <a tabindex="-1" class="item" th:href="@{/authentication/logout}">
@@ -72,12 +72,14 @@
                 <i class="upload icon"></i>
                 <span th:text="#{import_data}">Import data</span>
               </a>
-              <div class="ui divider"></div>
-              <div class="header" th:text="${user.email}">User</div>
-              <a tabindex="-1" class="item" th:href="@{/authentication/logout}">
-                <i class="sign out alternate icon"></i>
-                <span th:text="#{logout}">Logout</span>
-              </a>
+              <th:block th:if="${not #strings.isEmpty(user.username)}">
+                <div class="ui divider"></div>
+                <div class="header" th:text="${user.email}">User</div>
+                <a tabindex="-1" class="item" th:href="@{/authentication/logout}">
+                  <i class="sign out alternate icon"></i>
+                  <span th:text="#{logout}">Logout</span>
+                </a>
+              </th:block>
             </th:block>
           </div>
         </div>

@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import de.perdian.divelog.model.entities.User;
 import de.perdian.divelog.web.support.authentication.DiveLogUser;
 
-public class DiveLogOAuth2User extends DefaultOidcUser implements DiveLogUser {
+class DiveLogOAuth2User extends DefaultOidcUser implements DiveLogUser {
 
     static final long serialVersionUID = 1L;
 
@@ -22,7 +22,12 @@ public class DiveLogOAuth2User extends DefaultOidcUser implements DiveLogUser {
     }
 
     @Override
-    public User getUserEntity() {
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public User getEntity() {
         return this.userEntity;
     }
     void setUserEntity(User userEntity) {

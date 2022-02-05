@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -12,19 +13,18 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.perdian.divelog.model.entities.User;
 import de.perdian.divelog.model.repositories.UserRepository;
-import de.perdian.divelog.web.support.authentication.DiveLogAuthenticationSettings;
+import de.perdian.divelog.web.support.authentication.DivelogAuthenticationType;
 
-@Service
-public class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
+class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserRequest, OidcUser> {
 
-    private OidcUserService delegate = new OidcUserService();
-    private DiveLogAuthenticationSettings authenticationSettings = null;
+    private DivelogAuthenticationType authenticationType = null;
+    private String whitelistedUserIdentifiers = null;
     private UserRepository userRepository = null;
+    private OidcUserService delegate = new OidcUserService();
 
     @Override
     @Transactional
@@ -33,7 +33,7 @@ public class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserReque
         OidcUser delegateUser = this.getDelegate().loadUser(userRequest);
         String delegateId = StringUtils.defaultIfEmpty(delegateUser.getEmail(), delegateUser.getName());
 
-        User userEntity = this.ensureUser(this.getAuthenticationSettings().getOauth2Provider(), delegateId);
+        User userEntity = this.ensureUser(this.getAuthenticationType().name(), delegateId);
         DiveLogOAuth2User user = new DiveLogOAuth2User(delegateUser.getAuthorities(), delegateUser.getIdToken(), delegateUser.getUserInfo());
         user.setUserEntity(userEntity);
         return user;
@@ -46,8 +46,7 @@ public class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserReque
         if (userEntity != null) {
             return userEntity;
         } else {
-            String whitelistedUserIdentifiersString = this.getAuthenticationSettings().getWhitelistedUserIdentifiers() == null ? null : this.getAuthenticationSettings().getWhitelistedUserIdentifiers().get(provider);
-            List<String> whitelistedUserIdentifiers = StringUtils.isEmpty(whitelistedUserIdentifiersString) ? null : Arrays.asList(StringUtils.split(whitelistedUserIdentifiersString, ",; "));
+            List<String> whitelistedUserIdentifiers = StringUtils.isEmpty(this.getWhitelistedUserIdentifiers()) ? null : Arrays.asList(StringUtils.split(this.getWhitelistedUserIdentifiers(), ",; "));
             if (whitelistedUserIdentifiers == null || whitelistedUserIdentifiers.isEmpty() || whitelistedUserIdentifiers.contains(providerId)) {
                 userEntity = new User();
                 userEntity.setProvider(provider);
@@ -59,19 +58,20 @@ public class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserReque
         }
     }
 
-    OidcUserService getDelegate() {
-        return this.delegate;
+    DivelogAuthenticationType getAuthenticationType() {
+        return this.authenticationType;
     }
-    void setDelegate(OidcUserService delegate) {
-        this.delegate = delegate;
+    @Value("${divelog.authentication.type}")
+    void setAuthenticationType(DivelogAuthenticationType authenticationType) {
+        this.authenticationType = authenticationType;
     }
 
-    DiveLogAuthenticationSettings getAuthenticationSettings() {
-        return this.authenticationSettings;
+    String getWhitelistedUserIdentifiers() {
+        return this.whitelistedUserIdentifiers;
     }
-    @Autowired
-    void setAuthenticationSettings(DiveLogAuthenticationSettings authenticationSettings) {
-        this.authenticationSettings = authenticationSettings;
+    @Value("${divelog.authentication.whitelistedUserIdentifiers}")
+    void setWhitelistedUserIdentifiers(String whitelistedUserIdentifiers) {
+        this.whitelistedUserIdentifiers = whitelistedUserIdentifiers;
     }
 
     UserRepository getUserRepository() {
@@ -80,6 +80,13 @@ public class DiveLogOAuth2UserService implements OAuth2UserService<OidcUserReque
     @Autowired
     void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    OidcUserService getDelegate() {
+        return this.delegate;
+    }
+    void setDelegate(OidcUserService delegate) {
+        this.delegate = delegate;
     }
 
 }
