@@ -37,7 +37,7 @@ jobs:
       - run:
           name: "Build Docker image"
           command: |
-            export VERSION=$(git describe --always --tags --match "release-*" | cut -d '-' -f2-)
+            export VERSION=$(git describe --always --tags --match "release-*" | cut -d '-' -f2- | cut -d 'v' -f2-)
             docker build -t perdian/divelog:${VERSION} .
   container_build_and_publish:
     executor: docker
@@ -49,7 +49,7 @@ jobs:
       - run:
           name: "Build Docker image"
           command: |
-            export VERSION=$(git describe --tags --match "release-*" | cut -d '-' -f2-)
+            export VERSION=$(git describe --tags --match "release-*" | cut -d '-' -f2- | cut -d 'v' -f2-)
             docker build -t perdian/divelog:${VERSION} .
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
             docker push perdian/divelog:${VERSION}
@@ -80,7 +80,7 @@ jobs:
                 -r ${CIRCLE_PROJECT_REPONAME} \
                 -c ${CIRCLE_SHA1} \
                 -n ${VERSION} \
-                release-${VERSION}
+                ${VERSION}
 
 workflows:
   version: 2
