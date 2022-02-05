@@ -29,14 +29,14 @@ public class DiveListController {
 
     @RequestMapping("/list")
     public String doList() {
-        return "/dives/list";
+        return "dives/list";
     }
 
     @RequestMapping("/selection")
     public String doSelection(@RequestParam("diveSelectionAction") String diveSelectionAction, @ModelAttribute("selectedDives") List<Dive> selectedDives, Model model) {
         if ("print".equalsIgnoreCase(diveSelectionAction)) {
             model.addAttribute("allDives", this.getDiveRepository().findAll(this.getUserHolder().getCurrentUser().specification(Dive.class), Dive.sortWithOldestFirst()));
-            return "/dives/selection/print";
+            return "dives/selection/print";
         } else {
             throw new UnsupportedOperationException("Unsupported diveSelectionAction: " + diveSelectionAction);
         }

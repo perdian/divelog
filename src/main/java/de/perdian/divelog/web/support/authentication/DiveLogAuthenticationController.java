@@ -33,13 +33,13 @@ public class DiveLogAuthenticationController {
             return "redirect:" + this.getAuthenticationType().getLoginUrl();
         }
 
-        return "/authentication/login";
+        return "authentication/login";
 
     }
 
     @RequestMapping(value = "/logout/complete")
     public String doLogoutComplete() {
-        return "/authentication/logout";
+        return "authentication/logout";
     }
 
     public DivelogAuthenticationType getAuthenticationType() {

@@ -30,13 +30,13 @@ public class DiveEditorController {
     @GetMapping(path = "/add")
     public String doAdd(Model model) {
         model.addAttribute("previousDives", this.getDiveEditorService().createPreviousDives());
-        return "/dives/add";
+        return "dives/add";
     }
 
     @PostMapping(path = "/add")
     public String doAddPost(@Valid @ModelAttribute("dive") DiveEditor diveEditor, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            return "/dives/add";
+            return "dives/add";
         } else {
             Dive createdDiveEntity = this.getDiveEditorService().createDiveFromEditor(diveEditor);
             redirectAttributes.addFlashAttribute("updatedDive", createdDiveEntity);
@@ -46,7 +46,7 @@ public class DiveEditorController {
 
     @GetMapping(path = "/edit/{id}")
     public String doEdit() {
-        return "/dives/edit";
+        return "dives/edit";
     }
 
     @PostMapping(path = "/edit/{id}")
@@ -56,13 +56,13 @@ public class DiveEditorController {
             redirectAttributes.addFlashAttribute("updatedDive", updatedDiveEntity);
             return "redirect:/dives/edit/" + updatedDiveEntity.getId();
         } else {
-            return "/dives/edit";
+            return "dives/edit";
         }
     }
 
     @GetMapping(path = "/delete/{id}")
     public String doDeleteGet() {
-        return "/dives/delete";
+        return "dives/delete";
     }
 
     @PostMapping(path = "/delete/{id}")
@@ -74,7 +74,7 @@ public class DiveEditorController {
 
     @GetMapping(path = "/delete/completed")
     public String doDeleteCompleted() {
-        return "/dives/delete-completed";
+        return "dives/delete-completed";
     }
 
     @GetMapping(path = "/logbookImage/{id}")

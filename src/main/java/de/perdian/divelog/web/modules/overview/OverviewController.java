@@ -25,7 +25,7 @@ public class OverviewController {
 
     @GetMapping(path = { "/", "/overview" })
     public String doOverview() {
-        return "/overview/overview";
+        return "overview/overview";
     }
 
     @ModelAttribute(name = "overview", binding = false)
