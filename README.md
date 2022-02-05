@@ -88,13 +88,19 @@ The JDBC drivers for H2, PostgreSQL and MySQL are already bundled within the sta
 | `DIVELOG_DB_PASSWORD` | | The JDBC password |
 | `DIVELOG_DB_HIBERNATE_DIALECT` | `org.hibernate.dialect.H2Dialect` | The [Hibernate dialect](https://docs.jboss.org/hibernate/orm/current/userguide/html_single/Hibernate_User_Guide.html#database-dialect) class (must correspond to the selected JDBC driver class) |
 
+### Authentication
+
+By default the application is not secured and all dives are associated to the `NULL` user.
+
+To enable authentication, the following environment variables can be set:
+
 ### Other environment variables
 
 | Environment variable | Default value | Comment |
 | -------------------- | ------------- | ------- |
 | `DIVELOG_SERVER_PORT` | `8080` | The port on which the application will listen for incoming requests |
 | `DIVELOG_SERVLET_CONTEXT_PATH` | `/divelog` | The context path under which the application will be made available. The default value `/divelog` implies that when using the default port of `8080` the applications main page can be reached at `http://localhost:8080/divelog/`. |
-| `DIVELOG_COOKIE_NAM` | `divelog-session` | The name of the cookie that is used to store session related data. |
+| `DIVELOG_COOKIE_NAME` | `divelog-session` | The name of the cookie that is used to store session related data. |
 
 ## Credits
 
