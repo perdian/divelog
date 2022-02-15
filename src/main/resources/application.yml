@@ -32,7 +32,7 @@ spring:
             client-secret: ${DIVELOG_AUTHENTICATION_OAUTH2_GOOGLE_CLIENT_SECRET:null}
   servlet:
     multipart:
-      max-file-size: 5MB
+      max-file-size: 20MB
   devtools:
     livereload:
       enabled: false
