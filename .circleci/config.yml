@@ -53,6 +53,8 @@ jobs:
             docker build -t perdian/divelog:${VERSION} .
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
             docker push perdian/divelog:${VERSION}
+            docker tag perdian/divelog:${VERSION} perdian/divelog:latest
+            docker push perdian/divelog:latest
       - run:
           name: "Publish README to Docker Hub"
           command: |
