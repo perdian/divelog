@@ -47,8 +47,9 @@ jobs:
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
             if [[ "<< parameters.tag >>" == "true" ]]; then
               docker push perdian/divelog:${VERSION}
+            else
+              docker push perdian/divelog:latest
             fi
-            docker push perdian/divelog:latest
   readme_publish:
     executor: docker
     steps:
