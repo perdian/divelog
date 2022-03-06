@@ -27,20 +27,12 @@ jobs:
           root: target/
           paths: 
             - "*.jar"
-  container_build:
+  container_publish:
     executor: docker
-    steps:
-      - checkout
-      - attach_workspace:
-          at: target/
-      - setup_remote_docker
-      - run:
-          name: "Build Docker image"
-          command: |
-            export VERSION=$(git describe --always --tags --match "release-*" | cut -d '-' -f2- | cut -d 'v' -f2-)
-            docker build -t perdian/divelog:${VERSION} .
-  container_build_and_publish:
-    executor: docker
+    parameters:
+      tag:
+        type: boolean
+        default: false
     steps:
       - checkout
       - attach_workspace:
@@ -51,10 +43,15 @@ jobs:
           command: |
             export VERSION=$(git describe --tags --match "release-*" | cut -d '-' -f2- | cut -d 'v' -f2-)
             docker build -t perdian/divelog:${VERSION} .
-            echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
-            docker push perdian/divelog:${VERSION}
             docker tag perdian/divelog:${VERSION} perdian/divelog:latest
+            echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+            if [[ "<< param.tag>" == "true" ]]; then
+              docker push perdian/divelog:${VERSION}
+            fi
             docker push perdian/divelog:latest
+  readme_publish:
+    executor: docker
+    steps:
       - run:
           name: "Publish README to Docker Hub"
           command: |
@@ -93,31 +90,34 @@ workflows:
             branches:
               only: /.*/                
             tags:
-              ignore: /.*/
-      - container_build:
+              only: /release-.*/                
+      - container_publish:
+          name: container_publish_master
           requires: [ "application_build" ]
+          tag: false
           filters:
             branches:
               only: /.*/                
             tags:
               ignore: /.*/
-  build_and_publish:
-    jobs:
-      - application_build:
+      - container_publish:
+          name: container_publish_release
+          requires: [ "application_build" ]
+          tag: true
           filters:
             branches:
               ignore: /.*/                
             tags:
               only: /release-.*/                
-      - container_build_and_publish:
-          requires: [ "application_build" ]
+      - readme_publish:
+          requires: [ "container_publish_release" ]
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /release-.*/                
       - github_release:
-          requires: [ "container_build_and_publish" ]
+          requires: [ "container_publish_release" ]
           filters:
             branches:
               ignore: /.*/
