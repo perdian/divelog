@@ -45,7 +45,7 @@ jobs:
             docker build -t perdian/divelog:${VERSION} .
             docker tag perdian/divelog:${VERSION} perdian/divelog:latest
             echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
-            if [[ "<< param.tag>" == "true" ]]; then
+            if [[ "<< param.tag >>" == "true" ]]; then
               docker push perdian/divelog:${VERSION}
             fi
             docker push perdian/divelog:latest
