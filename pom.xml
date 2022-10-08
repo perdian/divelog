@@ -40,7 +40,7 @@
     <properties>
         <dom4j.version>2.1.3</dom4j.version>
         <font-awesome.version>5.15.4</font-awesome.version>
-        <java.version>18</java.version>
+        <java.version>19</java.version>
         <jquery.version>3.6.0</jquery.version>
         <momentjs.version>2.29.3</momentjs.version>
         <okhttp.version>4.9.3</okhttp.version>
